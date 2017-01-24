@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		BEDA3F3A1E380E5D00B5091C /* JungleKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDA3F381E380E5D00B5091C /* JungleKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEDA3F411E380F8E00B5091C /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */; };
+		BEDA3F461E380FCD00B5091C /* Lioness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDA3F451E380FCD00B5091C /* Lioness.framework */; };
+		BEDA3F481E380FEE00B5091C /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDA3F471E380FEE00B5091C /* SyntaxColorTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BEDA3F351E380E5D00B5091C /* JungleKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JungleKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDA3F381E380E5D00B5091C /* JungleKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JungleKit.h; sourceTree = "<group>"; };
 		BEDA3F391E380E5D00B5091C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxTextView.swift; sourceTree = "<group>"; };
+		BEDA3F451E380FCD00B5091C /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Lioness.framework; sourceTree = "<group>"; };
+		BEDA3F471E380FEE00B5091C /* SyntaxColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxColorTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEDA3F461E380FCD00B5091C /* Lioness.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +39,7 @@
 			children = (
 				BEDA3F371E380E5D00B5091C /* JungleKit */,
 				BEDA3F361E380E5D00B5091C /* Products */,
+				BEDA3F441E380FCD00B5091C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -46,10 +54,20 @@
 		BEDA3F371E380E5D00B5091C /* JungleKit */ = {
 			isa = PBXGroup;
 			children = (
+				BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */,
 				BEDA3F381E380E5D00B5091C /* JungleKit.h */,
 				BEDA3F391E380E5D00B5091C /* Info.plist */,
+				BEDA3F471E380FEE00B5091C /* SyntaxColorTheme.swift */,
 			);
 			path = JungleKit;
+			sourceTree = "<group>";
+		};
+		BEDA3F441E380FCD00B5091C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BEDA3F451E380FCD00B5091C /* Lioness.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +150,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEDA3F481E380FEE00B5091C /* SyntaxColorTheme.swift in Sources */,
+				BEDA3F411E380F8E00B5091C /* SyntaxTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +266,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = JungleKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -265,6 +289,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = JungleKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -294,6 +322,7 @@
 				BEDA3F3F1E380E5D00B5091C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

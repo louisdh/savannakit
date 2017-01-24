@@ -1,0 +1,39 @@
+//
+//  Geometry.lion
+//  Lioness Standard Library
+//
+
+// Constants
+
+pi = 3.14159265358979
+tau = 2 * pi
+e = 2.718281828459045
+phi = 1.6180339887498948
+
+struct Point {
+	x, y
+}
+
+struct Size {
+	width, height
+}
+
+struct Rect {
+	origin, size
+}
+
+struct vec2 {
+	a, b
+}
+
+struct vec3 {
+	a, b, c
+}
+
+struct vec4 {
+	a, b, c, d
+}
+
+func distanceBetweenPoints(a, b) returns {
+	return sqrt((a.x - b.x)^2 + (a.y - b.y)^2)
+}
