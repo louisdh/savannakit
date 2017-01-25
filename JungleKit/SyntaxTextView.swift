@@ -152,8 +152,12 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 				continue
 			}
 			
+			guard let tokenRange = token.range else {
+				continue
+			}
+			
 			let color = theme.color(for: syntaxColorType)
-			let range = string.nsRange(fromRange: token.range)
+			let range = string.nsRange(fromRange: tokenRange)
 			
 			//			attributedString.addAttribute(, value: color, range: range)
 			
