@@ -99,6 +99,10 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 
 	// MARK: -
 	
+	public override var isFirstResponder: Bool {
+		return textView.isFirstResponder
+	}
+	
 	public var text: String {
 		return textView.text ?? ""
 	}
