@@ -1,0 +1,8 @@
+//
+//  Graphics.lion
+//  Lioness Standard Library
+//
+
+struct Color {
+	r, g, b, a
+}
