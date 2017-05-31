@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/Lioness-Swift.h</key>
 		<data>
-		9046MNU13NHpTkAFAgtpq3AnDLo=
+		VSBa2qHmgF+pHDZ+q0e0Mdpbhlo=
 		</data>
 		<key>Headers/Lioness.h</key>
 		<data>
@@ -26,23 +26,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		vf4EbcKIg7aOzvl6x7kvwtoK6C0=
+		Pyxjhh5aJx/84Bp2T8R3RjIOGwQ=
 		</data>
 		<key>Modules/Lioness.swiftmodule/i386.swiftdoc</key>
 		<data>
-		NADYmxBm0LAwZJsAfHfZ95EzluI=
+		BqMiw5nlsGQyG4fauKrXJtkJ5H4=
 		</data>
 		<key>Modules/Lioness.swiftmodule/i386.swiftmodule</key>
 		<data>
-		q7P9wyHERRYJ5hHkpmWiXb0/F28=
+		Hk1d6JgvBxs5/hAZKeC9Q1qQLOE=
 		</data>
 		<key>Modules/Lioness.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		1Y/KXXZY6WYpEqVvzwBB5iN4U1A=
+		oc4RAkDfXRGk4XtSiNzcyuYlyZ0=
 		</data>
 		<key>Modules/Lioness.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		JakfPRV0DK8b2V2/qz77BiaMTy0=
+		ADKS5ZzI6dJ6Bp9ttUFbk6szlhU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -88,11 +88,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9046MNU13NHpTkAFAgtpq3AnDLo=
+			VSBa2qHmgF+pHDZ+q0e0Mdpbhlo=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qilj408Z8sWFEMpFXVTa0mmJzBRqZ5xHLhze50LQesY=
+			Av301PIwM6e6CeFfDHb9uvRnPWB6N0IPCRaCvKn/NLY=
 			</data>
 		</dict>
 		<key>Headers/Lioness.h</key>
@@ -110,44 +110,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NADYmxBm0LAwZJsAfHfZ95EzluI=
+			BqMiw5nlsGQyG4fauKrXJtkJ5H4=
 			</data>
 			<key>hash2</key>
 			<data>
-			u907c6vKIPj5tlNeVchloq6aoXgQvCOY5wal2K0vP8E=
+			mUNTyT4d8d4N0BCYfuWWR5v0njt2OJyiOe8b+lCsXPQ=
 			</data>
 		</dict>
 		<key>Modules/Lioness.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			q7P9wyHERRYJ5hHkpmWiXb0/F28=
+			Hk1d6JgvBxs5/hAZKeC9Q1qQLOE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Oczd0r7vqkS9mp+REDMu4miB90eHwEp/YVtd28g852A=
+			8TKb+zErBAFlAvHXW+b5974p8g/h1T/6yMqgir+63HA=
 			</data>
 		</dict>
 		<key>Modules/Lioness.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1Y/KXXZY6WYpEqVvzwBB5iN4U1A=
+			oc4RAkDfXRGk4XtSiNzcyuYlyZ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			JV198bKgPw9gVj9S9Tm1Y6ahdEij2mn/vihxfBQ8xeU=
+			fXoBVpa7z/m17F+nG5o2HdrPsqKT8RoQLGQEIFS6b8E=
 			</data>
 		</dict>
 		<key>Modules/Lioness.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JakfPRV0DK8b2V2/qz77BiaMTy0=
+			ADKS5ZzI6dJ6Bp9ttUFbk6szlhU=
 			</data>
 			<key>hash2</key>
 			<data>
-			cOsDeuGp3q3jaedhNN9pGVWW/4fSlH4J4qEd9RS04y0=
+			unyxzdWgbhH0xiBHzBnzepktjkJR3T0h8NagMXOHMsE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
