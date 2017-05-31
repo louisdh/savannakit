@@ -76,6 +76,8 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 		textView.autocorrectionType = .no
 		textView.spellCheckingType = .no
 		
+		textView.keyboardAppearance = .dark
+		
 		keyboardToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 50.0))
 		
 		let equalsBtn = UIBarButtonItem(title: "=", style: .plain, target: self, action: #selector(test))
@@ -161,6 +163,7 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 			}
 			
 			let color = theme.color(for: syntaxColorType)
+
 			let range = string.nsRange(fromRange: tokenRange)
 			
 			//			attributedString.addAttribute(, value: color, range: range)
@@ -180,12 +183,15 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 }
 
 extension String {
-	func nsRange(fromRange range: Range<Index>) -> NSRange {
+	func nsRange(fromRange range: Range<Int>) -> NSRange {
 		let from = range.lowerBound
 		let to = range.upperBound
 		
-		let location = characters.distance(from: startIndex, to: from)
-		let length = characters.distance(from: from, to: to)
+		let fromIndex = self.index(startIndex, offsetBy: from)
+		let toIndex = self.index(startIndex, offsetBy: to)
+		
+		let location = characters.distance(from: startIndex, to: fromIndex)
+		let length = characters.distance(from: fromIndex, to: toIndex)
 		
 		return NSRange(location: location, length: length)
 	}

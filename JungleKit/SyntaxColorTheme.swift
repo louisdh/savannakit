@@ -22,21 +22,21 @@ class DefaultTheme: SyntaxColorTheme {
 	
 	let font = UIFont(name: "Menlo", size: 19)!
 	
-	let backgroundColor: UIColor = .white
+	let backgroundColor: UIColor = UIColor(red: 31/255.0, green: 32/255, blue: 41/255, alpha: 1.0)
 	
 	func color(for syntaxColorType: SyntaxColorType) -> UIColor {
 		
 		switch syntaxColorType {
 		case .plain:
-			return .black
+			return .white
 		case .number:
-			return .black
+			return UIColor(red: 116/255, green: 109/255, blue: 176/255, alpha: 1.0)
 		case .identifier:
-			return .blue
+			return UIColor(red: 20/255, green: 156/255, blue: 146/255, alpha: 1.0)
 		case .keyword:
-			return .blue
+			return UIColor(red: 215/255, green: 0, blue: 143/255, alpha: 1.0)
 		case .comment:
-			return UIColor(red: 0.0/255.0, green: 128.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+			return UIColor(red: 69.0/255.0, green: 187.0/255.0, blue: 62.0/255.0, alpha: 1.0)
 		}
 		
 	}
@@ -94,6 +94,10 @@ extension TokenType {
 		
 		if case .comment = self {
 			return .comment
+		}
+		
+		if case .number = self {
+			return .number
 		}
 		
 		return .plain
