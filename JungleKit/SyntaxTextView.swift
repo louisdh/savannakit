@@ -15,9 +15,63 @@ private enum InitMethod {
 	case frame(CGRect)
 }
 
+public class FooTextView: UITextView {
+	
+	
+	func paragraphRectForRange(range: Range<String.Index>) -> CGRect {
+		
+		var range = self.textStorage.string.paragraphRange(for: range)
+//		range = self.glyphRangeForCharacter(range, actualCharacterRange:nil)
+		
+		let start = text.distance(from: text.startIndex, to: range.lowerBound)
+		let length = text.distance(from: range.lowerBound, to: range.upperBound)
+		var nsRange = NSMakeRange(start, length)
+		
+		
+		nsRange = self.layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
+		
+		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: self.textContainer)
+		
+		sectionRect.origin.x += textContainerInset.left
+		
+		
+//		let startRect = self.lineFragmentRectForGlyphAtIndex(range.location, effectiveRange:nil)
+//		let endRect = self.lineFragmentRectForGlyphAtIndex(range.location + range.length - 1, effectiveRange:nil)
+//
+//		let paragraphRectForRange = CGRectUnion(startRect, endRect)
+//		paragraphRectForRange = CGRectOffset(paragraphRectForRange, _gutterWidth, 8)
+		
+		return sectionRect
+	}
+	
+	
+	override public func draw(_ rect: CGRect) {
+		
+		UIColor.red.setFill()
+		
+		let gutterRect = CGRect(x: 0, y: 0, width: 20, height: rect.height)
+		let path = UIBezierPath(rect: gutterRect)
+		path.fill()
+		
+//		CharacterSet.newlines
+//		let range = NSMakeRange(0, self.text.characters.count)
+		let range = self.text.startIndex..<self.text.endIndex
+		
+		self.text.enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraph, paragraphRange, enclosingRange, stop) in
+			
+			let rect = self.paragraphRectForRange(range: paragraphRange)
+			print(rect)
+			
+		}
+		
+		super.draw(rect)
+	}
+	
+}
+
 public class SyntaxTextView: UIView, UITextViewDelegate {
 
-	private let textView: UITextView
+	private let textView: FooTextView
 	
 	public var contentInset: UIEdgeInsets = .zero {
 		didSet {
@@ -42,7 +96,7 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	
 	private init?(_ initMethod: InitMethod) {
 
-		textView = UITextView(frame: .zero)
+		textView = FooTextView(frame: .zero)
 
 		switch initMethod {
 		case let .coder(coder): super.init(coder: coder)
@@ -57,6 +111,8 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	private func setup() {
 		
 		textView.translatesAutoresizingMaskIntoConstraints = false
+		
+		textView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
 		
 		self.addSubview(textView)
 		textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -118,6 +174,7 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	
 	public func textViewDidChange(_ textView: UITextView) {
 		
+		self.textView.setNeedsDisplay()
 		colorTextView()
 		
 	}
