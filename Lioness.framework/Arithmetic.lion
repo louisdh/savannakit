@@ -87,7 +87,7 @@ func rem(x, y) returns {
 /// returns modules
 func mod(x, y) returns {
 	
-	if y == 0 {
+	if y == 0 || abs(y) > abs(x) {
 		return x
 	}
 	
