@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Lioness.framework">
+      location = "container:JungleKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:JungleKit.xcodeproj">
+      location = "group:../Lioness/Lioness.xcodeproj">
    </FileRef>
 </Workspace>
