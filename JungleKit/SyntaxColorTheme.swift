@@ -9,7 +9,16 @@
 import Foundation
 import Lioness
 
+struct LineNumbersStyle {
+	
+	let font: UIFont
+	let textColor: UIColor
+	
+}
+
 protocol SyntaxColorTheme {
+	
+	var lineNumbersStyle: LineNumbersStyle { get }
 	
 	var font: UIFont { get }
 	
@@ -18,7 +27,13 @@ protocol SyntaxColorTheme {
 	func color(for syntaxColorType: SyntaxColorType) -> UIColor
 }
 
-class DefaultTheme: SyntaxColorTheme {
+struct DefaultTheme: SyntaxColorTheme {
+	
+	private static var lineNumbersColor: UIColor {
+		return UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
+	}
+	
+	let lineNumbersStyle = LineNumbersStyle(font: UIFont(name: "Menlo", size: 19)!, textColor: lineNumbersColor)
 	
 	let font = UIFont(name: "Menlo", size: 19)!
 	
@@ -42,7 +57,6 @@ class DefaultTheme: SyntaxColorTheme {
 	}
 	
 }
-
 
 enum SyntaxColorType {
 	case plain
@@ -104,4 +118,3 @@ extension TokenType {
 	}
 	
 }
-	
