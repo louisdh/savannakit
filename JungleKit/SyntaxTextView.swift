@@ -82,9 +82,9 @@ public class FooTextView: UITextView {
 		var paragraphs = [Paragraph]()
 		var i = 0
 		
-		let selectedRange = self.selectedRange
+//		let selectedRange = self.selectedRange
 		
-		let stringRange = self.text.range(fromNSRange: selectedRange)
+//		let stringRange = self.text.range(fromNSRange: selectedRange)
 		
 		
 //		print(self.text.substring(with: stringRange))
@@ -126,7 +126,7 @@ public class FooTextView: UITextView {
 		
 //		print(paragraphs.map { $0.rect })
 		
-		let sizes = paragraphs.map { $0.attributedString(for: theme).size() }
+//		let sizes = paragraphs.map { $0.attributedString(for: theme).size() }
 		
 		for paragraph in paragraphs {
 			
@@ -321,6 +321,7 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 }
 
 extension String {
+	
 	func nsRange(fromRange range: Range<Int>) -> NSRange {
 		let from = range.lowerBound
 		let to = range.upperBound
@@ -334,12 +335,12 @@ extension String {
 		return NSRange(location: location, length: length)
 	}
 	
-	func range(fromNSRange range: NSRange) -> Range<String.Index> {
-		
-		let start = self.index(self.startIndex, offsetBy: range.lowerBound)
-		let end = self.index(start, offsetBy: range.length)
-		
-		return start..<end
-	}
+//	func range(fromNSRange range: NSRange) -> Range<String.Index> {
+//		
+//		let start = self.index(self.startIndex, offsetBy: range.lowerBound)
+//		let end = self.index(start, offsetBy: range.length)
+//		
+//		return start..<end
+//	}
 	
 }
