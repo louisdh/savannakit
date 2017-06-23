@@ -45,7 +45,7 @@ struct Paragraph {
 	
 }
 
-public class FooTextView: UITextView {
+private class InnerTextView: UITextView {
 	
 	private var theme: SyntaxColorTheme {
 		return DefaultTheme()
@@ -147,7 +147,7 @@ public class FooTextView: UITextView {
 
 public class SyntaxTextView: UIView, UITextViewDelegate {
 
-	private let textView: FooTextView
+	private let textView: InnerTextView
 	
 	public var contentInset: UIEdgeInsets = .zero {
 		didSet {
@@ -172,7 +172,7 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	
 	private init?(_ initMethod: InitMethod) {
 
-		textView = FooTextView(frame: .zero)
+		textView = InnerTextView(frame: .zero)
 
 		switch initMethod {
 		case let .coder(coder): super.init(coder: coder)
@@ -258,6 +258,13 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	
 	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		self.textView.setNeedsDisplay()
+	}
+	
+	override public func layoutSubviews() {
+		super.layoutSubviews()
+		
+		self.textView.setNeedsDisplay()
+
 	}
 	
 	private var theme: SyntaxColorTheme {
