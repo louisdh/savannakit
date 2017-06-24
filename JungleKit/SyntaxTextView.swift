@@ -23,6 +23,23 @@ private enum InitMethod {
 
 #if os(macOS)
 	
+	extension NSView {
+		
+		var backgroundColor: Color? {
+			set {
+				layer?.backgroundColor = newValue?.cgColor
+			}
+			get {
+				if let color = layer?.backgroundColor {
+					return Color(cgColor: color)
+				} else {
+					return nil
+				}
+			}
+		}
+		
+	}
+	
 	extension NSTextView {
 		
 		var text: String! {
@@ -220,22 +237,13 @@ public class SyntaxTextView: View {
 		textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 		textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 		
-		#if os(iOS)
-
 		textView.delegate = self
 		
-		#endif
-
 		textView.text = ""
 		textView.font = theme.font
 		
-		#if os(iOS)
-
 		self.backgroundColor = theme.backgroundColor
 			
-		#endif
-
-		
 		textView.backgroundColor = .clear
 		
 		#if os(iOS)
@@ -269,9 +277,14 @@ public class SyntaxTextView: View {
 
 	}
 	
-	func test() {
-		textView.insertText("=")
-	}
+	#if os(iOS)
+
+		func test() {
+			textView.insertText("=")
+		}
+		
+	#endif
+
 
 	// MARK: -
 	
@@ -319,12 +332,8 @@ public class SyntaxTextView: View {
 			return
 		}
 		
-		#if os(iOS)
-
 		self.backgroundColor = theme.backgroundColor
 		
-		#endif
-
 		let lexer = Lexer(input: string)
 		let tokens = lexer.tokenize()
 		
@@ -381,23 +390,41 @@ public class SyntaxTextView: View {
 	
 }
 
+#if os(macOS)
+	
+	extension SyntaxTextView: NSTextViewDelegate {
+		
+		public func textDidChange(_ notification: Notification) {
+			guard let textView = notification.object as? NSTextView else {
+				return
+			}
+			
+			textView.setNeedsDisplay(textView.bounds)
+			colorTextView()
+			
+		}
+		
+	}
+	
+#endif
+
 #if os(iOS)
 
-extension SyntaxTextView: UITextViewDelegate {
-	
-	public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+	extension SyntaxTextView: UITextViewDelegate {
 		
-		return true
+		public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+			
+			return true
+		}
+		
+		public func textViewDidChange(_ textView: UITextView) {
+			
+			textView.setNeedsDisplay()
+			colorTextView()
+			
+		}
+		
 	}
-	
-	public func textViewDidChange(_ textView: UITextView) {
-		
-		textView.setNeedsDisplay()
-		colorTextView()
-		
-	}
-	
-}
 
 #endif
 
