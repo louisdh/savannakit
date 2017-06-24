@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
                BuildableName = "JungleKit.framework"
-               BlueprintName = "JungleKit"
+               BlueprintName = "JungleKit iOS"
                ReferencedContainer = "container:JungleKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
             BuildableName = "JungleKit.framework"
-            BlueprintName = "JungleKit"
+            BlueprintName = "JungleKit iOS"
             ReferencedContainer = "container:JungleKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
             BuildableName = "JungleKit.framework"
-            BlueprintName = "JungleKit"
+            BlueprintName = "JungleKit iOS"
             ReferencedContainer = "container:JungleKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

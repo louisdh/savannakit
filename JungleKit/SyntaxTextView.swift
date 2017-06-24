@@ -7,45 +7,38 @@
 //
 
 import Foundation
-import UIKit
 import Lioness
+import CoreGraphics
+
+#if os(macOS)
+	import AppKit
+#else
+	import UIKit
+#endif
 
 private enum InitMethod {
 	case coder(NSCoder)
 	case frame(CGRect)
 }
 
-struct Paragraph {
+#if os(macOS)
 	
-	let rect: CGRect
-	let number: Int
-	
-	var string: String {
-		return "\(number)"
+	extension NSTextView {
+		
+		var text: String! {
+			get {
+				return string
+			}
+			set {
+				self.string = newValue
+			}
+		}
+		
 	}
 	
-	func attributedString(for theme: SyntaxColorTheme) -> NSAttributedString {
-		
-		let attr = NSMutableAttributedString(string: string)
-		let range = NSMakeRange(0, attr.length)
-		
-		let attributes = [
-			NSFontAttributeName: theme.lineNumbersStyle.font,
-			NSForegroundColorAttributeName : theme.lineNumbersStyle.textColor
-		]
-		
-		attr.addAttributes(attributes, range: range)
-		
-		return attr
-	}
-	
-	func drawSize(for theme: SyntaxColorTheme) -> CGSize {
-		return attributedString(for: theme).size()
-	}
-	
-}
+#endif
 
-private class InnerTextView: UITextView {
+private class InnerTextView: TextView {
 	
 	private var theme: SyntaxColorTheme {
 		return DefaultTheme()
@@ -53,16 +46,30 @@ private class InnerTextView: UITextView {
 	
 	func paragraphRectForRange(range: Range<String.Index>) -> CGRect {
 		
-		let range = self.textStorage.string.paragraphRange(for: range)
+		#if os(macOS)
+			let range = self.textStorage!.string.paragraphRange(for: range)
+		#else
+			let range = self.textStorage.string.paragraphRange(for: range)
+		#endif
 		
 		let start = text.distance(from: text.startIndex, to: range.lowerBound)
 		let length = text.distance(from: range.lowerBound, to: range.upperBound)
 		
 		var nsRange = NSMakeRange(start, length)
 		
-		nsRange = self.layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
+		let layoutManager: NSLayoutManager
+		let textContainer: NSTextContainer
+		#if os(macOS)
+			layoutManager = self.layoutManager!
+			textContainer = self.textContainer!
+		#else
+			layoutManager = self.layoutManager
+			textContainer = self.textContainer
+		#endif
 		
-		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: self.textContainer)
+		nsRange = layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
+		
+		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: textContainer)
 //		sectionRect.origin.x += textContainerInset.left
 		sectionRect.origin.x = 0
 		
@@ -105,7 +112,12 @@ private class InnerTextView: UITextView {
 			
 			let rect: CGRect
 			
-			let gutterWidth = textContainerInset.left
+			#if os(macOS)
+				let gutterWidth = textContainerInset.width
+			#else
+				let gutterWidth = textContainerInset.left
+			#endif
+			
 			let lineHeight: CGFloat = 22
 			
 			if let last = paragraphs.last {
@@ -145,10 +157,12 @@ private class InnerTextView: UITextView {
 	
 }
 
-public class SyntaxTextView: UIView, UITextViewDelegate {
+public class SyntaxTextView: View {
 
 	private let textView: InnerTextView
 	
+	#if os(iOS)
+
 	public var contentInset: UIEdgeInsets = .zero {
 		didSet {
 			textView.contentInset = contentInset
@@ -161,6 +175,8 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 			keyboardToolbar.tintColor = tintColor
 		}
 	}
+	
+	#endif
 	
 	override convenience init(frame: CGRect) {
 		self.init(.frame(frame))!
@@ -182,13 +198,21 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 		setup()
 	}
 	
+	#if os(iOS)
+
 	private var keyboardToolbar: UIToolbar!
 	
+	#endif
+
 	private func setup() {
 		
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		
-		textView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+		#if os(macOS)
+			textView.textContainerInset = NSSize(width: 20, height: 0)
+		#else
+			textView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+		#endif
 		
 		self.addSubview(textView)
 		textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -196,19 +220,33 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 		textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 		textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 		
+		#if os(iOS)
+
 		textView.delegate = self
 		
+		#endif
+
 		textView.text = ""
 		textView.font = theme.font
+		
+		#if os(iOS)
+
 		self.backgroundColor = theme.backgroundColor
+			
+		#endif
+
+		
 		textView.backgroundColor = .clear
 		
+		#if os(iOS)
+
 		textView.autocapitalizationType = .none
 		textView.keyboardType = .asciiCapable
 		textView.autocorrectionType = .no
 		textView.spellCheckingType = .no
 		
 		textView.keyboardAppearance = .dark
+		
 		
 		keyboardToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 50.0))
 		
@@ -226,6 +264,9 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 //		equalsBtn.tintColor = .red
 		
 		self.clipsToBounds = true
+		
+		#endif
+
 	}
 	
 	func test() {
@@ -234,28 +275,27 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 
 	// MARK: -
 	
+	#if os(iOS)
+
 	public override var isFirstResponder: Bool {
 		return textView.isFirstResponder
 	}
 	
+	#endif
+
+	
 	public var text: String {
-		return textView.text ?? ""
+		#if os(macOS)
+			return textView.string ?? ""
+		#else
+			return textView.text ?? ""
+		#endif
 	}
 	
 	// MARK: -
 	
-	public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		
-		return true
-	}
-	
-	public func textViewDidChange(_ textView: UITextView) {
-		
-		self.textView.setNeedsDisplay()
-		colorTextView()
-		
-	}
-	
+	#if os(iOS)
+
 	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		self.textView.setNeedsDisplay()
 	}
@@ -267,6 +307,8 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 
 	}
 	
+	#endif
+
 	private var theme: SyntaxColorTheme {
 		return DefaultTheme()
 	}
@@ -277,8 +319,12 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 			return
 		}
 		
+		#if os(iOS)
+
 		self.backgroundColor = theme.backgroundColor
 		
+		#endif
+
 		let lexer = Lexer(input: string)
 		let tokens = lexer.tokenize()
 		
@@ -293,7 +339,11 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 		attributes[NSForegroundColorAttributeName] = theme.color(for: .plain)
 		attributes[NSFontAttributeName] = theme.font
 		
-		textView.textStorage.setAttributes(attributes, range: wholeRange)
+		#if os(macOS)
+			textView.textStorage!.setAttributes(attributes, range: wholeRange)
+		#else
+			textView.textStorage.setAttributes(attributes, range: wholeRange)
+		#endif
 		
 		for token in tokens {
 			
@@ -316,7 +366,11 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 			var attr = attributes
 			attr[NSForegroundColorAttributeName] = color
 			
-			textView.textStorage.setAttributes(attr, range: range)
+			#if os(macOS)
+				textView.textStorage!.setAttributes(attr, range: range)
+			#else
+				textView.textStorage.setAttributes(attr, range: range)
+			#endif
 			
 		}
 		
@@ -326,6 +380,26 @@ public class SyntaxTextView: UIView, UITextViewDelegate {
 	}
 	
 }
+
+#if os(iOS)
+
+extension SyntaxTextView: UITextViewDelegate {
+	
+	public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		
+		return true
+	}
+	
+	public func textViewDidChange(_ textView: UITextView) {
+		
+		textView.setNeedsDisplay()
+		colorTextView()
+		
+	}
+	
+}
+
+#endif
 
 extension String {
 	
