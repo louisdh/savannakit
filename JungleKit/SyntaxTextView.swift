@@ -51,6 +51,15 @@ private enum InitMethod {
 			}
 		}
 		
+		var tintColor: Color {
+			set {
+				insertionPointColor = newValue
+			}
+			get {
+				return insertionPointColor
+			}
+		}
+		
 	}
 	
 #endif
@@ -193,6 +202,17 @@ public class SyntaxTextView: View {
 		}
 	}
 	
+	#else
+	
+	public var tintColor: NSColor! {
+		set {
+			textView.tintColor = newValue
+		}
+		get {
+			return textView.tintColor
+		}
+	}
+	
 	#endif
 	
 	override convenience init(frame: CGRect) {
@@ -221,29 +241,69 @@ public class SyntaxTextView: View {
 	
 	#endif
 
+	#if os(macOS)
+
+		public let scrollView = NSScrollView()
+
+	#endif
+	
 	private func setup() {
 		
-		textView.translatesAutoresizingMaskIntoConstraints = false
 		
 		#if os(macOS)
 			textView.textContainerInset = NSSize(width: 20, height: 0)
 		#else
 			textView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+			textView.translatesAutoresizingMaskIntoConstraints = false
+
 		#endif
 		
-		self.addSubview(textView)
-		textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-		textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-		textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-		textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+		#if os(macOS)
+
+			scrollView.backgroundColor = .clear
+			scrollView.drawsBackground = false
+			
+			scrollView.contentView.backgroundColor = .clear
+			
+			scrollView.translatesAutoresizingMaskIntoConstraints = false
+
+			self.addSubview(scrollView)
+			scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+			scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+			scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+			scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+			
+			scrollView.borderType = .noBorder
+			scrollView.hasVerticalScroller = true
+			scrollView.hasHorizontalScroller = false
+			
+			scrollView.documentView = textView
+			
+			textView.minSize = NSSize(width: 0.0, height: self.bounds.height)
+			textView.maxSize = NSSize(width: CGFloat(FLT_MAX), height: CGFloat(FLT_MAX))
+			textView.isVerticallyResizable = true
+			textView.isHorizontallyResizable = false
+			textView.autoresizingMask = .viewWidthSizable
+			
+			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: CGFloat(FLT_MAX))
+			textView.textContainer?.widthTracksTextView = true
+			
+		#else
+			
+			self.addSubview(textView)
+			textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+			textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+			textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+			textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+		
+		#endif
 		
 		textView.delegate = self
 		
 		textView.text = ""
 		textView.font = theme.font
 		
-		self.backgroundColor = theme.backgroundColor
-			
+		
 		textView.backgroundColor = .clear
 		
 		#if os(iOS)
@@ -274,6 +334,13 @@ public class SyntaxTextView: View {
 		self.clipsToBounds = true
 		
 		#endif
+
+	}
+	
+	public override func viewDidMoveToSuperview() {
+		super.viewDidMoveToSuperview()
+		
+		self.backgroundColor = theme.backgroundColor
 
 	}
 	
@@ -398,9 +465,10 @@ public class SyntaxTextView: View {
 			guard let textView = notification.object as? NSTextView else {
 				return
 			}
-			
-			textView.setNeedsDisplay(textView.bounds)
+
 			colorTextView()
+
+			textView.setNeedsDisplay(textView.bounds)
 			
 		}
 		
