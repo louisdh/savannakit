@@ -183,9 +183,17 @@ private class InnerTextView: TextView {
 	
 }
 
+public protocol SyntaxTextViewDelegate: class {
+	
+	func didChangeText(_ syntaxTextView: SyntaxTextView)
+	
+}
+
 public class SyntaxTextView: View {
 
 	private let textView: InnerTextView
+	
+	public weak var delegate: SyntaxTextViewDelegate?
 	
 	#if os(iOS)
 
@@ -226,7 +234,7 @@ public class SyntaxTextView: View {
 	private init?(_ initMethod: InitMethod) {
 
 		textView = InnerTextView(frame: .zero)
-
+		
 		switch initMethod {
 		case let .coder(coder): super.init(coder: coder)
 		case let .frame(frame): super.init(frame: frame)
@@ -365,11 +373,20 @@ public class SyntaxTextView: View {
 
 	
 	public var text: String {
-		#if os(macOS)
-			return textView.string ?? ""
-		#else
-			return textView.text ?? ""
-		#endif
+		get {
+			#if os(macOS)
+				return textView.string ?? ""
+			#else
+				return textView.text ?? ""
+			#endif
+		}
+		set {
+			#if os(macOS)
+				textView.string = newValue
+			#else
+				textView.text = newValue
+			#endif
+		}
 	}
 	
 	// MARK: -
@@ -470,6 +487,8 @@ public class SyntaxTextView: View {
 
 			textView.setNeedsDisplay(textView.bounds)
 			
+			self.delegate?.didChangeText(self)
+
 		}
 		
 	}
