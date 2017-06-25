@@ -74,6 +74,18 @@ extension TokenType {
 			return .keyword
 		}
 		
+		if case .true = self {
+			return .keyword
+		}
+		
+		if case .false = self {
+			return .keyword
+		}
+		
+		if case .for = self {
+			return .keyword
+		}
+		
 		if case .function = self {
 			return .keyword
 		}
