@@ -15,6 +15,7 @@
 		BE15627D1EFEA10000EB3723 /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */; };
 		BE15627F1EFEA11E00EB3723 /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE15627E1EFEA11E00EB3723 /* Paragraph.swift */; };
 		BE1562801EFEA11E00EB3723 /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE15627E1EFEA11E00EB3723 /* Paragraph.swift */; };
+		BE1562831EFF062300EB3723 /* ASTVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1562821EFF062300EB3723 /* ASTVisualizer.swift */; };
 		BEDA3F3A1E380E5D00B5091C /* JungleKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDA3F381E380E5D00B5091C /* JungleKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDA3F411E380F8E00B5091C /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */; };
 		BEDA3F481E380FEE00B5091C /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDA3F471E380FEE00B5091C /* SyntaxColorTheme.swift */; };
@@ -28,6 +29,7 @@
 		BE1562781EFE9F0A00EB3723 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/Jungle-abrjtxsillzinpenmdntmrgrmols/Build/Products/Debug/Lioness.framework"; sourceTree = "<group>"; };
 		BE15627A1EFEA07B00EB3723 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BE15627E1EFEA11E00EB3723 /* Paragraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paragraph.swift; sourceTree = "<group>"; };
+		BE1562821EFF062300EB3723 /* ASTVisualizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTVisualizer.swift; sourceTree = "<group>"; };
 		BEDA3F351E380E5D00B5091C /* JungleKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JungleKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDA3F381E380E5D00B5091C /* JungleKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JungleKit.h; sourceTree = "<group>"; };
 		BEDA3F391E380E5D00B5091C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		BEDA3F371E380E5D00B5091C /* JungleKit */ = {
 			isa = PBXGroup;
 			children = (
+				BE1562821EFF062300EB3723 /* ASTVisualizer.swift */,
 				BE15627E1EFEA11E00EB3723 /* Paragraph.swift */,
 				BE15627A1EFEA07B00EB3723 /* Types.swift */,
 				BEDA3F401E380F8E00B5091C /* SyntaxTextView.swift */,
@@ -231,6 +234,7 @@
 			files = (
 				BE1562801EFEA11E00EB3723 /* Paragraph.swift in Sources */,
 				BE1562771EFE9E9D00EB3723 /* SyntaxColorTheme.swift in Sources */,
+				BE1562831EFF062300EB3723 /* ASTVisualizer.swift in Sources */,
 				BE15627D1EFEA10000EB3723 /* SyntaxTextView.swift in Sources */,
 				BE15627C1EFEA07B00EB3723 /* Types.swift in Sources */,
 			);
