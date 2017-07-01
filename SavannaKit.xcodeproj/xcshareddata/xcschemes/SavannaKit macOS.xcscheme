@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0820"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
-               BuildableName = "JungleKit.framework"
-               BlueprintName = "JungleKit iOS"
-               ReferencedContainer = "container:JungleKit.xcodeproj">
+               BlueprintIdentifier = "BE15626D1EFE9E7C00EB3723"
+               BuildableName = "SavannaKit.framework"
+               BlueprintName = "SavannaKit macOS"
+               ReferencedContainer = "container:SavannaKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
-            BuildableName = "JungleKit.framework"
-            BlueprintName = "JungleKit iOS"
-            ReferencedContainer = "container:JungleKit.xcodeproj">
+            BlueprintIdentifier = "BE15626D1EFE9E7C00EB3723"
+            BuildableName = "SavannaKit.framework"
+            BlueprintName = "SavannaKit macOS"
+            ReferencedContainer = "container:SavannaKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BEDA3F341E380E5D00B5091C"
-            BuildableName = "JungleKit.framework"
-            BlueprintName = "JungleKit iOS"
-            ReferencedContainer = "container:JungleKit.xcodeproj">
+            BlueprintIdentifier = "BE15626D1EFE9E7C00EB3723"
+            BuildableName = "SavannaKit.framework"
+            BlueprintName = "SavannaKit macOS"
+            ReferencedContainer = "container:SavannaKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

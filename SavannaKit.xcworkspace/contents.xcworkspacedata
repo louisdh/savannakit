@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:JungleKit.xcodeproj">
+      location = "group:SavannaKit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:../Lioness/Lioness.xcodeproj">

@@ -1,6 +1,6 @@
 //
 //  SyntaxTextView.swift
-//  Lioness Jungle
+//  SavannaKit
 //
 //  Created by Louis D'hauwe on 23/01/2017.
 //  Copyright © 2017 Silver Fox. All rights reserved.
