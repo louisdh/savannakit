@@ -78,10 +78,17 @@ private enum InitMethod {
 			let path = BezierPath(rect: gutterRect)
 			path.fill()
 			
-			if let textView = textView {
-				drawLineNumbers(in: self.bounds, for: textView, flipRects: true)
+			guard let textView = textView else {
+				return
 			}
-
+			
+			let contentHeight = textView.enclosingScrollView!.documentView!.bounds.height
+			
+			Swift.print("contentHeight: \(contentHeight)")
+			let yOffset = self.bounds.height - contentHeight
+			
+			drawLineNumbers(in: self.bounds, for: textView, flipRects: true, yOffset: yOffset)
+			
 		}
 		
 	}
@@ -136,7 +143,7 @@ extension TextView {
 	
 }
 
-private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false) {
+private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) {
 	
 	print("=============")
 	
@@ -215,16 +222,47 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		
 	}
 	
-	if flipRects {
 
+	
+	#if os(macOS)
+		
+		if let yOffset = textView.enclosingScrollView?.contentView.bounds.origin.y {
+		
+			paragraphs = paragraphs.map { (p) -> Paragraph in
+				
+				var p = p
+				p.rect.origin.y -= yOffset
+				
+//				textView.intrinsicContentSize.height -
+
+				
+				return p
+			}
+		}
+		
+		
+	#endif
+	
+	if flipRects {
+		
 		paragraphs = paragraphs.map { (p) -> Paragraph in
 			
 			var p = p
 			p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
-
+			
+//			let yOffset = textView.enclosingScrollView!.contentView.bounds.origin.y
+//			p.rect.origin.y += yOffset
+			
 			return p
 		}
-
+		
+	}
+	
+	paragraphs = paragraphs.map { (p) -> Paragraph in
+		
+		var p = p
+		p.rect.origin.y += yOffset
+		return p
 	}
 	
 	for paragraph in paragraphs {
@@ -393,6 +431,10 @@ public class SyntaxTextView: View {
 			
 			scrollView.documentView = textView
 			
+			scrollView.contentView.postsBoundsChangedNotifications = true
+			
+			NotificationCenter.default.addObserver(self, selector: #selector(didScroll(_:)), name: .NSViewBoundsDidChange, object: scrollView.contentView)
+			
 			textView.minSize = NSSize(width: 0.0, height: self.bounds.height)
 			textView.maxSize = NSSize(width: CGFloat(FLT_MAX), height: CGFloat(FLT_MAX))
 			textView.isVerticallyResizable = true
@@ -462,6 +504,12 @@ public class SyntaxTextView: View {
 		
 		self.backgroundColor = theme.backgroundColor
 
+	}
+	
+	func didScroll(_ notification: Notification) {
+		
+		wrapperView.setNeedsDisplay(wrapperView.bounds)
+		
 	}
 
 	#endif
