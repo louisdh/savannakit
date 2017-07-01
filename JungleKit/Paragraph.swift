@@ -17,7 +17,7 @@ import CoreGraphics
 
 struct Paragraph {
 	
-	let rect: CGRect
+	var rect: CGRect
 	let number: Int
 	
 	var string: String {

@@ -64,11 +64,31 @@ private enum InitMethod {
 	
 #endif
 
-private class InnerTextView: TextView {
-	
-	private var theme: SyntaxColorTheme {
-		return DefaultTheme()
+#if os(macOS)
+
+	private class TextViewWrapperView: View {
+		
+		var textView: InnerTextView?
+		
+		override public func draw(_ rect: CGRect) {
+
+			Color.black.setFill()
+
+			let gutterRect = CGRect(x: 0, y: 0, width: 20, height: rect.height)
+			let path = BezierPath(rect: gutterRect)
+			path.fill()
+			
+			if let textView = textView {
+				drawLineNumbers(in: self.bounds, for: textView, flipRects: true)
+			}
+
+		}
+		
 	}
+	
+#endif
+
+extension TextView {
 	
 	func paragraphRectForRange(range: Range<String.Index>) -> CGRect {
 		
@@ -83,6 +103,9 @@ private class InnerTextView: TextView {
 		
 		var nsRange = NSMakeRange(start, length)
 		
+		let contentAfter = text.substring(from: range.upperBound)
+		
+		
 		let layoutManager: NSLayoutManager
 		let textContainer: NSTextContainer
 		#if os(macOS)
@@ -95,91 +118,154 @@ private class InnerTextView: TextView {
 		
 		nsRange = layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
 		
+		Swift.print(nsRange.toRange()!)
+		
 		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: textContainer)
-//		sectionRect.origin.x += textContainerInset.left
+		//		sectionRect.origin.x += textContainerInset.left
+		
+		// FIXME: don't use this hack
+		// This gets triggered for the final paragraph in a textview if the next line is empty (so the last paragraph ends with a newline)
+		if sectionRect.origin.x == 0 {
+			sectionRect.size.height -= 22
+		}
+		
 		sectionRect.origin.x = 0
 		
 		return sectionRect
 	}
 	
+}
+
+private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false) {
+	
+	print("=============")
+	
+	print("textView.bounds.width: \(textView.bounds.width)")
+
+	//		let documentVisibleRect = self.enclosingScrollView?.documentVisibleRect
+	
+	//		Swift.print(documentVisibleRect)
+	
+	//		if let prevScrollPosition = prevScrollPosition {
+	//
+	//			if prevScrollPosition == documentVisibleRect {
+	//
+	//				super.draw(rect)
+	//				return
+	//			}
+	//		}
+	
+	//		prevScrollPosition = documentVisibleRect
+	//		UIColor.red.setFill()
+	//
+	
+	let range = textView.text.startIndex..<textView.text.endIndex
+	
+	var paragraphs = [Paragraph]()
+	var i = 0
+	
+	//		let selectedRange = self.selectedRange
+	
+	//		let stringRange = self.text.range(fromNSRange: selectedRange)
+	
+	
+	//		print(self.text.substring(with: stringRange))
+	
+//	let contentWidth = 
+	
+	textView.text.enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraphContent, paragraphRange, enclosingRange, stop) in
+		
+		i += 1
+		
+		var rect = textView.paragraphRectForRange(range: paragraphRange)
+		
+		print(paragraphContent)
+		
+		let paragraph = Paragraph(rect: rect, number: i)
+		paragraphs.append(paragraph)
+		
+	}
+	
+	if textView.text.isEmpty || textView.text.hasSuffix("\n") {
+		
+		var rect: CGRect
+		
+		#if os(macOS)
+			let gutterWidth = textView.textContainerInset.width
+		#else
+			let gutterWidth = textView.textContainerInset.left
+		#endif
+		
+		let lineHeight: CGFloat = 22
+		
+		if let last = paragraphs.last {
+			
+			rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height, width: gutterWidth, height: lineHeight)
+			
+		} else {
+			
+			rect = CGRect(x: 0, y: 0, width: gutterWidth, height: lineHeight)
+			
+		}
+		
+		
+		i += 1
+		let endParagraph = Paragraph(rect: rect, number: i)
+		paragraphs.append(endParagraph)
+		
+	}
+	
+	if flipRects {
+
+		paragraphs = paragraphs.map { (p) -> Paragraph in
+			
+			var p = p
+			p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
+
+			return p
+		}
+
+	}
+	
+	for paragraph in paragraphs {
+		
+		print(paragraph.rect.debugDescription)
+		
+		guard paragraph.rect.intersects(rect) else {
+			continue
+		}
+		
+		let attr = paragraph.attributedString(for: textView.theme)
+		
+		attr.draw(in: paragraph.rect)
+		
+	}
+	
+}
+
+private class InnerTextView: TextView {
+	
+	fileprivate lazy var theme: SyntaxColorTheme = {
+		return DefaultTheme()
+	}()
+	
+//	var prevScrollPosition: CGRect?
+	
+//	#if os(iOS)
 	override public func draw(_ rect: CGRect) {
 		
-//		UIColor.red.setFill()
-//
-//		let gutterRect = CGRect(x: 0, y: 0, width: 20, height: rect.height)
-//		let path = UIBezierPath(rect: gutterRect)
+//		Color.red.setFill()
+//		
+//		let gutterRect = CGRect(x: 0, y: 0, width: 20, height: 88)
+//		
+//		let path = BezierPath(rect: gutterRect)
 //		path.fill()
+//		
 		
-		let range = self.text.startIndex..<self.text.endIndex
-		
-		var paragraphs = [Paragraph]()
-		var i = 0
-		
-//		let selectedRange = self.selectedRange
-		
-//		let stringRange = self.text.range(fromNSRange: selectedRange)
-		
-		
-//		print(self.text.substring(with: stringRange))
-		
-		self.text.enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraphContent, paragraphRange, enclosingRange, stop) in
-			
-			i += 1
-			
-			let rect = self.paragraphRectForRange(range: paragraphRange)
-//			print(rect)
-			
-			let paragraph = Paragraph(rect: rect, number: i)
-			paragraphs.append(paragraph)
-			
-		}
-		
-		if self.text.isEmpty || self.text.hasSuffix("\n") {
-			
-			let rect: CGRect
-			
-			#if os(macOS)
-				let gutterWidth = textContainerInset.width
-			#else
-				let gutterWidth = textContainerInset.left
-			#endif
-			
-			let lineHeight: CGFloat = 22
-			
-			if let last = paragraphs.last {
-				
-				rect = CGRect(x: 0, y: last.rect.origin.y + lineHeight, width: gutterWidth, height: lineHeight)
-				
-			} else {
-				
-				rect = CGRect(x: 0, y: 0, width: gutterWidth, height: lineHeight)
-				
-			}
-			
-			i += 1
-			let endParagraph = Paragraph(rect: rect, number: i)
-			paragraphs.append(endParagraph)
-			
-		}
-		
-//		print(paragraphs.map { $0.rect })
-		
-//		let sizes = paragraphs.map { $0.attributedString(for: theme).size() }
-		
-		for paragraph in paragraphs {
-			
-			guard paragraph.rect.intersects(rect) else {
-				continue
-			}
-			
-			let attr = paragraph.attributedString(for: theme)
-			
-			attr.draw(in: paragraph.rect)
-			
-		}
-		
+//		drawLineNumbers(in: rect, for: self)
 		super.draw(rect)
 	}
+//	#endif
 	
 }
 
@@ -194,6 +280,12 @@ public class SyntaxTextView: View {
 	private let textView: InnerTextView
 	
 	public weak var delegate: SyntaxTextViewDelegate?
+	
+	#if os(macOS)
+	
+	fileprivate let wrapperView = TextViewWrapperView()
+
+	#endif
 	
 	#if os(iOS)
 
@@ -268,6 +360,14 @@ public class SyntaxTextView: View {
 		
 		#if os(macOS)
 
+			wrapperView.translatesAutoresizingMaskIntoConstraints = false
+
+			addSubview(wrapperView)
+			
+			
+			
+			
+			
 			scrollView.backgroundColor = .clear
 			scrollView.drawsBackground = false
 			
@@ -280,6 +380,12 @@ public class SyntaxTextView: View {
 			scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 			scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 			scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+			
+			wrapperView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+			wrapperView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+			wrapperView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+			wrapperView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+			
 			
 			scrollView.borderType = .noBorder
 			scrollView.hasVerticalScroller = true
@@ -295,6 +401,10 @@ public class SyntaxTextView: View {
 			
 			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: CGFloat(FLT_MAX))
 			textView.textContainer?.widthTracksTextView = true
+			
+			textView.layerContentsRedrawPolicy = .beforeViewResize
+			
+			wrapperView.textView = textView
 			
 		#else
 			
@@ -345,13 +455,17 @@ public class SyntaxTextView: View {
 
 	}
 	
+	#if os(macOS)
+	
 	public override func viewDidMoveToSuperview() {
 		super.viewDidMoveToSuperview()
 		
 		self.backgroundColor = theme.backgroundColor
 
 	}
-	
+
+	#endif
+
 	#if os(iOS)
 
 		func test() {
@@ -382,6 +496,8 @@ public class SyntaxTextView: View {
 		}
 		set {
 			#if os(macOS)
+				textView.layer!.isOpaque = true
+
 				textView.string = newValue
 			#else
 				textView.text = newValue
@@ -487,6 +603,7 @@ public class SyntaxTextView: View {
 
 			textView.setNeedsDisplay(textView.bounds)
 			
+			wrapperView.setNeedsDisplay(wrapperView.bounds)
 			self.delegate?.didChangeText(self)
 
 		}
