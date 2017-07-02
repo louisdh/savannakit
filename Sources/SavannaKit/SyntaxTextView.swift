@@ -137,38 +137,12 @@ extension TextView {
 	
 }
 
-private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) {
-	
-	//		let documentVisibleRect = self.enclosingScrollView?.documentVisibleRect
-	
-	//		Swift.print(documentVisibleRect)
-	
-	//		if let prevScrollPosition = prevScrollPosition {
-	//
-	//			if prevScrollPosition == documentVisibleRect {
-	//
-	//				super.draw(rect)
-	//				return
-	//			}
-	//		}
-	
-	//		prevScrollPosition = documentVisibleRect
-	//		UIColor.red.setFill()
-	//
-	
+private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) -> [Paragraph] {
+
 	let range = textView.text.startIndex..<textView.text.endIndex
 	
 	var paragraphs = [Paragraph]()
 	var i = 0
-	
-	//		let selectedRange = self.selectedRange
-	
-	//		let stringRange = self.text.range(fromNSRange: selectedRange)
-	
-	
-	//		print(self.text.substring(with: stringRange))
-	
-//	let contentWidth = 
 	
 	textView.text.enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraphContent, paragraphRange, enclosingRange, stop) in
 		
@@ -210,19 +184,16 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		
 	}
 	
-
+	
 	
 	#if os(macOS)
 		
 		if let yOffset = textView.enclosingScrollView?.contentView.bounds.origin.y {
-		
+			
 			paragraphs = paragraphs.map { (p) -> Paragraph in
 				
 				var p = p
 				p.rect.origin.y -= yOffset
-				
-//				textView.intrinsicContentSize.height -
-
 				
 				return p
 			}
@@ -238,8 +209,8 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 			var p = p
 			p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
 			
-//			let yOffset = textView.enclosingScrollView!.contentView.bounds.origin.y
-//			p.rect.origin.y += yOffset
+			//			let yOffset = textView.enclosingScrollView!.contentView.bounds.origin.y
+			//			p.rect.origin.y += yOffset
 			
 			return p
 		}
@@ -252,6 +223,13 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		p.rect.origin.y += yOffset
 		return p
 	}
+	
+	return paragraphs
+}
+
+private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) {
+	
+	let paragraphs = generateParagraphs(for: textView, flipRects: flipRects, yOffset: yOffset)
 	
 	let maxNumberOfDigits = "\(paragraphs.count)".characters.count
 	
