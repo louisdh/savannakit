@@ -72,19 +72,18 @@ private enum InitMethod {
 		
 		override public func draw(_ rect: CGRect) {
 
-			Color.black.setFill()
-
-			let gutterRect = CGRect(x: 0, y: 0, width: 20, height: rect.height)
-			let path = BezierPath(rect: gutterRect)
-			path.fill()
-			
 			guard let textView = textView else {
 				return
 			}
 			
+			Color.black.setFill()
+
+			let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
+			let path = BezierPath(rect: gutterRect)
+			path.fill()
+			
 			let contentHeight = textView.enclosingScrollView!.documentView!.bounds.height
 			
-			Swift.print("contentHeight: \(contentHeight)")
 			let yOffset = self.bounds.height - contentHeight
 			
 			drawLineNumbers(in: self.bounds, for: textView, flipRects: true, yOffset: yOffset)
@@ -110,9 +109,6 @@ extension TextView {
 		
 		var nsRange = NSMakeRange(start, length)
 		
-		let contentAfter = text.substring(from: range.upperBound)
-		
-		
 		let layoutManager: NSLayoutManager
 		let textContainer: NSTextContainer
 		#if os(macOS)
@@ -124,8 +120,6 @@ extension TextView {
 		#endif
 		
 		nsRange = layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
-		
-		Swift.print(nsRange.toRange()!)
 		
 		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: textContainer)
 		//		sectionRect.origin.x += textContainerInset.left
@@ -145,10 +139,6 @@ extension TextView {
 
 private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) {
 	
-	print("=============")
-	
-	print("textView.bounds.width: \(textView.bounds.width)")
-
 	//		let documentVisibleRect = self.enclosingScrollView?.documentVisibleRect
 	
 	//		Swift.print(documentVisibleRect)
@@ -184,9 +174,7 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		
 		i += 1
 		
-		var rect = textView.paragraphRectForRange(range: paragraphRange)
-		
-		print(paragraphContent)
+		let rect = textView.paragraphRectForRange(range: paragraphRange)
 		
 		let paragraph = Paragraph(rect: rect, number: i)
 		paragraphs.append(paragraph)
@@ -265,6 +253,15 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		return p
 	}
 	
+	let maxNumberOfDigits = "\(paragraphs.count)".characters.count
+	
+	let leftInset: CGFloat = 4.0
+	let rightInset: CGFloat = 4.0
+	
+	let charWidth: CGFloat = 10.0
+	
+	textView.gutterWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
+	
 	for paragraph in paragraphs {
 		
 		print(paragraph.rect.debugDescription)
@@ -275,7 +272,17 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		
 		let attr = paragraph.attributedString(for: textView.theme)
 		
-		attr.draw(in: paragraph.rect)
+		var drawRect = paragraph.rect
+		
+		let gutterWidth = textView.gutterWidth
+		
+		
+		let drawSize = attr.size()
+		
+		drawRect.origin.x = gutterWidth - drawSize.width
+		drawRect.size.width = drawSize.width
+
+		attr.draw(in: drawRect)
 		
 	}
 	
@@ -289,7 +296,7 @@ private class InnerTextView: TextView {
 	
 //	var prevScrollPosition: CGRect?
 	
-//	#if os(iOS)
+	#if os(iOS)
 	override public func draw(_ rect: CGRect) {
 		
 //		Color.red.setFill()
@@ -300,10 +307,31 @@ private class InnerTextView: TextView {
 //		path.fill()
 //		
 		
-//		drawLineNumbers(in: rect, for: self)
+		drawLineNumbers(in: rect, for: self)
 		super.draw(rect)
 	}
-//	#endif
+	#endif
+
+	var gutterWidth: CGFloat {
+		set {
+			
+			#if os(macOS)
+				textContainerInset = NSSize(width: newValue, height: 0)
+			#else
+				textContainerInset = UIEdgeInsets(top: 0, left: newValue, bottom: 0, right: 0)
+			#endif
+			
+		}
+		get {
+			
+			#if os(macOS)
+				return textContainerInset.width
+			#else
+				return textContainerInset.left
+			#endif
+			
+		}
+	}
 	
 }
 
@@ -386,14 +414,13 @@ public class SyntaxTextView: View {
 	#endif
 	
 	private func setup() {
+	
+		textView.gutterWidth = 20
 		
-		
-		#if os(macOS)
-			textView.textContainerInset = NSSize(width: 20, height: 0)
-		#else
-			textView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+		#if os(iOS)
+			
 			textView.translatesAutoresizingMaskIntoConstraints = false
-
+			
 		#endif
 		
 		#if os(macOS)
