@@ -33,7 +33,7 @@ struct DefaultTheme: SyntaxColorTheme {
 		return Color(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
 	}
 	
-	let lineNumbersStyle = LineNumbersStyle(font: Font(name: "Menlo", size: 19)!, textColor: lineNumbersColor)
+	let lineNumbersStyle = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor)
 	
 	let font = Font(name: "Menlo", size: 19)!
 	
