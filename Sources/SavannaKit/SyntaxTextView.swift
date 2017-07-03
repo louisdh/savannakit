@@ -449,12 +449,6 @@ public class SyntaxTextView: View {
 		#if os(macOS)
 
 			wrapperView.translatesAutoresizingMaskIntoConstraints = false
-
-			addSubview(wrapperView)
-			
-			
-			
-			
 			
 			scrollView.backgroundColor = .clear
 			scrollView.drawsBackground = false
@@ -464,6 +458,10 @@ public class SyntaxTextView: View {
 			scrollView.translatesAutoresizingMaskIntoConstraints = false
 
 			self.addSubview(scrollView)
+			
+			addSubview(wrapperView)
+
+			
 			scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 			scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 			scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -513,8 +511,7 @@ public class SyntaxTextView: View {
 		textView.text = ""
 		textView.font = theme.font
 		
-		
-		textView.backgroundColor = .clear
+		textView.backgroundColor = theme.backgroundColor
 		
 		#if os(iOS)
 
@@ -630,7 +627,18 @@ public class SyntaxTextView: View {
 			return
 		}
 		
-		self.backgroundColor = theme.backgroundColor
+		let textStorage: NSTextStorage
+		
+		#if os(macOS)
+			textStorage = textView.textStorage!
+		#else
+			textStorage = textView.textStorage
+		#endif
+		
+		
+		textStorage.beginEditing()
+		
+//		self.backgroundColor = theme.backgroundColor
 		
 		let lexer = Lexer(input: string)
 		let tokens = lexer.tokenize()
@@ -646,11 +654,8 @@ public class SyntaxTextView: View {
 		attributes[NSForegroundColorAttributeName] = theme.color(for: .plain)
 		attributes[NSFontAttributeName] = theme.font
 		
-		#if os(macOS)
-			textView.textStorage!.setAttributes(attributes, range: wholeRange)
-		#else
-			textView.textStorage.setAttributes(attributes, range: wholeRange)
-		#endif
+		textStorage.setAttributes(attributes, range: wholeRange)
+
 		
 		for token in tokens {
 			
@@ -668,19 +673,15 @@ public class SyntaxTextView: View {
 
 			let range = string.nsRange(fromRange: tokenRange)
 			
-			//			attributedString.addAttribute(, value: color, range: range)
-			
 			var attr = attributes
 			attr[NSForegroundColorAttributeName] = color
 			
-			#if os(macOS)
-				textView.textStorage!.setAttributes(attr, range: range)
-			#else
-				textView.textStorage.setAttributes(attr, range: range)
-			#endif
+			textStorage.setAttributes(attr, range: range)
 			
 		}
 		
+		textStorage.endEditing()
+
 		//		sourceTextView.typingAttributes = attributedString.attributes
 		//		sourceTextView.attributedText = attributedString
 		
@@ -701,7 +702,7 @@ public class SyntaxTextView: View {
 
 			colorTextView()
 
-			textView.setNeedsDisplay(textView.bounds)
+//			textView.setNeedsDisplay(textView.bounds)
 			
 			wrapperView.setNeedsDisplay(wrapperView.bounds)
 			self.delegate?.didChangeText(self)
