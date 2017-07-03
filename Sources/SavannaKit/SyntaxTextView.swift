@@ -75,18 +75,42 @@ private enum InitMethod {
 			guard let textView = textView else {
 				return
 			}
-			
-			Color.black.setFill()
-
-			let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
-			let path = BezierPath(rect: gutterRect)
-			path.fill()
-			
+		
 			let contentHeight = textView.enclosingScrollView!.documentView!.bounds.height
 			
 			let yOffset = self.bounds.height - contentHeight
 			
-			drawLineNumbers(in: self.bounds, for: textView, flipRects: true, yOffset: yOffset)
+			var paragraphs: [Paragraph]
+			
+			if let cached = textView.cachedParagraphs {
+				
+				paragraphs = cached
+				
+			} else {
+				
+				paragraphs = generateParagraphs(for: textView, flipRects: true)
+				textView.cachedParagraphs = paragraphs
+			
+			}
+			
+			paragraphs = offsetParagrahps(paragraphs, for: textView, yOffset: yOffset)
+
+			let components = textView.text.components(separatedBy: .newlines)
+			
+			let count = components.count
+			
+			let maxNumberOfDigits = "\(count)".characters.count
+			
+			textView.updateGutterWidth(for: maxNumberOfDigits)
+			
+			Color.black.setFill()
+			
+			let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
+			let path = BezierPath(rect: gutterRect)
+			path.fill()
+			
+			
+			drawLineNumbers(paragraphs, in: self.bounds, for: textView)
 			
 		}
 		
@@ -96,18 +120,9 @@ private enum InitMethod {
 
 extension TextView {
 	
-	func paragraphRectForRange(range: Range<String.Index>) -> CGRect {
+	func paragraphRectForRange(range: NSRange) -> CGRect {
 		
-		#if os(macOS)
-			let range = self.textStorage!.string.paragraphRange(for: range)
-		#else
-			let range = self.textStorage.string.paragraphRange(for: range)
-		#endif
-		
-		let start = text.distance(from: text.startIndex, to: range.lowerBound)
-		let length = text.distance(from: range.lowerBound, to: range.upperBound)
-		
-		var nsRange = NSMakeRange(start, length)
+		var nsRange = range
 		
 		let layoutManager: NSLayoutManager
 		let textContainer: NSTextContainer
@@ -122,7 +137,6 @@ extension TextView {
 		nsRange = layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
 		
 		var sectionRect = layoutManager.boundingRect(forGlyphRange: nsRange, in: textContainer)
-		//		sectionRect.origin.x += textContainerInset.left
 		
 		// FIXME: don't use this hack
 		// This gets triggered for the final paragraph in a textview if the next line is empty (so the last paragraph ends with a newline)
@@ -137,14 +151,14 @@ extension TextView {
 	
 }
 
-private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) -> [Paragraph] {
+private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) -> [Paragraph] {
 
-	let range = textView.text.startIndex..<textView.text.endIndex
+	let range = NSRange(location: 0, length: textView.text.characters.count)
 	
 	var paragraphs = [Paragraph]()
 	var i = 0
 	
-	textView.text.enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraphContent, paragraphRange, enclosingRange, stop) in
+	(textView.text as NSString).enumerateSubstrings(in: range, options: [.byParagraphs]) { (paragraphContent, paragraphRange, enclosingRange, stop) in
 		
 		i += 1
 		
@@ -185,6 +199,24 @@ private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = f
 	}
 	
 	
+	if flipRects {
+		
+		paragraphs = paragraphs.map { (p) -> Paragraph in
+			
+			var p = p
+			p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
+			
+			return p
+		}
+		
+	}
+	
+	return paragraphs
+}
+
+private func offsetParagrahps(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
+
+	var paragraphs = paragraphs
 	
 	#if os(macOS)
 		
@@ -193,7 +225,7 @@ private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = f
 			paragraphs = paragraphs.map { (p) -> Paragraph in
 				
 				var p = p
-				p.rect.origin.y -= yOffset
+				p.rect.origin.y += yOffset
 				
 				return p
 			}
@@ -202,20 +234,7 @@ private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = f
 		
 	#endif
 	
-	if flipRects {
-		
-		paragraphs = paragraphs.map { (p) -> Paragraph in
-			
-			var p = p
-			p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
-			
-			//			let yOffset = textView.enclosingScrollView!.contentView.bounds.origin.y
-			//			p.rect.origin.y += yOffset
-			
-			return p
-		}
-		
-	}
+
 	
 	paragraphs = paragraphs.map { (p) -> Paragraph in
 		
@@ -227,22 +246,9 @@ private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = f
 	return paragraphs
 }
 
-private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipRects: Bool = false, yOffset: CGFloat = 0) {
-	
-	let paragraphs = generateParagraphs(for: textView, flipRects: flipRects, yOffset: yOffset)
-	
-	let maxNumberOfDigits = "\(paragraphs.count)".characters.count
-	
-	let leftInset: CGFloat = 4.0
-	let rightInset: CGFloat = 4.0
-	
-	let charWidth: CGFloat = 10.0
-	
-	textView.gutterWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
-	
+private func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: InnerTextView) {
+
 	for paragraph in paragraphs {
-		
-		print(paragraph.rect.debugDescription)
 		
 		guard paragraph.rect.intersects(rect) else {
 			continue
@@ -257,7 +263,8 @@ private func drawLineNumbers(in rect: CGRect, for textView: InnerTextView, flipR
 		
 		let drawSize = attr.size()
 		
-		drawRect.origin.x = gutterWidth - drawSize.width
+		drawRect.origin.x = gutterWidth - drawSize.width - 4
+		drawRect.origin.y -= 22 - drawSize.height
 		drawRect.size.width = drawSize.width
 
 		attr.draw(in: drawRect)
@@ -272,20 +279,58 @@ private class InnerTextView: TextView {
 		return DefaultTheme()
 	}()
 	
-//	var prevScrollPosition: CGRect?
+	var cachedParagraphs: [Paragraph]?
+	
+	func invalidateCachedParagraphs() {
+		cachedParagraphs = nil
+	}
+	
+	func updateGutterWidth(for numberOfCharacters: Int) {
+		
+		let leftInset: CGFloat = 4.0
+		let rightInset: CGFloat = 4.0
+		
+		let charWidth: CGFloat = 10.0
+		
+		gutterWidth = CGFloat(numberOfCharacters) * charWidth + leftInset + rightInset
+		
+	}
 	
 	#if os(iOS)
 	override public func draw(_ rect: CGRect) {
+	
+		let textView = self
 		
-//		Color.red.setFill()
-//		
-//		let gutterRect = CGRect(x: 0, y: 0, width: 20, height: 88)
-//		
-//		let path = BezierPath(rect: gutterRect)
-//		path.fill()
-//		
+		var paragraphs: [Paragraph]
 		
-		drawLineNumbers(in: rect, for: self)
+		if let cached = textView.cachedParagraphs {
+			
+			paragraphs = cached
+			
+		} else {
+			
+			paragraphs = generateParagraphs(for: textView, flipRects: true)
+			textView.cachedParagraphs = paragraphs
+			
+		}
+		
+		let components = textView.text.components(separatedBy: .newlines)
+		
+		let count = components.count
+		
+		let maxNumberOfDigits = "\(count)".characters.count
+		
+		textView.updateGutterWidth(for: maxNumberOfDigits)
+		
+		Color.black.setFill()
+		
+		let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
+		let path = BezierPath(rect: gutterRect)
+		path.fill()
+		
+		
+		drawLineNumbers(paragraphs, in: self.bounds, for: self)
+		
 		super.draw(rect)
 	}
 	#endif
@@ -321,7 +366,7 @@ public protocol SyntaxTextViewDelegate: class {
 
 public class SyntaxTextView: View {
 
-	private let textView: InnerTextView
+	fileprivate let textView: InnerTextView
 	
 	public weak var delegate: SyntaxTextViewDelegate?
 	
@@ -449,7 +494,7 @@ public class SyntaxTextView: View {
 			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: CGFloat(FLT_MAX))
 			textView.textContainer?.widthTracksTextView = true
 			
-			textView.layerContentsRedrawPolicy = .beforeViewResize
+//			textView.layerContentsRedrawPolicy = .beforeViewResize
 			
 			wrapperView.textView = textView
 			
@@ -575,9 +620,9 @@ public class SyntaxTextView: View {
 	
 	#endif
 
-	private var theme: SyntaxColorTheme {
+	fileprivate lazy var theme: SyntaxColorTheme = {
 		return DefaultTheme()
-	}
+	}()
 	
 	func colorTextView() {
 		
@@ -652,6 +697,8 @@ public class SyntaxTextView: View {
 				return
 			}
 
+			self.textView.invalidateCachedParagraphs()
+
 			colorTextView()
 
 			textView.setNeedsDisplay(textView.bounds)
@@ -676,6 +723,7 @@ public class SyntaxTextView: View {
 		
 		public func textViewDidChange(_ textView: UITextView) {
 			
+			self.textView.invalidateCachedParagraphs()
 			textView.setNeedsDisplay()
 			colorTextView()
 			
@@ -690,22 +738,8 @@ extension String {
 	func nsRange(fromRange range: Range<Int>) -> NSRange {
 		let from = range.lowerBound
 		let to = range.upperBound
-		
-		let fromIndex = self.index(startIndex, offsetBy: from)
-		let toIndex = self.index(startIndex, offsetBy: to)
-		
-		let location = characters.distance(from: startIndex, to: fromIndex)
-		let length = characters.distance(from: fromIndex, to: toIndex)
-		
-		return NSRange(location: location, length: length)
+
+		return NSRange(location: from, length: to - from)
 	}
-	
-//	func range(fromNSRange range: NSRange) -> Range<String.Index> {
-//		
-//		let start = self.index(self.startIndex, offsetBy: range.lowerBound)
-//		let end = self.index(start, offsetBy: range.length)
-//		
-//		return start..<end
-//	}
 	
 }
