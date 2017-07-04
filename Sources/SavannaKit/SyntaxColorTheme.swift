@@ -70,63 +70,36 @@ extension TokenType {
 	
 	var syntaxColorType: SyntaxColorType {
 		
-		if case .do = self {
+		switch self {
+		case .booleanAnd, .booleanNot, .booleanOr:
+			return .plain
+		
+		case .shortHandAdd, .shortHandDiv, .shortHandMul, .shortHandPow, .shortHandSub:
+			return .plain
+	
+		case .equals, .notEqual, .dot, .ignoreableToken, .parensOpen, .parensClose, .curlyOpen, .curlyClose, .comma:
+			return .plain
+			
+		case .comparatorEqual, .comparatorLessThan, .comparatorGreaterThan, .comparatorLessThanEqual, .comparatorGreaterThanEqual:
+			return .plain
+			
+		case .other:
+			return .plain
+			
+		case .break, .continue, .function, .if, .else, .while, .for, .do, .times, .return, .returns, .repeat, .true, .false, .struct:
 			return .keyword
-		}
-		
-		if case .true = self {
-			return .keyword
-		}
-		
-		if case .false = self {
-			return .keyword
-		}
-		
-		if case .for = self {
-			return .keyword
-		}
-		
-		if case .function = self {
-			return .keyword
-		}
-		
-		if case .while = self {
-			return .keyword
-		}
-		
-		if case .if = self {
-			return .keyword
-		}
-		
-		if case .else = self {
-			return .keyword
-		}
-		
-		if case .times = self {
-			return .keyword
-		}
-		
-		if case .return = self {
-			return .keyword
-		}
-		
-		if case .returns = self {
-			return .keyword
-		}
-		
-		if case .identifier(_) = self {
-			return .identifier
-		}
-		
-		if case .comment = self {
+			
+		case .comment:
 			return .comment
-		}
-		
-		if case .number = self {
+	
+		case .number:
 			return .number
+			
+		case .identifier:
+			return .identifier
+
 		}
 		
-		return .plain
 	}
 	
 }
