@@ -476,6 +476,7 @@ public class SyntaxTextView: View {
 			scrollView.borderType = .noBorder
 			scrollView.hasVerticalScroller = true
 			scrollView.hasHorizontalScroller = false
+			scrollView.scrollerKnobStyle = .light
 			
 			scrollView.documentView = textView
 			
