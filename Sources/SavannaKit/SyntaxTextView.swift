@@ -695,15 +695,13 @@ public class SyntaxTextView: View {
 	extension SyntaxTextView: NSTextViewDelegate {
 		
 		public func textDidChange(_ notification: Notification) {
-			guard let textView = notification.object as? NSTextView else {
+			guard let textView = notification.object as? NSTextView, textView == self.textView else {
 				return
 			}
 
 			self.textView.invalidateCachedParagraphs()
 
 			colorTextView()
-
-//			textView.setNeedsDisplay(textView.bounds)
 			
 			wrapperView.setNeedsDisplay(wrapperView.bounds)
 			self.delegate?.didChangeText(self)
