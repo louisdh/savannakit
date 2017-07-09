@@ -358,12 +358,12 @@ public class SyntaxTextView: View {
 			NotificationCenter.default.addObserver(self, selector: #selector(didScroll(_:)), name: .NSViewBoundsDidChange, object: scrollView.contentView)
 			
 			textView.minSize = NSSize(width: 0.0, height: self.bounds.height)
-			textView.maxSize = NSSize(width: CGFloat(FLT_MAX), height: CGFloat(FLT_MAX))
+			textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 			textView.isVerticallyResizable = true
 			textView.isHorizontallyResizable = false
 			textView.autoresizingMask = .viewWidthSizable
 			
-			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: CGFloat(FLT_MAX))
+			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: .greatestFiniteMagnitude)
 			textView.textContainer?.widthTracksTextView = true
 			
 //			textView.layerContentsRedrawPolicy = .beforeViewResize
