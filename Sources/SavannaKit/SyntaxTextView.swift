@@ -22,49 +22,6 @@ private enum InitMethod {
 }
 
 #if os(macOS)
-	
-	extension NSView {
-		
-		var backgroundColor: Color? {
-			set {
-				layer?.backgroundColor = newValue?.cgColor
-			}
-			get {
-				if let color = layer?.backgroundColor {
-					return Color(cgColor: color)
-				} else {
-					return nil
-				}
-			}
-		}
-		
-	}
-	
-	extension NSTextView {
-		
-		var text: String! {
-			get {
-				return string
-			}
-			set {
-				self.string = newValue
-			}
-		}
-		
-		var tintColor: Color {
-			set {
-				insertionPointColor = newValue
-			}
-			get {
-				return insertionPointColor
-			}
-		}
-		
-	}
-	
-#endif
-
-#if os(macOS)
 
 	private class TextViewWrapperView: View {
 		
@@ -151,7 +108,7 @@ extension TextView {
 	
 }
 
-private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) -> [Paragraph] {
+func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) -> [Paragraph] {
 
 	let range = NSRange(location: 0, length: textView.text.characters.count)
 	
@@ -214,7 +171,7 @@ private func generateParagraphs(for textView: InnerTextView, flipRects: Bool = f
 	return paragraphs
 }
 
-private func offsetParagrahps(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
+func offsetParagrahps(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
 
 	var paragraphs = paragraphs
 	
@@ -246,7 +203,7 @@ private func offsetParagrahps(_ paragraphs: [Paragraph], for textView: InnerText
 	return paragraphs
 }
 
-private func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: InnerTextView) {
+func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: InnerTextView) {
 
 	for paragraph in paragraphs {
 		
@@ -273,90 +230,6 @@ private func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for tex
 	
 }
 
-private class InnerTextView: TextView {
-	
-	fileprivate lazy var theme: SyntaxColorTheme = {
-		return DefaultTheme()
-	}()
-	
-	var cachedParagraphs: [Paragraph]?
-	
-	func invalidateCachedParagraphs() {
-		cachedParagraphs = nil
-	}
-	
-	func updateGutterWidth(for numberOfCharacters: Int) {
-		
-		let leftInset: CGFloat = 4.0
-		let rightInset: CGFloat = 4.0
-		
-		let charWidth: CGFloat = 10.0
-		
-		gutterWidth = CGFloat(numberOfCharacters) * charWidth + leftInset + rightInset
-		
-	}
-	
-	#if os(iOS)
-	override public func draw(_ rect: CGRect) {
-	
-		let textView = self
-		
-		var paragraphs: [Paragraph]
-		
-		if let cached = textView.cachedParagraphs {
-			
-			paragraphs = cached
-			
-		} else {
-			
-			paragraphs = generateParagraphs(for: textView, flipRects: true)
-			textView.cachedParagraphs = paragraphs
-			
-		}
-		
-		let components = textView.text.components(separatedBy: .newlines)
-		
-		let count = components.count
-		
-		let maxNumberOfDigits = "\(count)".characters.count
-		
-		textView.updateGutterWidth(for: maxNumberOfDigits)
-		
-		Color.black.setFill()
-		
-		let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
-		let path = BezierPath(rect: gutterRect)
-		path.fill()
-		
-		
-		drawLineNumbers(paragraphs, in: self.bounds, for: self)
-		
-		super.draw(rect)
-	}
-	#endif
-
-	var gutterWidth: CGFloat {
-		set {
-			
-			#if os(macOS)
-				textContainerInset = NSSize(width: newValue, height: 0)
-			#else
-				textContainerInset = UIEdgeInsets(top: 0, left: newValue, bottom: 0, right: 0)
-			#endif
-			
-		}
-		get {
-			
-			#if os(macOS)
-				return textContainerInset.width
-			#else
-				return textContainerInset.left
-			#endif
-			
-		}
-	}
-	
-}
 
 public protocol SyntaxTextViewDelegate: class {
 	
@@ -426,7 +299,7 @@ public class SyntaxTextView: View {
 	
 	#if os(iOS)
 
-	private var keyboardToolbar: UIToolbar!
+		private var keyboardToolbar: UIToolbar!
 	
 	#endif
 
@@ -549,9 +422,7 @@ public class SyntaxTextView: View {
 	
 	public override func viewDidMoveToSuperview() {
 		super.viewDidMoveToSuperview()
-		
-		self.backgroundColor = theme.backgroundColor
-
+	
 	}
 	
 	func didScroll(_ notification: Notification) {
@@ -732,14 +603,3 @@ public class SyntaxTextView: View {
 	}
 
 #endif
-
-extension String {
-	
-	func nsRange(fromRange range: Range<Int>) -> NSRange {
-		let from = range.lowerBound
-		let to = range.upperBound
-
-		return NSRange(location: from, length: to - from)
-	}
-	
-}
