@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE1562791EFE9F0A00EB3723 /* Lioness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE1562781EFE9F0A00EB3723 /* Lioness.framework */; };
+		BE2055241F1D56AE0051EE97 /* Lioness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2055231F1D56AE0051EE97 /* Lioness.framework */; };
 		BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB881F125E7500C6B93E /* String+Range.swift */; };
@@ -24,12 +24,12 @@
 		BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */; };
 		BE99F6081F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
 		BE99F6091F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
-		BEF3D26E1EF6E41A0086EDC8 /* Lioness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF3D26D1EF6E41A0086EDC8 /* Lioness.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE1562781EFE9F0A00EB3723 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/Jungle-abrjtxsillzinpenmdntmrgrmols/Build/Products/Debug/Lioness.framework"; sourceTree = "<group>"; };
+		BE2055211F1D53C00051EE97 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/Pixure-cgdlqshesrvljvcaumkelrnmbwqn/Build/Products/Release/Lioness.framework"; sourceTree = "<group>"; };
+		BE2055231F1D56AE0051EE97 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/SavannaKit-fyzqygnhrdukxucyxotmtknnxggx/Build/Products/Release/Lioness.framework"; sourceTree = "<group>"; };
 		BE71CB851F125D0400C6B93E /* InnerTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerTextView.swift; sourceTree = "<group>"; };
 		BE71CB881F125E7500C6B93E /* String+Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Range.swift"; sourceTree = "<group>"; };
 		BE71CB8B1F125E8800C6B93E /* NSTextView+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextView+UIKit.swift"; sourceTree = "<group>"; };
@@ -41,9 +41,6 @@
 		BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxTextView.swift; sourceTree = "<group>"; };
 		BE99F5FB1F07E6240076CDEF /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BEDA3F351E380E5D00B5091C /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEDA3F451E380FCD00B5091C /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Lioness.framework; sourceTree = "<group>"; };
-		BEF3D26B1EF6E3A30086EDC8 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/JungleKit-drrsllndteahiteuvldnceojiwja/Build/Products/Debug-iphonesimulator/Lioness.framework"; sourceTree = "<group>"; };
-		BEF3D26D1EF6E41A0086EDC8 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/JungleKit-drrsllndteahiteuvldnceojiwja/Build/Products/Release-iphoneos/Lioness.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +48,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1562791EFE9F0A00EB3723 /* Lioness.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEF3D26E1EF6E41A0086EDC8 /* Lioness.framework in Frameworks */,
+				BE2055241F1D56AE0051EE97 /* Lioness.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,10 +116,8 @@
 		BEDA3F441E380FCD00B5091C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BE1562781EFE9F0A00EB3723 /* Lioness.framework */,
-				BEF3D26D1EF6E41A0086EDC8 /* Lioness.framework */,
-				BEF3D26B1EF6E3A30086EDC8 /* Lioness.framework */,
-				BEDA3F451E380FCD00B5091C /* Lioness.framework */,
+				BE2055231F1D56AE0051EE97 /* Lioness.framework */,
+				BE2055211F1D53C00051EE97 /* Lioness.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
