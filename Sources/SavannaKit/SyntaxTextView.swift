@@ -355,13 +355,13 @@ public class SyntaxTextView: View {
 			
 			scrollView.contentView.postsBoundsChangedNotifications = true
 			
-			NotificationCenter.default.addObserver(self, selector: #selector(didScroll(_:)), name: .NSViewBoundsDidChange, object: scrollView.contentView)
+			NotificationCenter.default.addObserver(self, selector: #selector(didScroll(_:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
 			
 			textView.minSize = NSSize(width: 0.0, height: self.bounds.height)
 			textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 			textView.isVerticallyResizable = true
 			textView.isHorizontallyResizable = false
-			textView.autoresizingMask = .viewWidthSizable
+			textView.autoresizingMask = .width
 			
 			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: .greatestFiniteMagnitude)
 			textView.textContainer?.widthTracksTextView = true
@@ -402,7 +402,7 @@ public class SyntaxTextView: View {
 		let equalsBtn = UIBarButtonItem(title: "=", style: .plain, target: self, action: #selector(test))
 		
 		let font = UIFont.systemFont(ofSize: 44.0)
-		let attributes = [NSFontAttributeName : font]
+		let attributes = [NSAttributedStringKey.font : font]
 
 		equalsBtn.setTitleTextAttributes(attributes, for: .normal)
 		
@@ -425,7 +425,7 @@ public class SyntaxTextView: View {
 	
 	}
 	
-	func didScroll(_ notification: Notification) {
+	@objc func didScroll(_ notification: Notification) {
 		
 		wrapperView.setNeedsDisplay(wrapperView.bounds)
 		
@@ -435,7 +435,7 @@ public class SyntaxTextView: View {
 
 	#if os(iOS)
 
-		func test() {
+	@objc func test() {
 			textView.insertText("=")
 		}
 		
@@ -456,7 +456,7 @@ public class SyntaxTextView: View {
 	public var text: String {
 		get {
 			#if os(macOS)
-				return textView.string ?? ""
+				return textView.string
 			#else
 				return textView.text ?? ""
 			#endif
@@ -517,14 +517,14 @@ public class SyntaxTextView: View {
 		
 		let attributedString = NSMutableAttributedString(string: string)
 		
-		var attributes = [String : Any]()
+		var attributes = [NSAttributedStringKey: Any]()
 		
 		let wholeRange = NSRange(location: 0, length: string.characters.count)
-		attributedString.addAttribute(NSForegroundColorAttributeName, value: theme.color(for: .plain), range: wholeRange)
-		attributedString.addAttribute(NSFontAttributeName, value: theme.font, range: wholeRange)
+		attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: theme.color(for: .plain), range: wholeRange)
+		attributedString.addAttribute(.font, value: theme.font, range: wholeRange)
 		
-		attributes[NSForegroundColorAttributeName] = theme.color(for: .plain)
-		attributes[NSFontAttributeName] = theme.font
+		attributes[.foregroundColor] = theme.color(for: .plain)
+		attributes[.font] = theme.font
 		
 		textStorage.setAttributes(attributes, range: wholeRange)
 
@@ -546,7 +546,7 @@ public class SyntaxTextView: View {
 			let range = string.nsRange(fromRange: tokenRange)
 			
 			var attr = attributes
-			attr[NSForegroundColorAttributeName] = color
+			attr[.foregroundColor] = color
 			
 			textStorage.setAttributes(attr, range: range)
 			

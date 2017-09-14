@@ -29,9 +29,9 @@ struct Paragraph {
 		let attr = NSMutableAttributedString(string: string)
 		let range = NSMakeRange(0, attr.length)
 		
-		let attributes = [
-			NSFontAttributeName: theme.lineNumbersStyle.font,
-			NSForegroundColorAttributeName : theme.lineNumbersStyle.textColor
+		let attributes: [NSAttributedStringKey: Any] = [
+			.font: theme.lineNumbersStyle.font,
+			.foregroundColor : theme.lineNumbersStyle.textColor
 		]
 		
 		attr.addAttributes(attributes, range: range)
