@@ -110,7 +110,7 @@ extension TextView {
 
 func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) -> [Paragraph] {
 
-	let range = NSRange(location: 0, length: textView.text.characters.count)
+	let range = NSRange(location: 0, length: textView.text.count)
 	
 	var paragraphs = [Paragraph]()
 	var i = 0
@@ -519,7 +519,7 @@ public class SyntaxTextView: View {
 		
 		var attributes = [NSAttributedStringKey: Any]()
 		
-		let wholeRange = NSRange(location: 0, length: string.characters.count)
+		let wholeRange = NSRange(location: 0, length: string.count)
 		attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: theme.color(for: .plain), range: wholeRange)
 		attributedString.addAttribute(.font, value: theme.font, range: wholeRange)
 		
