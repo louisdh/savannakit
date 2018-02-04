@@ -1,0 +1,6 @@
+version: "2"         # required to adjust maintainability checks
+plugins:
+  tailor:
+    enabled: true
+exclude_patterns: 
+  - "*.md"

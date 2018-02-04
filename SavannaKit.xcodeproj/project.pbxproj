@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE2055241F1D56AE0051EE97 /* Lioness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2055231F1D56AE0051EE97 /* Lioness.framework */; };
 		BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB881F125E7500C6B93E /* String+Range.swift */; };
@@ -17,13 +16,19 @@
 		BE99F5FF1F07E6240076CDEF /* JungleKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BE99F5F41F07E6240076CDEF /* JungleKit.h */; };
 		BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F71F07E6240076CDEF /* ASTVisualizer.swift */; };
 		BE99F6021F07E6240076CDEF /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F81F07E6240076CDEF /* Paragraph.swift */; };
-		BE99F6031F07E6240076CDEF /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F81F07E6240076CDEF /* Paragraph.swift */; };
 		BE99F6041F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */; };
 		BE99F6051F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */; };
 		BE99F6061F07E6240076CDEF /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */; };
 		BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */; };
 		BE99F6081F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
 		BE99F6091F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
+		BEE5D947202788680040C72A /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D946202788680040C72A /* Token.swift */; };
+		BEE5D949202788760040C72A /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D948202788760040C72A /* TokenType.swift */; };
+		BEE5D94B2027887E0040C72A /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D94A2027887E0040C72A /* Lexer.swift */; };
+		BEE5D94F2027897A0040C72A /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D946202788680040C72A /* Token.swift */; };
+		BEE5D9502027897A0040C72A /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D948202788760040C72A /* TokenType.swift */; };
+		BEE5D9512027897A0040C72A /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D94A2027887E0040C72A /* Lexer.swift */; };
+		BEE5D952202789840040C72A /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F81F07E6240076CDEF /* Paragraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +46,9 @@
 		BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxTextView.swift; sourceTree = "<group>"; };
 		BE99F5FB1F07E6240076CDEF /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BEDA3F351E380E5D00B5091C /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEE5D946202788680040C72A /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		BEE5D948202788760040C72A /* TokenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
+		BEE5D94A2027887E0040C72A /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +63,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE2055241F1D56AE0051EE97 /* Lioness.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,14 +89,10 @@
 		BE99F5F61F07E6240076CDEF /* SavannaKit */ = {
 			isa = PBXGroup;
 			children = (
+				BEE5D94E202788A80040C72A /* Model */,
+				BEE5D94D2027889A0040C72A /* Util */,
+				BEE5D94C202788950040C72A /* View */,
 				BE99F5F71F07E6240076CDEF /* ASTVisualizer.swift */,
-				BE99F5F81F07E6240076CDEF /* Paragraph.swift */,
-				BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */,
-				BE71CB851F125D0400C6B93E /* InnerTextView.swift */,
-				BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */,
-				BE99F5FB1F07E6240076CDEF /* Types.swift */,
-				BE71CB881F125E7500C6B93E /* String+Range.swift */,
-				BE71CB8B1F125E8800C6B93E /* NSTextView+UIKit.swift */,
 			);
 			path = SavannaKit;
 			sourceTree = "<group>";
@@ -120,6 +123,37 @@
 				BE2055211F1D53C00051EE97 /* Lioness.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BEE5D94C202788950040C72A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BE71CB851F125D0400C6B93E /* InnerTextView.swift */,
+				BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BEE5D94D2027889A0040C72A /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				BE99F5FB1F07E6240076CDEF /* Types.swift */,
+				BE71CB881F125E7500C6B93E /* String+Range.swift */,
+				BE71CB8B1F125E8800C6B93E /* NSTextView+UIKit.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		BEE5D94E202788A80040C72A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BEE5D946202788680040C72A /* Token.swift */,
+				BEE5D948202788760040C72A /* TokenType.swift */,
+				BEE5D94A2027887E0040C72A /* Lexer.swift */,
+				BE99F5F81F07E6240076CDEF /* Paragraph.swift */,
+				BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,14 +274,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEE5D9502027897A0040C72A /* TokenType.swift in Sources */,
 				BE71CB8A1F125E7500C6B93E /* String+Range.swift in Sources */,
-				BE99F6031F07E6240076CDEF /* Paragraph.swift in Sources */,
+				BEE5D952202789840040C72A /* Paragraph.swift in Sources */,
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
 				BE71CB8D1F125E8800C6B93E /* NSTextView+UIKit.swift in Sources */,
+				BEE5D9512027897A0040C72A /* Lexer.swift in Sources */,
 				BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */,
 				BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6091F07E6240076CDEF /* Types.swift in Sources */,
 				BE99F6051F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */,
+				BEE5D94F2027897A0040C72A /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,10 +293,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE99F6021F07E6240076CDEF /* Paragraph.swift in Sources */,
+				BEE5D947202788680040C72A /* Token.swift in Sources */,
 				BE99F6061F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6081F07E6240076CDEF /* Types.swift in Sources */,
 				BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */,
+				BEE5D949202788760040C72A /* TokenType.swift in Sources */,
 				BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */,
+				BEE5D94B2027887E0040C72A /* Lexer.swift in Sources */,
 				BE99F6041F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

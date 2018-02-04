@@ -220,7 +220,12 @@ func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: I
 		let drawSize = attr.size()
 		
 		drawRect.origin.x = gutterWidth - drawSize.width - 4
-		drawRect.origin.y += 22 - drawSize.height
+		
+		#if os(macOS)
+			drawRect.origin.y -= 22 - drawSize.height
+		#else
+			drawRect.origin.y += 22 - drawSize.height
+		#endif
 		drawRect.size.width = drawSize.width
 
 		attr.draw(in: drawRect)
@@ -562,28 +567,6 @@ public class SyntaxTextView: View {
 	
 }
 
-public protocol Token {
-
-	var savannaTokenType: TokenType { get }
-	
-	var range: Range<Int>? { get }
-
-}
-
-public protocol TokenType {
-	
-	var syntaxColorType: SyntaxColorType { get }
-
-}
-
-public protocol Lexer {
-	
-	func lexerForInput(_ input: String) -> Lexer
-	
-	func getSavannaTokens() -> [Token]
-	
-}
-
 #if os(macOS)
 	
 	extension SyntaxTextView: NSTextViewDelegate {
@@ -596,7 +579,7 @@ public protocol Lexer {
 			self.textView.invalidateCachedParagraphs()
 			
 			if let delegate = delegate {
-				colorTextView(lexerForSource: { (source) -> Lexer in
+				colorTextView(lexerForSource: { (source) -> SKLexer in
 					return delegate.lexerForSource(source)
 				})
 			}

@@ -8,13 +8,15 @@
 
 import Foundation
 import CoreGraphics
-import Lioness
 
 #if os(macOS)
 	import AppKit
 #else
 	import UIKit
 #endif
+
+// TODO: make this protocol oriented, without depending on Lioness.
+/*
 
 fileprivate let minNodeHeight: CGFloat = 40.0
 fileprivate let minNodeWidth: CGFloat = 40.0
@@ -318,3 +320,4 @@ public class ASTVisualizer {
 	}
 
 }
+*/
