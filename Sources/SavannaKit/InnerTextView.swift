@@ -51,7 +51,7 @@ class InnerTextView: TextView {
 			
 		} else {
 			
-			paragraphs = generateParagraphs(for: textView, flipRects: true)
+			paragraphs = generateParagraphs(for: textView, flipRects: false)
 			textView.cachedParagraphs = paragraphs
 			
 		}
