@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Lioness
 import CoreGraphics
 
 #if os(macOS)
@@ -221,7 +220,7 @@ func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: I
 		let drawSize = attr.size()
 		
 		drawRect.origin.x = gutterWidth - drawSize.width - 4
-		drawRect.origin.y -= 22 - drawSize.height
+		drawRect.origin.y += 22 - drawSize.height
 		drawRect.size.width = drawSize.width
 
 		attr.draw(in: drawRect)
@@ -234,6 +233,8 @@ func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: I
 public protocol SyntaxTextViewDelegate: class {
 	
 	func didChangeText(_ syntaxTextView: SyntaxTextView)
+
+	func lexerForSource(_ source: String) -> Lexer
 	
 }
 
@@ -463,7 +464,7 @@ public class SyntaxTextView: View {
 		}
 		set {
 			#if os(macOS)
-				textView.layer!.isOpaque = true
+				textView.layer?.isOpaque = true
 
 				textView.string = newValue
 			#else
@@ -493,7 +494,7 @@ public class SyntaxTextView: View {
 		return DefaultTheme()
 	}()
 	
-	func colorTextView() {
+	func colorTextView(lexerForSource: (String) -> Lexer) {
 		
 		guard let string = textView.text else {
 			return
@@ -512,8 +513,8 @@ public class SyntaxTextView: View {
 		
 //		self.backgroundColor = theme.backgroundColor
 		
-		let lexer = Lexer(input: string)
-		let tokens = lexer.tokenize()
+		let lexer = lexerForSource(string)
+		let tokens = lexer.getSavannaTokens()
 		
 		let attributedString = NSMutableAttributedString(string: string)
 		
@@ -531,7 +532,7 @@ public class SyntaxTextView: View {
 		
 		for token in tokens {
 			
-			let syntaxColorType = token.type.syntaxColorType
+			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
 			if syntaxColorType == .plain {
 				continue
@@ -561,6 +562,28 @@ public class SyntaxTextView: View {
 	
 }
 
+public protocol Token {
+
+	var savannaTokenType: TokenType { get }
+	
+	var range: Range<Int>? { get }
+
+}
+
+public protocol TokenType {
+	
+	var syntaxColorType: SyntaxColorType { get }
+
+}
+
+public protocol Lexer {
+	
+	func lexerForInput(_ input: String) -> Lexer
+	
+	func getSavannaTokens() -> [Token]
+	
+}
+
 #if os(macOS)
 	
 	extension SyntaxTextView: NSTextViewDelegate {
@@ -571,8 +594,12 @@ public class SyntaxTextView: View {
 			}
 
 			self.textView.invalidateCachedParagraphs()
-
-			colorTextView()
+			
+			if let delegate = delegate {
+				colorTextView(lexerForSource: { (source) -> Lexer in
+					return delegate.lexerForSource(source)
+				})
+			}
 			
 			wrapperView.setNeedsDisplay(wrapperView.bounds)
 			self.delegate?.didChangeText(self)
@@ -596,8 +623,13 @@ public class SyntaxTextView: View {
 			
 			self.textView.invalidateCachedParagraphs()
 			textView.setNeedsDisplay()
-			colorTextView()
 			
+			if let delegate = delegate {
+				colorTextView(lexerForSource: { (source) -> Lexer in
+					return delegate.lexerForSource(source)
+				})
+			}
+		
 		}
 		
 	}

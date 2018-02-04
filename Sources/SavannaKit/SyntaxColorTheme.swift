@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Lioness
 
 struct LineNumbersStyle {
 	
@@ -46,6 +45,8 @@ struct DefaultTheme: SyntaxColorTheme {
 			return .white
 		case .number:
 			return Color(red: 116/255, green: 109/255, blue: 176/255, alpha: 1.0)
+		case .string:
+			return .red
 		case .identifier:
 			return Color(red: 20/255, green: 156/255, blue: 146/255, alpha: 1.0)
 		case .keyword:
@@ -58,48 +59,12 @@ struct DefaultTheme: SyntaxColorTheme {
 	
 }
 
-enum SyntaxColorType {
+public enum SyntaxColorType {
 	case plain
 	case number
+	case string
 	case identifier
 	case keyword
 	case comment
 }
 
-extension TokenType {
-	
-	var syntaxColorType: SyntaxColorType {
-		
-		switch self {
-		case .booleanAnd, .booleanNot, .booleanOr:
-			return .plain
-		
-		case .shortHandAdd, .shortHandDiv, .shortHandMul, .shortHandPow, .shortHandSub:
-			return .plain
-	
-		case .equals, .notEqual, .dot, .ignoreableToken, .parensOpen, .parensClose, .curlyOpen, .curlyClose, .comma:
-			return .plain
-			
-		case .comparatorEqual, .comparatorLessThan, .comparatorGreaterThan, .comparatorLessThanEqual, .comparatorGreaterThanEqual:
-			return .plain
-			
-		case .other:
-			return .plain
-			
-		case .break, .continue, .function, .if, .else, .while, .for, .do, .times, .return, .returns, .repeat, .true, .false, .struct:
-			return .keyword
-			
-		case .comment:
-			return .comment
-	
-		case .number:
-			return .number
-			
-		case .identifier:
-			return .identifier
-
-		}
-		
-	}
-	
-}
