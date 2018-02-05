@@ -1,9 +1,9 @@
 <p align="center">
-<img src="readme-resources/hero.png" style="max-height: 300px;" alt="PanelKit for iOS">
+<img src="readme-resources/hero.png" style="max-height: 300px;" alt="SavannaKit">
 </p>
 
 <p align="center">
-<a href="https://travis-ci.org/louisdh/panelkit"><img src="https://travis-ci.org/louisdh/savannakit.svg?branch=master" style="max-height: 300px;" alt="Build Status"/></a>
+<a href="https://travis-ci.org/louisdh/savannakit"><img src="https://travis-ci.org/louisdh/savannakit.svg?branch=master" style="max-height: 300px;" alt="Build Status"/></a>
 <a href="https://codecov.io/gh/louisdh/savannakit"><img src="https://codecov.io/gh/louisdh/savannakit/branch/master/graph/badge.svg" alt="Codecov"/></a>
 <br>
 <a href="https://developer.apple.com/swift/"><img src="https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat" style="max-height: 300px;" alt="Swift"/></a>
