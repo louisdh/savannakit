@@ -6,6 +6,8 @@
 //  Copyright © 2017 Silver Fox. All rights reserved.
 //
 
+#if os(macOS)
+
 import AppKit
 
 extension NSTextView {
@@ -29,3 +31,5 @@ extension NSTextView {
 	}
 	
 }
+
+#endif
