@@ -4,7 +4,4 @@
    <FileRef
       location = "group:SavannaKit.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:../Lioness/Lioness.xcodeproj">
-   </FileRef>
 </Workspace>
