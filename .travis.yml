@@ -9,7 +9,7 @@ env:
   - LANG=en_US.UTF-8
   - WORKSPACE=SavannaKit.xcworkspace
   - IOS_FRAMEWORK_SCHEME="SavannaKit iOS"
-  - MAC_FRAMEWORK_SCHEME="SavannaKit macOS"
+  - MACOS_FRAMEWORK_SCHEME="SavannaKit macOS"
   matrix:
 
     - DESTINATION="OS=11.2,name=iPad Pro (9.7-inch)"    SCHEME="$IOS_FRAMEWORK_SCHEME"
