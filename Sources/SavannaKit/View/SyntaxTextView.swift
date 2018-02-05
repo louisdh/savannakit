@@ -579,7 +579,7 @@ public class SyntaxTextView: View {
 			self.textView.invalidateCachedParagraphs()
 			
 			if let delegate = delegate {
-				colorTextView(lexerForSource: { (source) -> SKLexer in
+				colorTextView(lexerForSource: { (source) -> Lexer in
 					return delegate.lexerForSource(source)
 				})
 			}
