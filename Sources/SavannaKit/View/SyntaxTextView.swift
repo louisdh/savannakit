@@ -55,7 +55,7 @@ private enum InitMethod {
 			
 			let count = components.count
 			
-			let maxNumberOfDigits = "\(count)".characters.count
+			let maxNumberOfDigits = "\(count)".count
 			
 			textView.updateGutterWidth(for: maxNumberOfDigits)
 			
