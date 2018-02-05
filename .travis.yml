@@ -1,0 +1,28 @@
+language: objective-c
+osx_image: xcode9.2
+branches:
+  only:
+    - master
+env:
+  global:
+  - LC_CTYPE=en_US.UTF-8
+  - LANG=en_US.UTF-8
+  - WORKSPACE=SavannaKit.xcworkspace
+  - IOS_FRAMEWORK_SCHEME="SavannaKit iOS"
+  - MAC_FRAMEWORK_SCHEME="SavannaKit macOS"
+  matrix:
+
+    - DESTINATION="OS=11.2,name=iPad Pro (9.7-inch)"    SCHEME="$IOS_FRAMEWORK_SCHEME"
+    - DESTINATION="arch=x86_64"                         SCHEME="$MACOS_FRAMEWORK_SCHEME" 
+
+script:
+  - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -showsdks
+
+  - travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty;
+
+after_success:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    bash <(curl -s https://codecov.io/bash);
+    fi
