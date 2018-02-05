@@ -225,8 +225,7 @@
 				TargetAttributes = {
 					BE15626D1EFE9E7C00EB3723 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 6G5LMQ72D8;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					BEDA3F341E380E5D00B5091C = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -312,9 +311,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6G5LMQ72D8;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -327,6 +327,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
 				PRODUCT_NAME = SavannaKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -338,9 +339,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6G5LMQ72D8;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -353,6 +355,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
 				PRODUCT_NAME = SavannaKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
