@@ -24,10 +24,10 @@ This project includes `SyntaxTextView`, a cross-platform Text View with syntax h
 The following examples show syntax highlighting for [the Lioness programming language](https://github.com/louisdh/lioness).
 
 ### iOS
-![iOS Example](readme-resources/example_ios.png)
+<img src="readme-resources/example_ios.png" alt="iOS Example" height="512px"/>
 
 ### macOS
-![macOS Example](readme-resources/example_mac.png)
+<img src="readme-resources/example_mac.png" alt="macOS Example" height="512px"/>
 
 ## License
 
