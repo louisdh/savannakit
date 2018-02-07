@@ -1,5 +1,5 @@
 <p align="center">
-<img src="readme-resources/hero@2x.png" height="256px" alt="SavannaKit">
+<img src="readme-resources/hero@2x.png" alt="SavannaKit">
 </p>
 
 <p align="center">
@@ -24,10 +24,10 @@ This project includes `SyntaxTextView`, a cross-platform Text View with syntax h
 The following examples show syntax highlighting for [the Lioness programming language](https://github.com/louisdh/lioness).
 
 ### iOS
-<img src="readme-resources/example_ios.png" alt="iOS Example" height="512px"/>
+<img src="readme-resources/example_ios.png" alt="iOS Example"/>
 
 ### macOS
-<img src="readme-resources/example_mac.png" alt="macOS Example" height="512px"/>
+<img src="readme-resources/example_mac.png" alt="macOS Example"/>
 
 ## License
 
