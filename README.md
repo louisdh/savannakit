@@ -1,5 +1,5 @@
 <p align="center">
-<img src="readme-resources/hero@2x.png" height:256px alt="SavannaKit">
+<img src="readme-resources/hero@2x.png" height="256px" alt="SavannaKit">
 </p>
 
 <p align="center">
