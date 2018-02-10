@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SavannaKit'
-  s.version = '0.6.0'
+  s.version = '0.6.1'
   s.license = 'MIT'
   s.summary = 'A protocol oriented framework for creating IDEs for iOS and macOS, written in Swift.'
   s.homepage = 'https://github.com/louisdh/savannakit'
