@@ -396,7 +396,7 @@ public class SyntaxTextView: View {
 		#if os(iOS)
 
 		textView.autocapitalizationType = .none
-		textView.keyboardType = .asciiCapable
+		textView.keyboardType = .default
 		textView.autocorrectionType = .no
 		textView.spellCheckingType = .no
 		
