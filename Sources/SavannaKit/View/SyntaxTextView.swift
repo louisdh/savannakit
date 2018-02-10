@@ -547,9 +547,11 @@ public class SyntaxTextView: View {
 				continue
 			}
 			
+			guard let range = string.nsRange(fromRange: tokenRange) else {
+				return
+			}
+			
 			let color = theme.color(for: syntaxColorType)
-
-			let range = string.nsRange(fromRange: tokenRange)
 			
 			var attr = attributes
 			attr[.foregroundColor] = color
