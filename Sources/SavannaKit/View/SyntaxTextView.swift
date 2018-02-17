@@ -36,7 +36,7 @@ public class SyntaxTextView: View {
 	
 	#if os(macOS)
 	
-	fileprivate let wrapperView = TextViewWrapperView()
+	let wrapperView = TextViewWrapperView()
 
 	#endif
 	

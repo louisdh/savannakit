@@ -16,7 +16,7 @@ import Foundation
 
 #if os(macOS)
 	
-	private class TextViewWrapperView: View {
+	class TextViewWrapperView: View {
 		
 		var textView: InnerTextView?
 		

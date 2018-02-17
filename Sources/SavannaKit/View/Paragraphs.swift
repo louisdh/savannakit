@@ -1,6 +1,6 @@
 //
 //  Paragraphs.swift
-//  SavannaKit iOS
+//  SavannaKit
 //
 //  Created by Louis D'hauwe on 17/02/2018.
 //  Copyright © 2018 Silver Fox. All rights reserved.

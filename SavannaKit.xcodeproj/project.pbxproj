@@ -12,6 +12,7 @@
 		BE42803B2038C3AA00C8FE24 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */; };
 		BE42803D2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */; };
 		BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */; };
+		BE42803F2038C4DB00C8FE24 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */; };
 		BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB881F125E7500C6B93E /* String+Range.swift */; };
@@ -290,6 +291,7 @@
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
 				BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
 				BE71CB8D1F125E8800C6B93E /* NSTextView+UIKit.swift in Sources */,
+				BE42803F2038C4DB00C8FE24 /* Paragraphs.swift in Sources */,
 				BEE5D9512027897A0040C72A /* Lexer.swift in Sources */,
 				BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */,
 				BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
