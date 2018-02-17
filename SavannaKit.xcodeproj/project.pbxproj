@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE4280382038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */; };
+		BE4280392038C38E00C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */; };
+		BE42803B2038C3AA00C8FE24 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */; };
+		BE42803D2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */; };
+		BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */; };
 		BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB851F125D0400C6B93E /* InnerTextView.swift */; };
 		BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71CB881F125E7500C6B93E /* String+Range.swift */; };
@@ -35,6 +40,9 @@
 		BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE2055211F1D53C00051EE97 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/Pixure-cgdlqshesrvljvcaumkelrnmbwqn/Build/Products/Release/Lioness.framework"; sourceTree = "<group>"; };
 		BE2055231F1D56AE0051EE97 /* Lioness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lioness.framework; path = "../../../Library/Developer/Xcode/DerivedData/SavannaKit-fyzqygnhrdukxucyxotmtknnxggx/Build/Products/Release/Lioness.framework"; sourceTree = "<group>"; };
+		BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyntaxTextView+TextViewDelegate.swift"; sourceTree = "<group>"; };
+		BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paragraphs.swift; sourceTree = "<group>"; };
+		BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWrapperView.swift; sourceTree = "<group>"; };
 		BE71CB851F125D0400C6B93E /* InnerTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerTextView.swift; sourceTree = "<group>"; };
 		BE71CB881F125E7500C6B93E /* String+Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Range.swift"; sourceTree = "<group>"; };
 		BE71CB8B1F125E8800C6B93E /* NSTextView+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextView+UIKit.swift"; sourceTree = "<group>"; };
@@ -128,8 +136,11 @@
 		BEE5D94C202788950040C72A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BE42803C2038C3DA00C8FE24 /* TextViewWrapperView.swift */,
 				BE71CB851F125D0400C6B93E /* InnerTextView.swift */,
 				BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */,
+				BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */,
+				BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -277,11 +288,13 @@
 				BE71CB8A1F125E7500C6B93E /* String+Range.swift in Sources */,
 				BEE5D952202789840040C72A /* Paragraph.swift in Sources */,
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
+				BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
 				BE71CB8D1F125E8800C6B93E /* NSTextView+UIKit.swift in Sources */,
 				BEE5D9512027897A0040C72A /* Lexer.swift in Sources */,
 				BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */,
 				BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6091F07E6240076CDEF /* Types.swift in Sources */,
+				BE4280392038C38E00C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */,
 				BE99F6051F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */,
 				BEE5D94F2027897A0040C72A /* Token.swift in Sources */,
 			);
@@ -291,7 +304,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE42803D2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
 				BE99F6021F07E6240076CDEF /* Paragraph.swift in Sources */,
+				BE4280382038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */,
 				BEE5D947202788680040C72A /* Token.swift in Sources */,
 				BE99F6061F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6081F07E6240076CDEF /* Types.swift in Sources */,
@@ -300,6 +315,7 @@
 				BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */,
 				BEE5D94B2027887E0040C72A /* Lexer.swift in Sources */,
 				BE99F6041F07E6240076CDEF /* SyntaxColorTheme.swift in Sources */,
+				BE42803B2038C3AA00C8FE24 /* Paragraphs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
