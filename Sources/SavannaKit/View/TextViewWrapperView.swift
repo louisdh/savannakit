@@ -18,6 +18,11 @@ import Foundation
 	
 	class TextViewWrapperView: View {
 		
+		override func hitTest(_ point: NSPoint) -> NSView? {
+			// Disable interaction, so we're not blocking the text view.
+			return nil
+		}
+		
 		var textView: InnerTextView?
 		
 		override public func draw(_ rect: CGRect) {
