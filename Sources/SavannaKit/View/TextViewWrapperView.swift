@@ -23,6 +23,21 @@ import Foundation
 			return nil
 		}
 		
+		override func layout() {
+			super.layout()
+			
+			self.setNeedsDisplay(self.bounds)
+		}
+		
+		override func resize(withOldSuperviewSize oldSize: NSSize) {
+			super.resize(withOldSuperviewSize: oldSize)
+			
+			self.textView?.invalidateCachedParagraphs()
+
+			self.setNeedsDisplay(self.bounds)
+			
+		}
+		
 		var textView: InnerTextView?
 		
 		override public func draw(_ rect: CGRect) {
@@ -48,7 +63,7 @@ import Foundation
 				
 			}
 			
-			paragraphs = offsetParagrahps(paragraphs, for: textView, yOffset: yOffset)
+			paragraphs = offsetParagraphs(paragraphs, for: textView, yOffset: yOffset)
 			
 			let components = textView.text.components(separatedBy: .newlines)
 			

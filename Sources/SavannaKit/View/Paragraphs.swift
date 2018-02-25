@@ -75,11 +75,11 @@ func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) ->
 			let gutterWidth = textView.textContainerInset.left
 		#endif
 		
-		let lineHeight: CGFloat = 22
+		let lineHeight: CGFloat = 18
 		
 		if let last = paragraphs.last {
 			
-			rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height, width: gutterWidth, height: lineHeight)
+			rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height, width: gutterWidth, height: last.rect.height)
 			
 		} else {
 			
@@ -110,7 +110,7 @@ func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) ->
 	return paragraphs
 }
 
-func offsetParagrahps(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
+func offsetParagraphs(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
 	
 	var paragraphs = paragraphs
 	
@@ -162,11 +162,15 @@ func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: I
 		drawRect.origin.x = gutterWidth - drawSize.width - 4
 		
 		#if os(macOS)
-			drawRect.origin.y -= 22 - drawSize.height
+//			drawRect.origin.y += (drawRect.height - drawSize.height) / 2.0
 		#else
 			//			drawRect.origin.y += 22 - drawSize.height
 		#endif
 		drawRect.size.width = drawSize.width
+		drawRect.size.height = drawSize.height
+
+//		Color.red.withAlphaComponent(0.4).setFill()
+//		paragraph.rect.fill()
 		
 		attr.draw(in: drawRect)
 		

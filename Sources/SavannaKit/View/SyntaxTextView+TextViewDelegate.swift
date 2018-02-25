@@ -23,6 +23,12 @@ import Foundation
 				return
 			}
 			
+			didUpdateText()
+			
+		}
+		
+		func didUpdateText() {
+			
 			self.textView.invalidateCachedParagraphs()
 			
 			if let delegate = delegate {
@@ -50,6 +56,12 @@ import Foundation
 		}
 		
 		public func textViewDidChange(_ textView: UITextView) {
+			
+			didUpdateText()
+			
+		}
+		
+		func didUpdateText() {
 			
 			self.textView.invalidateCachedParagraphs()
 			textView.setNeedsDisplay()

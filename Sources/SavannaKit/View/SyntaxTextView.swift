@@ -32,6 +32,10 @@ public class SyntaxTextView: View {
 
 	let textView: InnerTextView
 	
+	var contentTextView: TextView {
+		return textView
+	}
+	
 	public weak var delegate: SyntaxTextViewDelegate?
 	
 	#if os(macOS)
@@ -121,7 +125,7 @@ public class SyntaxTextView: View {
 			
 			scrollView.translatesAutoresizingMaskIntoConstraints = false
 
-			self.addSubview(scrollView)
+			addSubview(scrollView)
 			
 			addSubview(wrapperView)
 
@@ -282,9 +286,15 @@ public class SyntaxTextView: View {
 				textView.layer?.isOpaque = true
 
 				textView.string = newValue
+				
+				self.didUpdateText()
+				
 			#else
 				textView.text = newValue
+				textView.setNeedsDisplay()
+				self.didUpdateText()
 			#endif
+			
 		}
 	}
 	
