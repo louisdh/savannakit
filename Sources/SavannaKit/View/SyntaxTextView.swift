@@ -157,6 +157,9 @@ public class SyntaxTextView: View {
 			textView.isVerticallyResizable = true
 			textView.isHorizontallyResizable = false
 			textView.autoresizingMask = .width
+			textView.isEditable = true
+			textView.isAutomaticQuoteSubstitutionEnabled = false
+			textView.allowsUndo = true
 			
 			textView.textContainer?.containerSize = NSSize(width: self.bounds.width, height: .greatestFiniteMagnitude)
 			textView.textContainer?.widthTracksTextView = true
