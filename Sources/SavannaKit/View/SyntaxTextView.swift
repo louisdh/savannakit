@@ -191,7 +191,11 @@ public class SyntaxTextView: View {
 		textView.keyboardType = .default
 		textView.autocorrectionType = .no
 		textView.spellCheckingType = .no
-		
+			
+		if #available(iOS 11.0, *) {
+			textView.smartQuotesType = .no
+		}
+			
 		textView.keyboardAppearance = .dark
 		
 		
