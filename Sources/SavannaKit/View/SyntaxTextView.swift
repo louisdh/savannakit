@@ -28,6 +28,7 @@ public protocol SyntaxTextViewDelegate: class {
 	
 }
 
+@IBDesignable
 public class SyntaxTextView: View {
 
 	let textView: InnerTextView
@@ -280,6 +281,7 @@ public class SyntaxTextView: View {
 //
 //	#endif
 	
+	@IBInspectable
 	public var text: String {
 		get {
 			#if os(macOS)
