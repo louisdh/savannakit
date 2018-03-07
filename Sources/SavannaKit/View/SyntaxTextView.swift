@@ -364,7 +364,6 @@ public class SyntaxTextView: View {
 		
 		textStorage.setAttributes(attributes, range: wholeRange)
 
-		
 		for token in tokens {
 			
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
@@ -379,6 +378,35 @@ public class SyntaxTextView: View {
 			
 			guard let range = string.nsRange(fromRange: tokenRange) else {
 				return
+			}
+			
+			if case .editorPlaceholder = syntaxColorType {
+				
+				let startRange = NSRange(location: range.lowerBound, length: 2)
+				let endRange = NSRange(location: range.upperBound - 2, length: 2)
+
+				let contentRange = NSRange(location: range.lowerBound + 2, length: range.length - 4)
+				
+				let color = theme.color(for: syntaxColorType)
+				
+				var attr = [NSAttributedStringKey: Any]()
+//				attr[.foregroundColor] = color
+				attr[.backgroundColor] = color.withAlphaComponent(0.3)
+//				attr[NSAttributedStringKey("HighlightText")] = ""
+				
+				let shadow = NSShadow()
+				shadow.shadowBlurRadius = 10.0
+				shadow.shadowColor = UIColor.black
+				shadow.shadowOffset = .zero
+				attr[.shadow] = shadow
+
+				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
+
+				textStorage.addAttributes([.foregroundColor: Color.clear], range: startRange)
+				textStorage.addAttributes([.foregroundColor: Color.clear], range: endRange)
+
+				textStorage.addAttributes(attr, range: range)
+				continue
 			}
 			
 			let color = theme.color(for: syntaxColorType)
