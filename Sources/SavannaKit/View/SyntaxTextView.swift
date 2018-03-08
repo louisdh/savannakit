@@ -396,7 +396,7 @@ public class SyntaxTextView: View {
 				
 				let shadow = NSShadow()
 				shadow.shadowBlurRadius = 10.0
-				shadow.shadowColor = UIColor.black
+				shadow.shadowColor = Color.black
 				shadow.shadowOffset = .zero
 				attr[.shadow] = shadow
 
