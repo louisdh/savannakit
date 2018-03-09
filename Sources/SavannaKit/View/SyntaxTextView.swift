@@ -82,8 +82,17 @@ public class SyntaxTextView: View {
 	}
 	
 	private init?(_ initMethod: InitMethod) {
-
-		textView = InnerTextView(frame: .zero)
+		
+		let textStorage = NSTextStorage()
+		let layoutManager = SyntaxTextViewLayoutManager()
+		let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+		let textContainer = NSTextContainer(size: containerSize)
+		
+		textContainer.widthTracksTextView = true
+		layoutManager.addTextContainer(textContainer)
+		textStorage.addLayoutManager(layoutManager)
+		
+		self.textView = InnerTextView(frame: .zero, textContainer: textContainer)
 		
 		switch initMethod {
 		case let .coder(coder): super.init(coder: coder)
@@ -390,16 +399,8 @@ public class SyntaxTextView: View {
 				let color = theme.color(for: syntaxColorType)
 				
 				var attr = [NSAttributedStringKey: Any]()
-//				attr[.foregroundColor] = color
-				attr[.backgroundColor] = color.withAlphaComponent(0.3)
-//				attr[NSAttributedStringKey("HighlightText")] = ""
+				attr[.editorPlaceholder] = EditorPlaceholderState.active
 				
-				let shadow = NSShadow()
-				shadow.shadowBlurRadius = 10.0
-				shadow.shadowColor = Color.black
-				shadow.shadowOffset = .zero
-				attr[.shadow] = shadow
-
 				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
 
 				textStorage.addAttributes([.foregroundColor: Color.clear], range: startRange)
