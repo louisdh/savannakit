@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE21904B2053318600BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE21904A2053318600BFB99A /* SyntaxTextViewLayoutManager.swift */; };
+		BE21904C20533BEB00BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE21904A2053318600BFB99A /* SyntaxTextViewLayoutManager.swift */; };
 		BE4280382038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */; };
 		BE4280392038C38E00C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */; };
 		BE42803B2038C3AA00C8FE24 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */; };
@@ -293,6 +294,7 @@
 				BEE5D952202789840040C72A /* Paragraph.swift in Sources */,
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
 				BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
+				BE21904C20533BEB00BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */,
 				BE71CB8D1F125E8800C6B93E /* NSTextView+UIKit.swift in Sources */,
 				BE42803F2038C4DB00C8FE24 /* Paragraphs.swift in Sources */,
 				BEE5D9512027897A0040C72A /* Lexer.swift in Sources */,

@@ -30,9 +30,19 @@ class SyntaxTextViewLayoutManager: NSLayoutManager {
 	
 	override func drawGlyphs(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
 		
-		guard let context = UIGraphicsGetCurrentContext() else {
-			return
-		}
+		#if os(macOS)
+
+			guard let context = NSGraphicsContext.current else {
+				return
+			}
+			
+		#else
+		
+			guard let context = UIGraphicsGetCurrentContext() else {
+				return
+			}
+			
+		#endif
 		
 		let range = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
 		
@@ -54,8 +64,17 @@ class SyntaxTextViewLayoutManager: NSLayoutManager {
 			
 		})
 		
-		context.saveGState()
-		context.translateBy(x: origin.x, y: origin.y)
+		#if os(macOS)
+
+			context.saveGraphicsState()
+			context.cgContext.translateBy(x: origin.x, y: origin.y)
+		
+		#else
+			
+			context.saveGState()
+			context.translateBy(x: origin.x, y: origin.y)
+		
+		#endif
 		
 		for (rect, state) in placeholders {
 			
@@ -64,12 +83,29 @@ class SyntaxTextViewLayoutManager: NSLayoutManager {
 			let color = Color.darkGray
 			color.setFill()
 			
-			let path = BezierPath(roundedRect: rect, cornerRadius: 8)
+			#if os(macOS)
+
+				let path = BezierPath(roundedRect: rect, xRadius: 8, yRadius: 8)
+
+			#else
+				
+				let path = BezierPath(roundedRect: rect, cornerRadius: 8)
+
+			#endif
+			
 			path.fill()
 			
 		}
 		
-		context.restoreGState()
+		#if os(macOS)
+
+			context.restoreGraphicsState()
+
+		#else
+
+			context.restoreGState()
+
+		#endif
 
 		super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
 
