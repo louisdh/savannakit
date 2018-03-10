@@ -83,13 +83,15 @@ class SyntaxTextViewLayoutManager: NSLayoutManager {
 			let color = Color.darkGray
 			color.setFill()
 			
+			let radius: CGFloat = 4.0
+			
 			#if os(macOS)
 
-				let path = BezierPath(roundedRect: rect, xRadius: 8, yRadius: 8)
+				let path = BezierPath(roundedRect: rect, xRadius: radius, yRadius: radius)
 
 			#else
 				
-				let path = BezierPath(roundedRect: rect, cornerRadius: 8)
+				let path = BezierPath(roundedRect: rect, cornerRadius: radius)
 
 			#endif
 			

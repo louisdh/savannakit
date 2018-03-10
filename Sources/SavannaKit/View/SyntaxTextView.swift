@@ -403,8 +403,8 @@ public class SyntaxTextView: View {
 				
 				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
 
-				textStorage.addAttributes([.foregroundColor: Color.clear], range: startRange)
-				textStorage.addAttributes([.foregroundColor: Color.clear], range: endRange)
+				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
+				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
 
 				textStorage.addAttributes(attr, range: range)
 				continue
