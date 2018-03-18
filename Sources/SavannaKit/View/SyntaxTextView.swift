@@ -38,6 +38,12 @@ public class SyntaxTextView: View {
 	}
 	
 	public weak var delegate: SyntaxTextViewDelegate?
+
+	#if os(macOS)
+	
+	var ignoreSelectionChange = false
+	
+	#endif
 	
 	#if os(macOS)
 	
@@ -318,6 +324,45 @@ public class SyntaxTextView: View {
 	
 	// MARK: -
 	
+	public func insertText(_ text: String) {
+		
+		if let tokens = cachedTokens {
+		
+			for token in tokens {
+				
+				guard let tokenRange = token.range else {
+					continue
+				}
+				
+				guard let range = textView.text.nsRange(fromRange: tokenRange) else {
+					continue
+				}
+				
+				if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
+					
+					if textView.selectedRange.intersection(range) != nil {
+						
+						#if os(macOS)
+							textView.textStorage?.replaceCharacters(in: range, with: text)
+						#else
+							textView.textStorage.replaceCharacters(in: range, with: text)
+						#endif
+						
+						didUpdateText()
+						
+						return
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		contentTextView.insertText(text)
+
+	}
+	
 	#if os(iOS)
 
 	public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -338,6 +383,12 @@ public class SyntaxTextView: View {
 		return DefaultTheme()
 	}()
 	
+	var cachedTokens: [Token]?
+	
+	func invalidateCachedTokens() {
+		cachedTokens = nil
+	}
+	
 	func colorTextView(lexerForSource: (String) -> Lexer) {
 		
 		guard let string = textView.text else {
@@ -357,24 +408,35 @@ public class SyntaxTextView: View {
 		
 //		self.backgroundColor = theme.backgroundColor
 		
-		let lexer = lexerForSource(string)
-		let tokens = lexer.getSavannaTokens()
 		
-		let attributedString = NSMutableAttributedString(string: string)
+		let tokens: [Token]
+		
+		if let cachedTokens = cachedTokens {
+			
+			tokens = cachedTokens
+			
+		} else {
+			
+			let lexer = lexerForSource(string)
+			tokens = lexer.getSavannaTokens()
+			cachedTokens = tokens
+
+		}
 		
 		var attributes = [NSAttributedStringKey: Any]()
 		
+		let paragraphStyle = NSMutableParagraphStyle()
+		paragraphStyle.paragraphSpacing = 2.0
+		
 		let wholeRange = NSRange(location: 0, length: string.count)
-		attributedString.addAttribute(.foregroundColor, value: theme.color(for: .plain), range: wholeRange)
-		attributedString.addAttribute(.font, value: theme.font, range: wholeRange)
 		
 		attributes[.foregroundColor] = theme.color(for: .plain)
 		attributes[.font] = theme.font
-		
+		attributes[.paragraphStyle] = paragraphStyle
+
 		textStorage.setAttributes(attributes, range: wholeRange)
 
 		for token in tokens {
-			
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
 			if syntaxColorType == .plain {
@@ -386,7 +448,7 @@ public class SyntaxTextView: View {
 			}
 			
 			guard let range = string.nsRange(fromRange: tokenRange) else {
-				return
+				continue
 			}
 			
 			if case .editorPlaceholder = syntaxColorType {
@@ -399,7 +461,14 @@ public class SyntaxTextView: View {
 				let color = theme.color(for: syntaxColorType)
 				
 				var attr = [NSAttributedStringKey: Any]()
-				attr[.editorPlaceholder] = EditorPlaceholderState.active
+				
+				var state: EditorPlaceholderState = .inactive
+				
+				if textView.selectedRange.intersection(range) != nil {
+					state = .active
+				}
+				
+				attr[.editorPlaceholder] = state
 				
 				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
 
@@ -420,9 +489,6 @@ public class SyntaxTextView: View {
 		}
 		
 		textStorage.endEditing()
-
-		//		sourceTextView.typingAttributes = attributedString.attributes
-		//		sourceTextView.attributedText = attributedString
 		
 	}
 	
