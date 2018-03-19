@@ -31,6 +31,8 @@ public protocol SyntaxTextViewDelegate: class {
 @IBDesignable
 public class SyntaxTextView: View {
 
+	var previousSelectedRange: NSRange?
+	
 	let textView: InnerTextView
 	
 	public var contentTextView: TextView {

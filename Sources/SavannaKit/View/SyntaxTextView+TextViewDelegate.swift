@@ -36,9 +36,39 @@ extension SyntaxTextView {
 				
 				if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
 					
-					if textView.selectedRange.intersection(range) != nil {
-						textView.selectedRange = NSRange(location: range.location+1, length: 0)
-						break
+					var forceInsideEditorPlaceholder = true
+					
+					let currentSelectedRange = textView.selectedRange
+					
+					if let previousSelectedRange = previousSelectedRange {
+						
+						if currentSelectedRange.intersection(range) != nil, previousSelectedRange.intersection(range) != nil {
+
+							if previousSelectedRange.location + 1 == currentSelectedRange.location {
+								
+								textView.selectedRange = NSRange(location: range.location+range.length, length: 0)
+								
+								forceInsideEditorPlaceholder = false
+								break
+							}
+							
+							if previousSelectedRange.location - 1 == currentSelectedRange.location {
+
+								textView.selectedRange = NSRange(location: range.location-1, length: 0)
+								
+								forceInsideEditorPlaceholder = false
+								break
+							}
+							
+						}
+						
+					}
+					
+					if forceInsideEditorPlaceholder {
+						if currentSelectedRange.intersection(range) != nil {
+							textView.selectedRange = NSRange(location: range.location+1, length: 0)
+							break
+						}
 					}
 					
 				}
@@ -50,6 +80,8 @@ extension SyntaxTextView {
 		colorTextView(lexerForSource: { (source) -> Lexer in
 			return delegate.lexerForSource(source)
 		})
+		
+		previousSelectedRange = textView.selectedRange
 		
 	}
 	
