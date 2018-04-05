@@ -438,6 +438,8 @@ public class SyntaxTextView: View {
 
 		textStorage.setAttributes(attributes, range: wholeRange)
 
+		let selectedRange = textView.selectedRange
+		
 		for token in tokens {
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
@@ -466,7 +468,7 @@ public class SyntaxTextView: View {
 				
 				var state: EditorPlaceholderState = .inactive
 				
-				if textView.selectedRange.intersection(range) != nil {
+				if selectedRange.intersection(range) != nil {
 					state = .active
 				}
 				
