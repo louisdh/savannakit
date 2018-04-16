@@ -28,6 +28,20 @@ public protocol SyntaxTextViewDelegate: class {
 	
 }
 
+extension Range: Hashable where Bound: Hashable {
+	
+	struct HashableBounds: Hashable {
+		let lowerbound: Bound
+		let upperBound: Bound
+	}
+	
+	public var hashValue: Int {
+		let hashable = HashableBounds(lowerbound: lowerBound, upperBound: upperBound)
+		return hashable.hashValue
+	}
+	
+}
+
 @IBDesignable
 public class SyntaxTextView: View {
 
@@ -332,15 +346,11 @@ public class SyntaxTextView: View {
 		
 			for token in tokens {
 				
-				guard let tokenRange = token.range else {
+				guard let range = token.nsRange else {
 					continue
 				}
 				
-				guard let range = textView.text.nsRange(fromRange: tokenRange) else {
-					continue
-				}
-				
-				if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
+				if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
 					
 					if textView.selectedRange.intersection(range) != nil {
 						
@@ -385,7 +395,7 @@ public class SyntaxTextView: View {
 		return DefaultTheme()
 	}()
 	
-	var cachedTokens: [Token]?
+	var cachedTokens: [CachedToken]?
 	
 	func invalidateCachedTokens() {
 		cachedTokens = nil
@@ -393,7 +403,7 @@ public class SyntaxTextView: View {
 	
 	func colorTextView(lexerForSource: (String) -> Lexer) {
 		
-		guard let string = textView.text else {
+		guard let source = textView.text else {
 			return
 		}
 		
@@ -406,8 +416,6 @@ public class SyntaxTextView: View {
 		#endif
 		
 		
-		textStorage.beginEditing()
-		
 //		self.backgroundColor = theme.backgroundColor
 		
 		
@@ -415,51 +423,118 @@ public class SyntaxTextView: View {
 		
 		if let cachedTokens = cachedTokens {
 			
-			tokens = cachedTokens
+			updateAttributes(textStorage: textStorage, cachedTokens: cachedTokens, source: source)
 			
 		} else {
 			
-			let lexer = lexerForSource(string)
+			let lexer = lexerForSource(source)
 			tokens = lexer.getSavannaTokens()
-			cachedTokens = tokens
+			
+			let cachedTokens: [CachedToken] = tokens.map {
+				
+				if let range = $0.range {
+					let nsRange = source.nsRange(fromRange: range)
+					return CachedToken(token: $0, nsRange: nsRange)
+				} else {
+					return CachedToken(token: $0, nsRange: nil)
+				}
+				
+			}
+
+			self.cachedTokens = cachedTokens
+			
+			createAttributes(textStorage: textStorage, cachedTokens: cachedTokens, source: source)
+			
+		}
+		
+	}
+
+	func updateAttributes(textStorage: NSTextStorage, cachedTokens: [CachedToken], source: String) {
+
+		let selectedRange = textView.selectedRange
+		
+		let fullRange = NSRange(location: 0, length: source.count)
+		
+		var rangesToUpdate = [(NSRange, EditorPlaceholderState)]()
+		
+		textStorage.enumerateAttribute(.editorPlaceholder, in: fullRange, options: []) { (value, range, stop) in
+			
+			if let state = value as? EditorPlaceholderState {
+				
+				var newState: EditorPlaceholderState = .inactive
+				
+				if selectedRange.intersection(range) != nil {
+					newState = .active
+				}
+				
+				if newState != state {					
+					rangesToUpdate.append((range, newState))
+				}
+				
+			}
+		
+		}
+		
+		var didBeginEditing = false
+		
+		if !rangesToUpdate.isEmpty {
+			textStorage.beginEditing()
+			didBeginEditing = true
+		}
+		
+		for (range, state) in rangesToUpdate {
+			
+			var attr = [NSAttributedStringKey: Any]()
+			attr[.editorPlaceholder] = state
+
+			textStorage.addAttributes(attr, range: range)
 
 		}
 		
+		if didBeginEditing {
+			textStorage.endEditing()
+		}
+
+	}
+	
+	func createAttributes(textStorage: NSTextStorage, cachedTokens: [CachedToken], source: String) {
+		
+		textStorage.beginEditing()
+
 		var attributes = [NSAttributedStringKey: Any]()
 		
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.paragraphSpacing = 2.0
 		
-		let wholeRange = NSRange(location: 0, length: string.count)
+		let wholeRange = NSRange(location: 0, length: source.count)
 		
 		attributes[.foregroundColor] = theme.color(for: .plain)
 		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
-
+		
 		textStorage.setAttributes(attributes, range: wholeRange)
-
+		
 		let selectedRange = textView.selectedRange
 		
-		for token in tokens {
+		for cachedToken in cachedTokens {
+			
+			let token = cachedToken.token
+			
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
 			if syntaxColorType == .plain {
 				continue
 			}
 			
-			guard let tokenRange = token.range else {
+			guard let range = cachedToken.nsRange else {
 				continue
 			}
-			
-			guard let range = string.nsRange(fromRange: tokenRange) else {
-				continue
-			}
-			
+
 			if case .editorPlaceholder = syntaxColorType {
 				
 				let startRange = NSRange(location: range.lowerBound, length: 2)
 				let endRange = NSRange(location: range.upperBound - 2, length: 2)
-
+				
 				let contentRange = NSRange(location: range.lowerBound + 2, length: range.length - 4)
 				
 				let color = theme.color(for: syntaxColorType)
@@ -475,10 +550,10 @@ public class SyntaxTextView: View {
 				attr[.editorPlaceholder] = state
 				
 				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
-
+				
 				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
 				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
-
+				
 				textStorage.addAttributes(attr, range: range)
 				continue
 			}

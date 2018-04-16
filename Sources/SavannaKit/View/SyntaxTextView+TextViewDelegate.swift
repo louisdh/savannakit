@@ -26,15 +26,11 @@ extension SyntaxTextView {
 			
 			for token in cachedTokens {
 				
-				guard let tokenRange = token.range else {
+				guard let range = token.nsRange else {
 					continue
 				}
 				
-				guard let range = textView.text.nsRange(fromRange: tokenRange) else {
-					continue
-				}
-				
-				if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
+				if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
 					
 					var forceInsideEditorPlaceholder = true
 					
@@ -192,15 +188,11 @@ extension SyntaxTextView {
 				
 				for token in cachedTokens {
 					
-					guard let tokenRange = token.range else {
+					guard let range = token.nsRange else {
 						continue
 					}
-					
-					guard let range = textView.text.nsRange(fromRange: tokenRange) else {
-						continue
-					}
-					
-					if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
+
+					if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
 						
 						let selectedRange = textView.selectedRange
 						
