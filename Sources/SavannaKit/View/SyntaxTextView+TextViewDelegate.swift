@@ -93,13 +93,11 @@ extension SyntaxTextView {
 			
 			if let cachedTokens = cachedTokens {
 				
-				for token in cachedTokens {
+				for cachedToken in cachedTokens {
 					
-					guard let tokenRange = token.range else {
-						continue
-					}
+					let token = cachedToken.token
 					
-					guard let range = textView.text.nsRange(fromRange: tokenRange) else {
+					guard let range = cachedToken.nsRange else {
 						continue
 					}
 					
