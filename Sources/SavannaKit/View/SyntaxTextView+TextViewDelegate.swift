@@ -105,12 +105,20 @@ extension SyntaxTextView {
 						
 						let selectedRange = textView.selectedRange
 						
+						if text == "\t" {
+							
+							
+							
+							return false
+						}
+						
 						if selectedRange.intersection(range) != nil {
 							
 							textView.textStorage?.replaceCharacters(in: range, with: text)
 							didUpdateText()
 							
 							return false
+							
 						} else if selectedRange.length == 0, selectedRange.location == range.upperBound {
 							
 							textView.textStorage?.replaceCharacters(in: range, with: text)
@@ -195,6 +203,33 @@ extension SyntaxTextView {
 						let selectedRange = textView.selectedRange
 						
 						if selectedRange.intersection(range) != nil {
+							
+							if text == "\t" {
+								
+								let placeholderTokens = cachedTokens.filter({
+									$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
+								})
+								
+								let nextPlaceholderToken = placeholderTokens.first(where: {
+									
+									guard let nsRange = $0.nsRange else {
+										return false
+									}
+									
+									return nsRange.lowerBound > range.lowerBound
+									
+								})
+								
+								if let tokenToSelect = nextPlaceholderToken ?? placeholderTokens.first {
+									
+									textView.selectedRange = NSRange(location: tokenToSelect.nsRange!.lowerBound, length: 0)
+									
+									return false
+									
+								}
+								
+								return false
+							}
 
 							textView.textStorage.replaceCharacters(in: range, with: text)
 							didUpdateText()
