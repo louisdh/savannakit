@@ -54,12 +54,8 @@ public class SyntaxTextView: View {
 	}
 	
 	public weak var delegate: SyntaxTextViewDelegate?
-
-	#if os(macOS)
 	
 	var ignoreSelectionChange = false
-	
-	#endif
 	
 	#if os(macOS)
 	
@@ -342,36 +338,11 @@ public class SyntaxTextView: View {
 	
 	public func insertText(_ text: String) {
 		
-		if let tokens = cachedTokens {
-		
-			for token in tokens {
-				
-				guard let range = token.nsRange else {
-					continue
-				}
-				
-				if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
-					
-					if textView.selectedRange.intersection(range) != nil {
-						
-						#if os(macOS)
-							textView.textStorage?.replaceCharacters(in: range, with: text)
-						#else
-							textView.textStorage.replaceCharacters(in: range, with: text)
-						#endif
-						
-						didUpdateText()
-						
-						return
-					}
-					
-				}
-				
-			}
+		if shouldChangeText(insertingText: text) {
+			
+			contentTextView.insertText(text)
 			
 		}
-		
-		contentTextView.insertText(text)
 
 	}
 	

@@ -91,54 +91,7 @@ extension SyntaxTextView {
 			
 			let text = replacementString ?? ""
 			
-			if let cachedTokens = cachedTokens {
-				
-				for cachedToken in cachedTokens {
-					
-					let token = cachedToken.token
-					
-					guard let range = cachedToken.nsRange else {
-						continue
-					}
-					
-					if case .editorPlaceholder = token.savannaTokenType.syntaxColorType {
-						
-						let selectedRange = textView.selectedRange
-						
-						if text == "\t" {
-							
-							
-							
-							return false
-						}
-						
-						if selectedRange.intersection(range) != nil {
-							
-							textView.textStorage?.replaceCharacters(in: range, with: text)
-							didUpdateText()
-							
-							return false
-							
-						} else if selectedRange.length == 0, selectedRange.location == range.upperBound {
-							
-							textView.textStorage?.replaceCharacters(in: range, with: text)
-							
-							textView.selectedRange = NSRange(location: range.lowerBound, length: 0)
-							
-							didUpdateText()
-							
-							return false
-						}
-						
-					}
-					
-				}
-				
-			}
-			
-			
-			return true
-			
+			return self.shouldChangeText(insertingText: text)
 		}
 		
 		public func textDidChange(_ notification: Notification) {
@@ -168,15 +121,7 @@ extension SyntaxTextView {
 		
 		public func textViewDidChangeSelection(_ notification: Notification) {
 			
-			if ignoreSelectionChange {
-				return
-			}
-			
-			ignoreSelectionChange = true
-
-			selectionDidChange()
-			
-			ignoreSelectionChange = false
+			contentDidChangeSelection()
 
 		}
 		
@@ -190,70 +135,7 @@ extension SyntaxTextView {
 		
 		public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 			
-			if let cachedTokens = cachedTokens {
-				
-				for token in cachedTokens {
-					
-					guard let range = token.nsRange else {
-						continue
-					}
-
-					if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
-						
-						let selectedRange = textView.selectedRange
-						
-						if selectedRange.intersection(range) != nil {
-							
-							if text == "\t" {
-								
-								let placeholderTokens = cachedTokens.filter({
-									$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
-								})
-								
-								let nextPlaceholderToken = placeholderTokens.first(where: {
-									
-									guard let nsRange = $0.nsRange else {
-										return false
-									}
-									
-									return nsRange.lowerBound > range.lowerBound
-									
-								})
-								
-								if let tokenToSelect = nextPlaceholderToken ?? placeholderTokens.first {
-									
-									textView.selectedRange = NSRange(location: tokenToSelect.nsRange!.lowerBound, length: 0)
-									
-									return false
-									
-								}
-								
-								return false
-							}
-
-							textView.textStorage.replaceCharacters(in: range, with: text)
-							didUpdateText()
-
-							return false
-						} else if selectedRange.length == 0, selectedRange.location == range.upperBound {
-							
-							textView.textStorage.replaceCharacters(in: range, with: text)
-							
-							textView.selectedRange = NSRange(location: range.lowerBound, length: 0)
-							
-							didUpdateText()
-							
-							return false
-						}
-						
-					}
-					
-				}
-				
-			}
-			
-			
-			return true
+			return self.shouldChangeText(insertingText: text)
 		}
 		
 		public func textViewDidChange(_ textView: UITextView) {
@@ -280,10 +162,111 @@ extension SyntaxTextView {
 	
 		public func textViewDidChangeSelection(_ textView: UITextView) {
 			
-			selectionDidChange()
-			
+			contentDidChangeSelection()
 		}
 		
 	}
 	
 #endif
+
+extension SyntaxTextView {
+
+	func shouldChangeText(insertingText: String) -> Bool {
+
+		let textStorage: NSTextStorage
+		
+		#if os(macOS)
+		
+		guard let _textStorage = textView.textStorage else {
+			return true
+		}
+		
+		textStorage = _textStorage
+		
+		#else
+		
+		textStorage = textView.textStorage
+		#endif
+		
+		guard let cachedTokens = cachedTokens else {
+			return true
+		}
+			
+		for token in cachedTokens {
+			
+			guard let range = token.nsRange else {
+				continue
+			}
+			
+			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
+				
+				let selectedRange = textView.selectedRange
+				
+				if selectedRange.intersection(range) != nil {
+					
+					if insertingText == "\t" {
+						
+						let placeholderTokens = cachedTokens.filter({
+							$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
+						})
+						
+						let nextPlaceholderToken = placeholderTokens.first(where: {
+							
+							guard let nsRange = $0.nsRange else {
+								return false
+							}
+							
+							return nsRange.lowerBound > range.lowerBound
+							
+						})
+						
+						if let tokenToSelect = nextPlaceholderToken ?? placeholderTokens.first {
+							
+							textView.selectedRange = NSRange(location: tokenToSelect.nsRange!.lowerBound, length: 0)
+							
+							return false
+							
+						}
+						
+						return false
+					}
+					
+					textStorage.replaceCharacters(in: range, with: insertingText)
+
+					didUpdateText()
+					
+					return false
+				} else if selectedRange.length == 0, selectedRange.location == range.upperBound {
+					
+					textStorage.replaceCharacters(in: range, with: insertingText)
+
+					textView.selectedRange = NSRange(location: range.lowerBound, length: 0)
+					
+					didUpdateText()
+					
+					return false
+				}
+				
+			}
+			
+		}
+		
+		return true
+	}
+	
+	func contentDidChangeSelection() {
+		
+		if ignoreSelectionChange {
+			return
+		}
+		
+		ignoreSelectionChange = true
+		
+		selectionDidChange()
+		
+		ignoreSelectionChange = false
+		
+	}
+	
+}
+
