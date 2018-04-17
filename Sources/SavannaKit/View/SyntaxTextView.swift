@@ -28,17 +28,13 @@ public protocol SyntaxTextViewDelegate: class {
 	
 }
 
-extension Range: Hashable where Bound: Hashable {
+struct ThemeInfo {
 	
-	struct HashableBounds: Hashable {
-		let lowerbound: Bound
-		let upperBound: Bound
-	}
+	let theme: SyntaxColorTheme
 	
-	public var hashValue: Int {
-		let hashable = HashableBounds(lowerbound: lowerBound, upperBound: upperBound)
-		return hashable.hashValue
-	}
+	/// Width of a space character in the theme's font.
+	/// Useful for calculating tab indent size.
+	let spaceWidth: CGFloat
 	
 }
 
@@ -362,9 +358,29 @@ public class SyntaxTextView: View {
 	
 	#endif
 
-	fileprivate lazy var theme: SyntaxColorTheme = {
-		return DefaultTheme()
-	}()
+	public var theme: SyntaxColorTheme = DefaultTheme() {
+		didSet {
+			cachedThemeInfo = nil
+		}
+	}
+	
+	var cachedThemeInfo: ThemeInfo?
+	
+	var themeInfo: ThemeInfo {
+		
+		if let cached = cachedThemeInfo {
+			return cached
+		}
+		
+		let spaceAttrString = NSAttributedString(string: " ", attributes: [.font: theme.font])
+		let spaceWidth = spaceAttrString.size().width
+		
+		let info = ThemeInfo(theme: theme, spaceWidth: spaceWidth)
+		
+		cachedThemeInfo = info
+		
+		return info
+	}
 	
 	var cachedTokens: [CachedToken]?
 	
@@ -476,6 +492,8 @@ public class SyntaxTextView: View {
 		
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.paragraphSpacing = 2.0
+		paragraphStyle.defaultTabInterval = themeInfo.spaceWidth * 4
+		paragraphStyle.tabStops = []
 		
 		let wholeRange = NSRange(location: 0, length: source.count)
 		
