@@ -16,6 +16,15 @@ import Foundation
 
 extension SyntaxTextView {
 
+	func isEditorPlaceholderSelected(selectedRange: NSRange, tokenRange: NSRange) -> Bool {
+		
+		var intersectionRange = tokenRange
+		intersectionRange.location += 1
+		intersectionRange.length -= 1
+		
+		return selectedRange.intersection(intersectionRange) != nil
+	}
+	
 	func selectionDidChange() {
 		
 		guard let delegate = delegate else {
@@ -24,13 +33,13 @@ extension SyntaxTextView {
 		
 		if let cachedTokens = cachedTokens {
 			
-			for token in cachedTokens {
+			for cachedToken in cachedTokens {
 				
-				guard let range = token.nsRange else {
+				guard let range = cachedToken.nsRange else {
 					continue
 				}
 				
-				if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
+				if case .editorPlaceholder = cachedToken.token.savannaTokenType.syntaxColorType {
 					
 					var forceInsideEditorPlaceholder = true
 					
@@ -38,19 +47,29 @@ extension SyntaxTextView {
 					
 					if let previousSelectedRange = previousSelectedRange {
 						
-						if currentSelectedRange.intersection(range) != nil, previousSelectedRange.intersection(range) != nil {
-
+						if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
+						
+							// Going right.
 							if previousSelectedRange.location + 1 == currentSelectedRange.location {
 								
-								textView.selectedRange = NSRange(location: range.location+range.length, length: 0)
+								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
+									textView.selectedRange = NSRange(location: range.location+range.length, length: 0)
+								} else {
+									textView.selectedRange = NSRange(location: range.location + 1, length: 0)
+								}
 								
 								forceInsideEditorPlaceholder = false
 								break
 							}
 							
+							// Going left.
 							if previousSelectedRange.location - 1 == currentSelectedRange.location {
 
-								textView.selectedRange = NSRange(location: range.location-1, length: 0)
+								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
+									textView.selectedRange = NSRange(location: range.location, length: 0)
+								} else {
+									textView.selectedRange = NSRange(location: range.location + 1, length: 0)
+								}
 								
 								forceInsideEditorPlaceholder = false
 								break
@@ -61,7 +80,14 @@ extension SyntaxTextView {
 					}
 					
 					if forceInsideEditorPlaceholder {
-						if currentSelectedRange.intersection(range) != nil {
+						if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
+							
+							if currentSelectedRange.location <= range.location || currentSelectedRange.upperBound >= range.upperBound {
+								// Editor placeholder is part of larger selected text,
+								// so don't change selection.
+								break
+							}
+							
 							textView.selectedRange = NSRange(location: range.location+1, length: 0)
 							break
 						}
@@ -201,14 +227,18 @@ extension SyntaxTextView {
 			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
 				
 				let selectedRange = textView.selectedRange
-				
-				if selectedRange.intersection(range) != nil {
+
+				if isEditorPlaceholderSelected(selectedRange: selectedRange, tokenRange: range) {
 					
 					if insertingText == "\t" {
 						
 						let placeholderTokens = cachedTokens.filter({
 							$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
 						})
+						
+						guard placeholderTokens.count > 1 else {
+							return false
+						}
 						
 						let nextPlaceholderToken = placeholderTokens.first(where: {
 							
@@ -231,17 +261,14 @@ extension SyntaxTextView {
 						return false
 					}
 					
+					if selectedRange.location <= range.location || selectedRange.upperBound >= range.upperBound {
+						// Editor placeholder is part of larger selected text,
+						// so allow system inserting.
+						return true
+					}
+					
 					textStorage.replaceCharacters(in: range, with: insertingText)
 
-					didUpdateText()
-					
-					return false
-				} else if selectedRange.length == 0, selectedRange.location == range.upperBound {
-					
-					textStorage.replaceCharacters(in: range, with: insertingText)
-
-					textView.selectedRange = NSRange(location: range.lowerBound, length: 0)
-					
 					didUpdateText()
 					
 					return false
@@ -269,4 +296,3 @@ extension SyntaxTextView {
 	}
 	
 }
-

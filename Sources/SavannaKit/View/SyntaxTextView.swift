@@ -450,7 +450,7 @@ public class SyntaxTextView: View {
 				
 				var newState: EditorPlaceholderState = .inactive
 				
-				if selectedRange.intersection(range) != nil {
+				if isEditorPlaceholderSelected(selectedRange: selectedRange, tokenRange: range) {
 					newState = .active
 				}
 				
@@ -532,7 +532,7 @@ public class SyntaxTextView: View {
 				
 				var state: EditorPlaceholderState = .inactive
 				
-				if selectedRange.intersection(range) != nil {
+				if isEditorPlaceholderSelected(selectedRange: selectedRange, tokenRange: range) {
 					state = .active
 				}
 				
