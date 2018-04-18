@@ -25,6 +25,11 @@ extension SyntaxTextView {
 		return selectedRange.intersection(intersectionRange) != nil
 	}
 	
+	func updateSelectedRange(_ range: NSRange) {
+		textView.selectedRange = range
+		self.delegate?.didChangeSelectedRange(self, selectedRange: range)
+	}
+	
 	func selectionDidChange() {
 		
 		guard let delegate = delegate else {
@@ -53,9 +58,9 @@ extension SyntaxTextView {
 							if previousSelectedRange.location + 1 == currentSelectedRange.location {
 								
 								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
-									textView.selectedRange = NSRange(location: range.location+range.length, length: 0)
+									updateSelectedRange(NSRange(location: range.location+range.length, length: 0))
 								} else {
-									textView.selectedRange = NSRange(location: range.location + 1, length: 0)
+									updateSelectedRange(NSRange(location: range.location + 1, length: 0))
 								}
 								
 								forceInsideEditorPlaceholder = false
@@ -66,9 +71,9 @@ extension SyntaxTextView {
 							if previousSelectedRange.location - 1 == currentSelectedRange.location {
 
 								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
-									textView.selectedRange = NSRange(location: range.location, length: 0)
+									updateSelectedRange(NSRange(location: range.location, length: 0))
 								} else {
-									textView.selectedRange = NSRange(location: range.location + 1, length: 0)
+									updateSelectedRange(NSRange(location: range.location + 1, length: 0))
 								}
 								
 								forceInsideEditorPlaceholder = false
@@ -88,7 +93,7 @@ extension SyntaxTextView {
 								break
 							}
 							
-							textView.selectedRange = NSRange(location: range.location+1, length: 0)
+							updateSelectedRange(NSRange(location: range.location+1, length: 0))
 							break
 						}
 					}
@@ -252,7 +257,7 @@ extension SyntaxTextView {
 						
 						if let tokenToSelect = nextPlaceholderToken ?? placeholderTokens.first {
 							
-							textView.selectedRange = NSRange(location: tokenToSelect.nsRange!.lowerBound, length: 0)
+							updateSelectedRange(NSRange(location: tokenToSelect.nsRange!.lowerBound + 1, length: 0))
 							
 							return false
 							

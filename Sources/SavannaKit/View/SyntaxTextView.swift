@@ -24,6 +24,8 @@ public protocol SyntaxTextViewDelegate: class {
 	
 	func didChangeText(_ syntaxTextView: SyntaxTextView)
 
+	func didChangeSelectedRange(_ syntaxTextView: SyntaxTextView, selectedRange: NSRange)
+	
 	func lexerForSource(_ source: String) -> Lexer
 	
 }
