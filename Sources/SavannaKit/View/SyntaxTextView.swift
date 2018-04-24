@@ -89,7 +89,7 @@ public class SyntaxTextView: View {
 	
 	#endif
 	
-	override convenience init(frame: CGRect) {
+	public override convenience init(frame: CGRect) {
 		self.init(.frame(frame))!
 	}
 	
