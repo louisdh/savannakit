@@ -10,9 +10,14 @@ import Foundation
 
 public struct LineNumbersStyle {
 	
-	let font: Font
-	let textColor: Color
+	public let font: Font
+	public let textColor: Color
 	
+	public init(font: Font, textColor: Color) {
+		self.font = font
+		self.textColor = textColor
+	}
+
 }
 
 public protocol SyntaxColorTheme {
