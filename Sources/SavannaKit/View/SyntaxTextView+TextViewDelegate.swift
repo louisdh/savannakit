@@ -46,71 +46,15 @@ extension SyntaxTextView {
 			return
 		}
 		
-		if let cachedTokens = cachedTokens, !textView.isCursorFloating {
+		if let cachedTokens = cachedTokens {
 			
-			for cachedToken in cachedTokens {
-				
-				guard let range = cachedToken.nsRange else {
-					continue
+			#if os(iOS)
+				if !textView.isCursorFloating {
+					updateEditorPlaceholders(cachedTokens: cachedTokens)
 				}
-				
-				if case .editorPlaceholder = cachedToken.token.savannaTokenType.syntaxColorType {
-					
-					var forceInsideEditorPlaceholder = true
-					
-					let currentSelectedRange = textView.selectedRange
-					
-					if let previousSelectedRange = previousSelectedRange {
-						
-						if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
-						
-							// Going right.
-							if previousSelectedRange.location + 1 == currentSelectedRange.location {
-								
-								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
-									updateSelectedRange(NSRange(location: range.location+range.length, length: 0))
-								} else {
-									updateSelectedRange(NSRange(location: range.location + 1, length: 0))
-								}
-								
-								forceInsideEditorPlaceholder = false
-								break
-							}
-							
-							// Going left.
-							if previousSelectedRange.location - 1 == currentSelectedRange.location {
-
-								if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
-									updateSelectedRange(NSRange(location: range.location, length: 0))
-								} else {
-									updateSelectedRange(NSRange(location: range.location + 1, length: 0))
-								}
-								
-								forceInsideEditorPlaceholder = false
-								break
-							}
-							
-						}
-						
-					}
-					
-					if forceInsideEditorPlaceholder {
-						if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
-							
-							if currentSelectedRange.location <= range.location || currentSelectedRange.upperBound >= range.upperBound {
-								// Editor placeholder is part of larger selected text,
-								// so don't change selection.
-								break
-							}
-							
-							updateSelectedRange(NSRange(location: range.location+1, length: 0))
-							break
-						}
-					}
-					
-				}
-				
-			}
+			#else
+				updateEditorPlaceholders(cachedTokens: cachedTokens)
+			#endif
 			
 		}
 		
@@ -119,6 +63,74 @@ extension SyntaxTextView {
 		})
 		
 		previousSelectedRange = textView.selectedRange
+		
+	}
+	
+	func updateEditorPlaceholders(cachedTokens: [CachedToken]) {
+		
+		for cachedToken in cachedTokens {
+			
+			guard let range = cachedToken.nsRange else {
+				continue
+			}
+			
+			if case .editorPlaceholder = cachedToken.token.savannaTokenType.syntaxColorType {
+				
+				var forceInsideEditorPlaceholder = true
+				
+				let currentSelectedRange = textView.selectedRange
+				
+				if let previousSelectedRange = previousSelectedRange {
+					
+					if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
+						
+						// Going right.
+						if previousSelectedRange.location + 1 == currentSelectedRange.location {
+							
+							if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
+								updateSelectedRange(NSRange(location: range.location+range.length, length: 0))
+							} else {
+								updateSelectedRange(NSRange(location: range.location + 1, length: 0))
+							}
+							
+							forceInsideEditorPlaceholder = false
+							break
+						}
+						
+						// Going left.
+						if previousSelectedRange.location - 1 == currentSelectedRange.location {
+							
+							if isEditorPlaceholderSelected(selectedRange: previousSelectedRange, tokenRange: range) {
+								updateSelectedRange(NSRange(location: range.location, length: 0))
+							} else {
+								updateSelectedRange(NSRange(location: range.location + 1, length: 0))
+							}
+							
+							forceInsideEditorPlaceholder = false
+							break
+						}
+						
+					}
+					
+				}
+				
+				if forceInsideEditorPlaceholder {
+					if isEditorPlaceholderSelected(selectedRange: currentSelectedRange, tokenRange: range) {
+						
+						if currentSelectedRange.location <= range.location || currentSelectedRange.upperBound >= range.upperBound {
+							// Editor placeholder is part of larger selected text,
+							// so don't change selection.
+							break
+						}
+						
+						updateSelectedRange(NSRange(location: range.location+1, length: 0))
+						break
+					}
+				}
+				
+			}
+			
+		}
 		
 	}
 	
@@ -282,6 +294,7 @@ extension SyntaxTextView {
 						return true
 					}
 					
+//					(textView.undoManager?.prepare(withInvocationTarget: self) as? TextView).replace
 					
 					textStorage.replaceCharacters(in: range, with: insertingText)
 					
