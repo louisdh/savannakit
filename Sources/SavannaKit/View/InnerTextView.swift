@@ -15,7 +15,13 @@ import CoreGraphics
 	import UIKit
 #endif
 
+protocol InnerTextViewDelegate: class {
+	func didUpdateCursorFloatingState()
+}
+
 class InnerTextView: TextView {
+	
+	weak var innerDelegate: InnerTextViewDelegate?
 	
 	lazy var theme: SyntaxColorTheme = {
 		return DefaultTheme()
@@ -39,6 +45,25 @@ class InnerTextView: TextView {
 	}
 	
 	#if os(iOS)
+	
+	var isCursorFloating = false
+	
+	override func beginFloatingCursor(at point: CGPoint) {
+		super.beginFloatingCursor(at: point)
+		
+		isCursorFloating = true
+		innerDelegate?.didUpdateCursorFloatingState()
+
+	}
+	
+	override func endFloatingCursor() {
+		super.endFloatingCursor()
+		
+		isCursorFloating = false
+		innerDelegate?.didUpdateCursorFloatingState()
+
+	}
+	
 	override public func draw(_ rect: CGRect) {
 		
 		let textView = self

@@ -204,6 +204,7 @@ public class SyntaxTextView: View {
 		
 		#endif
 		
+		textView.innerDelegate = self
 		textView.delegate = self
 		
 		textView.text = ""

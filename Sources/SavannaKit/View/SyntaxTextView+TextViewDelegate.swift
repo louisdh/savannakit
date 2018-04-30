@@ -14,6 +14,16 @@ import Foundation
 	import UIKit
 #endif
 
+extension SyntaxTextView: InnerTextViewDelegate {
+	
+	func didUpdateCursorFloatingState() {
+		
+		selectionDidChange()
+		
+	}
+	
+}
+
 extension SyntaxTextView {
 
 	func isEditorPlaceholderSelected(selectedRange: NSRange, tokenRange: NSRange) -> Bool {
@@ -36,7 +46,7 @@ extension SyntaxTextView {
 			return
 		}
 		
-		if let cachedTokens = cachedTokens {
+		if let cachedTokens = cachedTokens, !textView.isCursorFloating {
 			
 			for cachedToken in cachedTokens {
 				
@@ -272,8 +282,9 @@ extension SyntaxTextView {
 						return true
 					}
 					
+					
 					textStorage.replaceCharacters(in: range, with: insertingText)
-
+					
 					didUpdateText()
 					
 					return false
