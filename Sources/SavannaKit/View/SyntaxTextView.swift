@@ -221,6 +221,7 @@ public class SyntaxTextView: View {
 			
 		if #available(iOS 11.0, *) {
 			textView.smartQuotesType = .no
+			textView.smartInsertDeleteType = .no
 		}
 			
 		textView.keyboardAppearance = .dark
