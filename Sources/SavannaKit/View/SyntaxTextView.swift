@@ -202,6 +202,9 @@ public class SyntaxTextView: View {
 			textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 			textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 		
+			self.contentMode = .redraw
+			textView.contentMode = .topLeft
+		
 		#endif
 		
 		textView.innerDelegate = self
@@ -210,6 +213,7 @@ public class SyntaxTextView: View {
 		textView.text = ""
 		textView.font = theme.font
 		
+		backgroundColor = theme.backgroundColor
 		textView.backgroundColor = theme.backgroundColor
 		
 		#if os(iOS)
