@@ -213,10 +213,11 @@ public class SyntaxTextView: View {
 		textView.text = ""
 		textView.font = theme.font
 		
-		backgroundColor = theme.backgroundColor
 		textView.backgroundColor = theme.backgroundColor
 		
 		#if os(iOS)
+
+		backgroundColor = theme.backgroundColor
 
 		textView.autocapitalizationType = .none
 		textView.keyboardType = .default
