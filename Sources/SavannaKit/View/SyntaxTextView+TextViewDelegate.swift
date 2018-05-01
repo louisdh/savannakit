@@ -254,6 +254,17 @@ extension SyntaxTextView {
 			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
 				
 				let selectedRange = textView.selectedRange
+				
+				// Allow editorPlaceholder to be completely deleted.
+				if insertingText == "", selectedRange.lowerBound == range.upperBound {
+					textStorage.replaceCharacters(in: range, with: insertingText)
+					
+					didUpdateText()
+					
+					updateSelectedRange(NSRange(location: range.lowerBound, length: 0))
+
+					return false
+				}
 
 				if isEditorPlaceholderSelected(selectedRange: selectedRange, tokenRange: range) {
 					
