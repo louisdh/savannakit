@@ -226,6 +226,39 @@ extension SyntaxTextView {
 
 	func shouldChangeText(insertingText: String) -> Bool {
 
+		let selectedRange = textView.selectedRange
+
+		let origInsertingText = insertingText
+
+		var insertingText = insertingText
+		
+		if insertingText == "\n" {
+			
+			let nsText = textView.text as NSString
+			
+			var currentLine = nsText.substring(with: nsText.lineRange(for: textView.selectedRange))
+			
+			if currentLine.hasSuffix("\n") {
+				currentLine.removeLast()
+			}
+			
+			var newLinePrefix = ""
+			
+			for char in currentLine {
+				
+				let tempSet = CharacterSet(charactersIn: "\(char)")
+				
+				if tempSet.isSubset(of: .whitespacesAndNewlines) {
+					newLinePrefix += "\(char)"
+				} else {
+					break
+				}
+
+			}
+			
+			insertingText += newLinePrefix
+		}
+		
 		let textStorage: NSTextStorage
 		
 		#if os(macOS)
@@ -252,8 +285,6 @@ extension SyntaxTextView {
 			}
 			
 			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
-				
-				let selectedRange = textView.selectedRange
 				
 				// Allow editorPlaceholder to be completely deleted.
 				if insertingText == "", selectedRange.lowerBound == range.upperBound {
@@ -316,6 +347,17 @@ extension SyntaxTextView {
 				
 			}
 			
+		}
+		
+		if origInsertingText == "\n" {
+
+			textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+			
+			didUpdateText()
+			
+			updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
+
+			return false
 		}
 		
 		return true
