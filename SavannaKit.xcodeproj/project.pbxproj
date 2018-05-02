@@ -37,7 +37,21 @@
 		BEE5D9502027897A0040C72A /* TokenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D948202788760040C72A /* TokenType.swift */; };
 		BEE5D9512027897A0040C72A /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D94A2027887E0040C72A /* Lexer.swift */; };
 		BEE5D952202789840040C72A /* Paragraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5F81F07E6240076CDEF /* Paragraph.swift */; };
+		BEE6D381209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D380209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift */; };
+		BEE6D382209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D380209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift */; };
+		BEE6D38A209A312400E881D9 /* SavannaKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D389209A312400E881D9 /* SavannaKitTests.swift */; };
+		BEE6D38C209A312400E881D9 /* SavannaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BEE6D38D209A312400E881D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEDA3F2C1E380E5D00B5091C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE15626D1EFE9E7C00EB3723;
+			remoteInfo = "SavannaKit macOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +75,10 @@
 		BEE5D946202788680040C72A /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		BEE5D948202788760040C72A /* TokenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenType.swift; sourceTree = "<group>"; };
 		BEE5D94A2027887E0040C72A /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		BEE6D380209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Tokens.swift"; sourceTree = "<group>"; };
+		BEE6D387209A312400E881D9 /* SavannaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavannaKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEE6D389209A312400E881D9 /* SavannaKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavannaKitTests.swift; sourceTree = "<group>"; };
+		BEE6D38B209A312400E881D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +93,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEE6D384209A312400E881D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEE6D38C209A312400E881D9 /* SavannaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +140,7 @@
 			children = (
 				BE99F5F51F07E6240076CDEF /* Sources */,
 				BE99F5F21F07E6240076CDEF /* Platforms */,
+				BEE6D388209A312400E881D9 /* SavannaKitTests */,
 				BEDA3F361E380E5D00B5091C /* Products */,
 				BEDA3F441E380FCD00B5091C /* Frameworks */,
 			);
@@ -124,6 +151,7 @@
 			children = (
 				BEDA3F351E380E5D00B5091C /* SavannaKit.framework */,
 				BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */,
+				BEE6D387209A312400E881D9 /* SavannaKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,6 +184,7 @@
 				BE99F5FB1F07E6240076CDEF /* Types.swift */,
 				BE71CB881F125E7500C6B93E /* String+Range.swift */,
 				BE71CB8B1F125E8800C6B93E /* NSTextView+UIKit.swift */,
+				BEE6D380209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -170,6 +199,15 @@
 				BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BEE6D388209A312400E881D9 /* SavannaKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				BEE6D389209A312400E881D9 /* SavannaKitTests.swift */,
+				BEE6D38B209A312400E881D9 /* Info.plist */,
+			);
+			path = SavannaKitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,12 +268,31 @@
 			productReference = BEDA3F351E380E5D00B5091C /* SavannaKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		BEE6D386209A312400E881D9 /* SavannaKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEE6D38F209A312400E881D9 /* Build configuration list for PBXNativeTarget "SavannaKitTests" */;
+			buildPhases = (
+				BEE6D383209A312400E881D9 /* Sources */,
+				BEE6D384209A312400E881D9 /* Frameworks */,
+				BEE6D385209A312400E881D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEE6D38E209A312400E881D9 /* PBXTargetDependency */,
+			);
+			name = SavannaKitTests;
+			productName = SavannaKitTests;
+			productReference = BEE6D387209A312400E881D9 /* SavannaKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		BEDA3F2C1E380E5D00B5091C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Silver Fox";
 				TargetAttributes = {
@@ -246,6 +303,11 @@
 					BEDA3F341E380E5D00B5091C = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Manual;
+					};
+					BEE6D386209A312400E881D9 = {
+						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = 6G5LMQ72D8;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -263,6 +325,7 @@
 			targets = (
 				BEDA3F341E380E5D00B5091C /* SavannaKit iOS */,
 				BE15626D1EFE9E7C00EB3723 /* SavannaKit macOS */,
+				BEE6D386209A312400E881D9 /* SavannaKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -276,6 +339,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BEDA3F331E380E5D00B5091C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEE6D385209A312400E881D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -299,6 +369,7 @@
 				BE42803F2038C4DB00C8FE24 /* Paragraphs.swift in Sources */,
 				BEE5D9512027897A0040C72A /* Lexer.swift in Sources */,
 				BE71CB871F125D0400C6B93E /* InnerTextView.swift in Sources */,
+				BEE6D382209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift in Sources */,
 				BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6091F07E6240076CDEF /* Types.swift in Sources */,
 				BE4280392038C38E00C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */,
@@ -311,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEE6D381209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift in Sources */,
 				BE42803D2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
 				BE21904B2053318600BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */,
 				BE99F6021F07E6240076CDEF /* Paragraph.swift in Sources */,
@@ -327,7 +399,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BEE6D383209A312400E881D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEE6D38A209A312400E881D9 /* SavannaKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BEE6D38E209A312400E881D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE15626D1EFE9E7C00EB3723 /* SavannaKit macOS */;
+			targetProxy = BEE6D38D209A312400E881D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BE1562741EFE9E7C00EB3723 /* Debug */ = {
@@ -558,6 +646,52 @@
 			};
 			name = Release;
 		};
+		BEE6D390209A312400E881D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 6G5LMQ72D8;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SavannaKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.SavannaKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		BEE6D391209A312400E881D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 6G5LMQ72D8;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SavannaKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.SavannaKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -584,6 +718,15 @@
 			buildConfigurations = (
 				BEDA3F3E1E380E5D00B5091C /* Debug */,
 				BEDA3F3F1E380E5D00B5091C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEE6D38F209A312400E881D9 /* Build configuration list for PBXNativeTarget "SavannaKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEE6D390209A312400E881D9 /* Debug */,
+				BEE6D391209A312400E881D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
