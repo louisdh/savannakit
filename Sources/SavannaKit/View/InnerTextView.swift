@@ -95,7 +95,6 @@ class InnerTextView: TextView {
 		let path = BezierPath(rect: gutterRect)
 		path.fill()
 		
-		
 		drawLineNumbers(paragraphs, in: self.bounds, for: self)
 		
 		super.draw(rect)

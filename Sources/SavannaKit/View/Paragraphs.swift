@@ -79,7 +79,8 @@ func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) ->
 		
 		if let last = paragraphs.last {
 			
-			rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height, width: gutterWidth, height: last.rect.height)
+			// FIXME: don't use hardcoded "2" as line spacing
+			rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height + 2, width: gutterWidth, height: last.rect.height)
 			
 		} else {
 			
@@ -175,5 +176,5 @@ func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: I
 		attr.draw(in: drawRect)
 		
 	}
-	
+
 }
