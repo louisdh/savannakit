@@ -22,7 +22,8 @@ public struct LineNumbersStyle {
 
 public protocol SyntaxColorTheme {
 	
-	var lineNumbersStyle: LineNumbersStyle { get }
+	/// Nil hides line numbers.
+	var lineNumbersStyle: LineNumbersStyle? { get }
 	
 	var font: Font { get }
 	
@@ -37,8 +38,8 @@ public struct DefaultTheme: SyntaxColorTheme {
 		return Color(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
 	}
 	
-	public let lineNumbersStyle = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor)
-	
+	public let lineNumbersStyle: LineNumbersStyle? = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor)
+
 	public let font = Font(name: "Menlo", size: 15)!
 	
 	public let backgroundColor = Color(red: 31/255.0, green: 32/255, blue: 41/255, alpha: 1.0)

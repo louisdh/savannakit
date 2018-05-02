@@ -46,6 +46,11 @@ import Foundation
 				return
 			}
 			
+			if textView.theme.lineNumbersStyle == nil {
+				textView.hideGutter()
+				return
+			}
+			
 			let contentHeight = textView.enclosingScrollView!.documentView!.bounds.height
 			
 			let yOffset = self.bounds.height - contentHeight

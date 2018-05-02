@@ -33,6 +33,10 @@ class InnerTextView: TextView {
 		cachedParagraphs = nil
 	}
 	
+	func hideGutter() {
+		gutterWidth = 0
+	}
+	
 	func updateGutterWidth(for numberOfCharacters: Int) {
 		
 		let leftInset: CGFloat = 4.0
@@ -65,6 +69,12 @@ class InnerTextView: TextView {
 	}
 	
 	override public func draw(_ rect: CGRect) {
+		
+		if theme.lineNumbersStyle == nil {
+			hideGutter()
+			super.draw(rect)
+			return
+		}
 		
 		let textView = self
 		
