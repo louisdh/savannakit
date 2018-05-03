@@ -12,10 +12,12 @@ public struct LineNumbersStyle {
 	
 	public let font: Font
 	public let textColor: Color
+	public let backgroundColor: Color
 	
-	public init(font: Font, textColor: Color) {
+	public init(font: Font, textColor: Color, backgroundColor: Color) {
 		self.font = font
 		self.textColor = textColor
+		self.backgroundColor = backgroundColor
 	}
 
 }
@@ -38,7 +40,7 @@ public struct DefaultTheme: SyntaxColorTheme {
 		return Color(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
 	}
 	
-	public let lineNumbersStyle: LineNumbersStyle? = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor)
+	public let lineNumbersStyle: LineNumbersStyle? = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor, backgroundColor: Color(red: 21/255.0, green: 22/255, blue: 31/255, alpha: 1.0))
 
 	public let font = Font(name: "Menlo", size: 15)!
 	
