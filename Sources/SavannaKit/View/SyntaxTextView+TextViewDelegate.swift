@@ -342,6 +342,8 @@ extension SyntaxTextView {
 					
 					didUpdateText()
 					
+					updateSelectedRange(NSRange(location: range.lowerBound + insertingText.count, length: 0))
+
 					return false
 				}
 				
