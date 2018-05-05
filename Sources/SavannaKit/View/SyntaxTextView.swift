@@ -449,7 +449,7 @@ public class SyntaxTextView: View {
 
 		let selectedRange = textView.selectedRange
 		
-		let fullRange = NSRange(location: 0, length: source.count)
+		let fullRange = NSRange(location: 0, length: (source as NSString).length)
 		
 		var rangesToUpdate = [(NSRange, EditorPlaceholderState)]()
 		
@@ -504,7 +504,7 @@ public class SyntaxTextView: View {
 		paragraphStyle.defaultTabInterval = themeInfo.spaceWidth * 4
 		paragraphStyle.tabStops = []
 		
-		let wholeRange = NSRange(location: 0, length: source.count)
+		let wholeRange = NSRange(location: 0, length: (source as NSString).length)
 		
 		attributes[.foregroundColor] = theme.color(for: .plain)
 		attributes[.font] = theme.font
