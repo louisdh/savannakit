@@ -45,6 +45,8 @@ public class SyntaxTextView: View {
 
 	var previousSelectedRange: NSRange?
 	
+	private var textViewSelectedRangeObserver: NSKeyValueObservation?
+
 	let textView: InnerTextView
 	
 	public var contentTextView: TextView {
@@ -205,6 +207,14 @@ public class SyntaxTextView: View {
 			self.contentMode = .redraw
 			textView.contentMode = .topLeft
 		
+			textViewSelectedRangeObserver = contentTextView.observe(\UITextView.selectedTextRange) { [weak self] (textView, value) in
+			
+				if let `self` = self {
+					self.delegate?.didChangeSelectedRange(self, selectedRange: self.contentTextView.selectedRange)
+				}
+
+			}
+			
 		#endif
 		
 		textView.innerDelegate = self
