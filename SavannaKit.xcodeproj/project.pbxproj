@@ -41,6 +41,7 @@
 		BEE6D382209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D380209A29CE00E881D9 /* NSMutableAttributedString+Tokens.swift */; };
 		BEE6D38A209A312400E881D9 /* SavannaKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D389209A312400E881D9 /* SavannaKitTests.swift */; };
 		BEE6D38C209A312400E881D9 /* SavannaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */; };
+		BEED01AD209CE2820058219D /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEED01AC209CE2820058219D /* LineNumberLayoutManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		BEE6D387209A312400E881D9 /* SavannaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavannaKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE6D389209A312400E881D9 /* SavannaKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavannaKitTests.swift; sourceTree = "<group>"; };
 		BEE6D38B209A312400E881D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEED01AC209CE2820058219D /* LineNumberLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNumberLayoutManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 				BE4280372038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift */,
 				BE42803A2038C3AA00C8FE24 /* Paragraphs.swift */,
 				BE21904A2053318600BFB99A /* SyntaxTextViewLayoutManager.swift */,
+				BEED01AC209CE2820058219D /* LineNumberLayoutManager.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 				BE99F6061F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6081F07E6240076CDEF /* Types.swift in Sources */,
 				BE71CB861F125D0400C6B93E /* InnerTextView.swift in Sources */,
+				BEED01AD209CE2820058219D /* LineNumberLayoutManager.swift in Sources */,
 				BEE5D949202788760040C72A /* TokenType.swift in Sources */,
 				BE71CB891F125E7500C6B93E /* String+Range.swift in Sources */,
 				BEE5D94B2027887E0040C72A /* Lexer.swift in Sources */,
