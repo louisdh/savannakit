@@ -42,6 +42,7 @@
 		BEE6D38A209A312400E881D9 /* SavannaKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6D389209A312400E881D9 /* SavannaKitTests.swift */; };
 		BEE6D38C209A312400E881D9 /* SavannaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE15626E1EFE9E7C00EB3723 /* SavannaKit.framework */; };
 		BEED01AD209CE2820058219D /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEED01AC209CE2820058219D /* LineNumberLayoutManager.swift */; };
+		BEED01AE209E4D010058219D /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEED01AC209CE2820058219D /* LineNumberLayoutManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +365,7 @@
 			files = (
 				BEE5D9502027897A0040C72A /* TokenType.swift in Sources */,
 				BE71CB8A1F125E7500C6B93E /* String+Range.swift in Sources */,
+				BEED01AE209E4D010058219D /* LineNumberLayoutManager.swift in Sources */,
 				BEE5D952202789840040C72A /* Paragraph.swift in Sources */,
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
 				BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,

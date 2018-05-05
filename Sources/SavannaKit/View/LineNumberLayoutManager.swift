@@ -9,7 +9,12 @@
 // Converted from https://github.com/alldritt/TextKit_LineNumbers
 
 import Foundation
+
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 class LineNumberLayoutManager: NSLayoutManager {
 	
@@ -115,8 +120,8 @@ class LineNumberLayoutManager: NSLayoutManager {
 			
 		}
 		
-		let rect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
-		UIColor.red.withAlphaComponent(0.5).setFill()
+		let rect = BezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
+		Color.red.withAlphaComponent(0.5).setFill()
 		rect.fill()
 	}
 
