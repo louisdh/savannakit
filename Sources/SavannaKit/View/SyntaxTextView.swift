@@ -439,8 +439,7 @@ public class SyntaxTextView: View {
 			let cachedTokens: [CachedToken] = tokens.map {
 				
 				if let range = $0.range {
-					let nsRange = source.nsRange(fromRange: range)
-					return CachedToken(token: $0, nsRange: nsRange)
+					return CachedToken(token: $0, nsRange: range)
 				} else {
 					return CachedToken(token: $0, nsRange: nil)
 				}

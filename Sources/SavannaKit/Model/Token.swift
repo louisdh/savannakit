@@ -12,7 +12,7 @@ public protocol Token {
 	
 	var savannaTokenType: TokenType { get }
 	
-	var range: Range<Int>? { get }
+	var range: NSRange? { get }
 	
 }
 
