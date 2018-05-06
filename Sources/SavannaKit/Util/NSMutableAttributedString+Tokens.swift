@@ -48,11 +48,7 @@ public extension NSMutableAttributedString {
 				continue
 			}
 			
-			guard let tokenRange = token.range else {
-				continue
-			}
-			
-			guard let range = source.nsRange(fromRange: tokenRange) else {
+			guard let range = token.range else {
 				continue
 			}
 			
