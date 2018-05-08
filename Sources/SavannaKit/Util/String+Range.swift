@@ -24,19 +24,5 @@ extension String {
 		
 		return NSRange(location: utf16.distance(from: utf16.startIndex, to: start), length: utf16.distance(from: start, to: end))
 	}
-	
-//    func nsRange(fromRange range: Range<Int>) -> NSRange? {
-//        
-//        guard range.upperBound <= self.count else {
-//            return nil
-//        }
-//        
-//        let start = self.index(startIndex, offsetBy: range.lowerBound)
-//        let end = self.index(startIndex, offsetBy: range.upperBound)
-//
-//        let indexRange = start..<end
-//        
-//        return nsRange(fromRange: indexRange)
-//    }
 
 }
