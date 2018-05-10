@@ -41,7 +41,7 @@ struct ThemeInfo {
 }
 
 @IBDesignable
-public class SyntaxTextView: View {
+open class SyntaxTextView: View {
 
 	var previousSelectedRange: NSRange?
 	
@@ -72,7 +72,7 @@ public class SyntaxTextView: View {
 		}
 	}
 	
-	public override var tintColor: UIColor! {
+	open override var tintColor: UIColor! {
 		didSet {
 			keyboardToolbar.tintColor = tintColor
 		}
@@ -291,7 +291,7 @@ public class SyntaxTextView: View {
 	
 	#if os(iOS)
 
-	public override var isFirstResponder: Bool {
+	override open var isFirstResponder: Bool {
 		return textView.isFirstResponder
 	}
 	
@@ -367,7 +367,7 @@ public class SyntaxTextView: View {
 		self.textView.setNeedsDisplay()
 	}
 	
-	override public func layoutSubviews() {
+	override open func layoutSubviews() {
 		super.layoutSubviews()
 		
 		self.textView.invalidateCachedParagraphs()
