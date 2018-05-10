@@ -441,7 +441,7 @@
 				INFOPLIST_FILE = Platforms/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
 				PRODUCT_NAME = SavannaKit;
@@ -469,7 +469,7 @@
 				INFOPLIST_FILE = Platforms/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
 				PRODUCT_NAME = SavannaKit;
@@ -615,7 +615,7 @@
 				);
 				INFOPLIST_FILE = Platforms/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
@@ -641,7 +641,7 @@
 				);
 				INFOPLIST_FILE = Platforms/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.silverfox.savannakit;
 				PRODUCT_MODULE_NAME = SavannaKit;
