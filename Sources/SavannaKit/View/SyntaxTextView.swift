@@ -74,7 +74,7 @@ open class SyntaxTextView: View {
 	
 	open override var tintColor: UIColor! {
 		didSet {
-			keyboardToolbar.tintColor = tintColor
+
 		}
 	}
 	
@@ -119,12 +119,6 @@ open class SyntaxTextView: View {
 		
 		setup()
 	}
-	
-	#if os(iOS)
-
-		private var keyboardToolbar: UIToolbar!
-	
-	#endif
 
 	#if os(macOS)
 
@@ -240,23 +234,7 @@ open class SyntaxTextView: View {
 		}
 			
 		textView.keyboardAppearance = .dark
-		
-		
-		keyboardToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 50.0))
-		
-		let equalsBtn = UIBarButtonItem(title: "=", style: .plain, target: self, action: #selector(test))
-		
-		let font = UIFont.systemFont(ofSize: 44.0)
-		let attributes = [NSAttributedStringKey.font : font]
 
-		equalsBtn.setTitleTextAttributes(attributes, for: .normal)
-		
-		keyboardToolbar.items = [equalsBtn]
-		
-//		textView.inputAccessoryView = keyboardToolbar
-		
-//		equalsBtn.tintColor = .red
-		
 		self.clipsToBounds = true
 		
 		#endif
