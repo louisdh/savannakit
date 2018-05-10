@@ -243,7 +243,7 @@ open class SyntaxTextView: View {
 	
 	#if os(macOS)
 	
-	public override func viewDidMoveToSuperview() {
+	open override func viewDidMoveToSuperview() {
 		super.viewDidMoveToSuperview()
 	
 	}
