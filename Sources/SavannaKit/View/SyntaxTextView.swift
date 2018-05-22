@@ -360,6 +360,7 @@ open class SyntaxTextView: View {
 			cachedThemeInfo = nil
             backgroundColor = theme.backgroundColor
             textView.backgroundColor = theme.backgroundColor
+            textView.theme = theme
 		}
 	}
 	
