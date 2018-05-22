@@ -358,6 +358,8 @@ open class SyntaxTextView: View {
 	public var theme: SyntaxColorTheme = DefaultTheme() {
 		didSet {
 			cachedThemeInfo = nil
+            backgroundColor = theme.backgroundColor
+            textView.backgroundColor = theme.backgroundColor
 		}
 	}
 	
