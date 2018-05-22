@@ -358,7 +358,9 @@ open class SyntaxTextView: View {
 	public var theme: SyntaxColorTheme = DefaultTheme() {
 		didSet {
 			cachedThemeInfo = nil
+            #if os(iOS)
             backgroundColor = theme.backgroundColor
+            #endif
             textView.backgroundColor = theme.backgroundColor
             textView.theme = theme
 		}
