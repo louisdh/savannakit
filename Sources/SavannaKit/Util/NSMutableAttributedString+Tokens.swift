@@ -38,7 +38,7 @@ public extension NSMutableAttributedString {
 		
 		let wholeRange = NSRange(location: 0, length: source.count)
 		
-		attributes[.foregroundColor] = UIColor.white
+		attributes[.foregroundColor] = Color.white
 		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
 		

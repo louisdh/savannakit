@@ -494,7 +494,7 @@ open class SyntaxTextView: View {
 		
 		let wholeRange = NSRange(location: 0, length: (source as NSString).length)
 		
-		attributes[.foregroundColor] = UIColor.white
+		attributes[.foregroundColor] = Color.white
 		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
 		
