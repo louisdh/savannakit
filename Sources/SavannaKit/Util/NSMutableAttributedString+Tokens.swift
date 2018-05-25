@@ -38,7 +38,7 @@ public extension NSMutableAttributedString {
 		
 		let wholeRange = NSRange(location: 0, length: source.count)
 		
-		attributes[.foregroundColor] = theme.color(for: .plain)
+		attributes[.foregroundColor] = Color.white
 		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
 		
@@ -48,17 +48,13 @@ public extension NSMutableAttributedString {
 			
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
-			if syntaxColorType == .plain {
-				continue
-			}
-			
 			guard let tokenRange = token.range else {
 				continue
 			}
 			
 			let range = source.nsRange(fromRange: tokenRange)
 			
-			if case .editorPlaceholder = syntaxColorType {
+			if syntaxColorType.isEditorPlaceholder {
 				
 				let startRange = NSRange(location: range.lowerBound, length: 2)
 				let endRange = NSRange(location: range.upperBound - 2, length: 2)

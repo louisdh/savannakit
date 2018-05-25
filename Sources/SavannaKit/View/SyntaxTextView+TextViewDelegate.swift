@@ -74,7 +74,7 @@ extension SyntaxTextView {
 				continue
 			}
 			
-			if case .editorPlaceholder = cachedToken.token.savannaTokenType.syntaxColorType {
+			if cachedToken.token.savannaTokenType.syntaxColorType.isEditorPlaceholder {
 				
 				var forceInsideEditorPlaceholder = true
 				
@@ -284,7 +284,7 @@ extension SyntaxTextView {
 				continue
 			}
 			
-			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
+			if token.token.savannaTokenType.syntaxColorType.isEditorPlaceholder {
 				
 				// Allow editorPlaceholder to be completely deleted.
 				if insertingText == "", selectedRange.lowerBound == range.upperBound {
@@ -302,7 +302,7 @@ extension SyntaxTextView {
 					if insertingText == "\t" {
 						
 						let placeholderTokens = cachedTokens.filter({
-							$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
+							$0.token.savannaTokenType.syntaxColorType.isEditorPlaceholder
 						})
 						
 						guard placeholderTokens.count > 1 else {

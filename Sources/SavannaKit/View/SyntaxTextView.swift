@@ -490,7 +490,7 @@ open class SyntaxTextView: View {
 		
 		let wholeRange = NSRange(location: 0, length: (source as NSString).length)
 		
-		attributes[.foregroundColor] = theme.color(for: .plain)
+		attributes[.foregroundColor] = Color.white
 		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
 		
@@ -504,15 +504,11 @@ open class SyntaxTextView: View {
 			
 			let syntaxColorType = token.savannaTokenType.syntaxColorType
 			
-			if syntaxColorType == .plain {
-				continue
-			}
-			
 			guard let range = cachedToken.nsRange else {
 				continue
 			}
 
-			if case .editorPlaceholder = syntaxColorType {
+			if syntaxColorType.isEditorPlaceholder {
 				
 				let startRange = NSRange(location: range.lowerBound, length: 2)
 				let endRange = NSRange(location: range.upperBound - 2, length: 2)
