@@ -140,14 +140,14 @@ extension SyntaxTextView {
 	
 	extension SyntaxTextView: NSTextViewDelegate {
 		
-		public func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
+		open func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
 			
 			let text = replacementString ?? ""
 			
 			return self.shouldChangeText(insertingText: text)
 		}
 		
-		public func textDidChange(_ notification: Notification) {
+		open func textDidChange(_ notification: Notification) {
 			guard let textView = notification.object as? NSTextView, textView == self.textView else {
 				return
 			}
@@ -172,7 +172,7 @@ extension SyntaxTextView {
 			
 		}
 		
-		public func textViewDidChangeSelection(_ notification: Notification) {
+		open func textViewDidChangeSelection(_ notification: Notification) {
 			
 			contentDidChangeSelection()
 
@@ -186,12 +186,12 @@ extension SyntaxTextView {
 	
 	extension SyntaxTextView: UITextViewDelegate {
 		
-		public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 			
 			return self.shouldChangeText(insertingText: text)
 		}
 		
-		public func textViewDidChange(_ textView: UITextView) {
+		open func textViewDidChange(_ textView: UITextView) {
 			
 			didUpdateText()
 			
@@ -213,7 +213,7 @@ extension SyntaxTextView {
 			
 		}
 	
-		public func textViewDidChangeSelection(_ textView: UITextView) {
+		open func textViewDidChangeSelection(_ textView: UITextView) {
 			
 			contentDidChangeSelection()
 		}
