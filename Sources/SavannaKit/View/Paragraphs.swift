@@ -145,7 +145,7 @@ func offsetParagraphs(_ paragraphs: [Paragraph], for textView: InnerTextView, yO
 
 func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: InnerTextView) {
 	
-	guard let style = textView.theme.lineNumbersStyle else {
+	guard let style = textView.theme?.lineNumbersStyle else {
 		return
 	}
 	

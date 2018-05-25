@@ -70,11 +70,9 @@ extension SyntaxTextView {
 		
 		for cachedToken in cachedTokens {
 			
-			guard let range = cachedToken.nsRange else {
-				continue
-			}
+			let range = cachedToken.nsRange
 			
-			if case .editorPlaceholder = cachedToken.token.savannaTokenType.syntaxColorType {
+			if cachedToken.token.isEditorPlaceholder {
 				
 				var forceInsideEditorPlaceholder = true
 				
@@ -280,11 +278,9 @@ extension SyntaxTextView {
 			
 		for token in cachedTokens {
 			
-			guard let range = token.nsRange else {
-				continue
-			}
+			let range = token.nsRange
 			
-			if case .editorPlaceholder = token.token.savannaTokenType.syntaxColorType {
+			if token.token.isEditorPlaceholder {
 				
 				// Allow editorPlaceholder to be completely deleted.
 				if insertingText == "", selectedRange.lowerBound == range.upperBound {
@@ -302,7 +298,7 @@ extension SyntaxTextView {
 					if insertingText == "\t" {
 						
 						let placeholderTokens = cachedTokens.filter({
-							$0.token.savannaTokenType.syntaxColorType == .editorPlaceholder
+							$0.token.isEditorPlaceholder
 						})
 						
 						guard placeholderTokens.count > 1 else {
@@ -311,9 +307,7 @@ extension SyntaxTextView {
 						
 						let nextPlaceholderToken = placeholderTokens.first(where: {
 							
-							guard let nsRange = $0.nsRange else {
-								return false
-							}
+							let nsRange = $0.nsRange
 							
 							return nsRange.lowerBound > range.lowerBound
 							
@@ -321,7 +315,7 @@ extension SyntaxTextView {
 						
 						if let tokenToSelect = nextPlaceholderToken ?? placeholderTokens.first {
 							
-							updateSelectedRange(NSRange(location: tokenToSelect.nsRange!.lowerBound + 1, length: 0))
+							updateSelectedRange(NSRange(location: tokenToSelect.nsRange.lowerBound + 1, length: 0))
 							
 							return false
 							

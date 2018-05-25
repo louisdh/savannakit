@@ -82,11 +82,11 @@ class LineNumberLayoutManager: NSLayoutManager {
 		
 		//  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
 		
-		let style = DefaultTheme().lineNumbersStyle!
+//		let style = DefaultTheme().lineNumbersStyle!
 		
-		let atts: [NSAttributedStringKey: Any] = [
-			.font: style.font,
-			.foregroundColor : style.textColor
+		let atts: [NSAttributedStringKey: Any] = [:
+//			.font: style.font,
+//			.foregroundColor : style.textColor
 		]
 		
 		var gutterRect: CGRect = .zero

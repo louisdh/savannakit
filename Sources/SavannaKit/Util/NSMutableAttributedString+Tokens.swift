@@ -38,40 +38,36 @@ public extension NSMutableAttributedString {
 		
 		let wholeRange = NSRange(location: 0, length: source.count)
 		
-		attributes[.foregroundColor] = theme.color(for: .plain)
-		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
-		
+
+		for (attr, value) in theme.globalAttributes() {
+			attributes[attr] = value
+		}
+
 		self.setAttributes(attributes, range: wholeRange)
 		
 		for token in tokens {
 			
-			let syntaxColorType = token.savannaTokenType.syntaxColorType
-			
-			if syntaxColorType == .plain {
+			if token.isPlain {
 				continue
 			}
 			
-			guard let tokenRange = token.range else {
-				continue
-			}
+			let tokenRange = token.range
 			
 			let range = source.nsRange(fromRange: tokenRange)
 			
-			if case .editorPlaceholder = syntaxColorType {
+			if token.isEditorPlaceholder {
 				
 				let startRange = NSRange(location: range.lowerBound, length: 2)
 				let endRange = NSRange(location: range.upperBound - 2, length: 2)
 				
 				let contentRange = NSRange(location: range.lowerBound + 2, length: range.length - 4)
 				
-				let color = theme.color(for: syntaxColorType)
-				
 				var attr = [NSAttributedStringKey: Any]()
 				
 				attr[.editorPlaceholder] = EditorPlaceholderState.inactive
 				
-				self.addAttributes([.foregroundColor: color], range: contentRange)
+				self.addAttributes(theme.attributes(for: token), range: contentRange)
 				
 				self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
 				self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
@@ -80,12 +76,7 @@ public extension NSMutableAttributedString {
 				continue
 			}
 			
-			let color = theme.color(for: syntaxColorType)
-			
-			var attr = attributes
-			attr[.foregroundColor] = color
-			
-			self.setAttributes(attr, range: range)
+			self.setAttributes(theme.attributes(for: token), range: range)
 			
 		}
 		

@@ -206,13 +206,8 @@ open class SyntaxTextView: View {
 		textView.delegate = self
 		
 		textView.text = ""
-		textView.font = theme.font
-		
-		textView.backgroundColor = theme.backgroundColor
-		
-		#if os(iOS)
 
-		backgroundColor = theme.backgroundColor
+		#if os(iOS)
 
 		textView.autocapitalizationType = .none
 		textView.keyboardType = .default
@@ -346,23 +341,34 @@ open class SyntaxTextView: View {
 	
 	#endif
 
-	public var theme: SyntaxColorTheme = DefaultTheme() {
+	public var theme: SyntaxColorTheme? {
 		didSet {
+			
+			guard let theme = theme else {
+				return
+			}
+			
 			cachedThemeInfo = nil
             #if os(iOS)
             backgroundColor = theme.backgroundColor
             #endif
             textView.backgroundColor = theme.backgroundColor
             textView.theme = theme
+			textView.font = theme.font
+
 		}
 	}
 	
 	var cachedThemeInfo: ThemeInfo?
 	
-	var themeInfo: ThemeInfo {
+	var themeInfo: ThemeInfo? {
 		
 		if let cached = cachedThemeInfo {
 			return cached
+		}
+		
+		guard let theme = theme else {
+			return nil
 		}
 		
 		let spaceAttrString = NSAttributedString(string: " ", attributes: [.font: theme.font])
@@ -398,7 +404,6 @@ open class SyntaxTextView: View {
 		
 //		self.backgroundColor = theme.backgroundColor
 		
-		
 		let tokens: [Token]
 		
 		if let cachedTokens = cachedTokens {
@@ -407,23 +412,28 @@ open class SyntaxTextView: View {
 			
 		} else {
 			
+			guard let theme = self.theme else {
+				return
+			}
+			
+			guard let themeInfo = self.themeInfo else {
+				return
+			}
+			
+			textView.font = theme.font
+
 			let lexer = lexerForSource(source)
 			tokens = lexer.getSavannaTokens()
 			
 			let cachedTokens: [CachedToken] = tokens.map {
 				
-				if let range = $0.range {
-					let nsRange = source.nsRange(fromRange: range)
-					return CachedToken(token: $0, nsRange: nsRange)
-				} else {
-					return CachedToken(token: $0, nsRange: nil)
-				}
-				
+				let nsRange = source.nsRange(fromRange: $0.range)
+				return CachedToken(token: $0, nsRange: nsRange)
 			}
 
 			self.cachedTokens = cachedTokens
 			
-			createAttributes(textStorage: textStorage, cachedTokens: cachedTokens, source: source)
+			createAttributes(theme: theme, themeInfo: themeInfo, textStorage: textStorage, cachedTokens: cachedTokens, source: source)
 			
 		}
 		
@@ -477,7 +487,7 @@ open class SyntaxTextView: View {
 
 	}
 	
-	func createAttributes(textStorage: NSTextStorage, cachedTokens: [CachedToken], source: String) {
+	func createAttributes(theme: SyntaxColorTheme, themeInfo: ThemeInfo, textStorage: NSTextStorage, cachedTokens: [CachedToken], source: String) {
 		
 		textStorage.beginEditing()
 
@@ -490,9 +500,13 @@ open class SyntaxTextView: View {
 		
 		let wholeRange = NSRange(location: 0, length: (source as NSString).length)
 		
-		attributes[.foregroundColor] = theme.color(for: .plain)
-		attributes[.font] = theme.font
 		attributes[.paragraphStyle] = paragraphStyle
+		
+		for (attr, value) in theme.globalAttributes() {
+			
+			attributes[attr] = value
+
+		}
 		
 		textStorage.setAttributes(attributes, range: wholeRange)
 		
@@ -502,24 +516,18 @@ open class SyntaxTextView: View {
 			
 			let token = cachedToken.token
 			
-			let syntaxColorType = token.savannaTokenType.syntaxColorType
-			
-			if syntaxColorType == .plain {
+			if token.isPlain {
 				continue
 			}
 			
-			guard let range = cachedToken.nsRange else {
-				continue
-			}
+			let range = cachedToken.nsRange
 
-			if case .editorPlaceholder = syntaxColorType {
+			if token.isEditorPlaceholder {
 				
 				let startRange = NSRange(location: range.lowerBound, length: 2)
 				let endRange = NSRange(location: range.upperBound - 2, length: 2)
 				
 				let contentRange = NSRange(location: range.lowerBound + 2, length: range.length - 4)
-				
-				let color = theme.color(for: syntaxColorType)
 				
 				var attr = [NSAttributedStringKey: Any]()
 				
@@ -531,7 +539,7 @@ open class SyntaxTextView: View {
 				
 				attr[.editorPlaceholder] = state
 				
-				textStorage.addAttributes([.foregroundColor: color], range: contentRange)
+				textStorage.addAttributes(theme.attributes(for: token), range: contentRange)
 				
 				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
 				textStorage.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
@@ -540,13 +548,7 @@ open class SyntaxTextView: View {
 				continue
 			}
 			
-			let color = theme.color(for: syntaxColorType)
-			
-			var attr = attributes
-			attr[.foregroundColor] = color
-			
-			textStorage.setAttributes(attr, range: range)
-			
+			textStorage.addAttributes(theme.attributes(for: token), range: range)
 		}
 		
 		textStorage.endEditing()

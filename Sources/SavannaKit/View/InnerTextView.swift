@@ -23,9 +23,7 @@ class InnerTextView: TextView {
 	
 	weak var innerDelegate: InnerTextViewDelegate?
 	
-	lazy var theme: SyntaxColorTheme = {
-		return DefaultTheme()
-	}()
+	var theme: SyntaxColorTheme?
 	
 	var cachedParagraphs: [Paragraph]?
 	
@@ -70,7 +68,7 @@ class InnerTextView: TextView {
 	
 	override public func draw(_ rect: CGRect) {
 		
-		guard let lineNumbersStyle = theme.lineNumbersStyle else {
+		guard let lineNumbersStyle = theme?.lineNumbersStyle else {
 			hideGutter()
 			super.draw(rect)
 			return
@@ -146,7 +144,11 @@ class InnerTextView: TextView {
 		
 		var superRect = super.caretRect(for: position)
 		
-		let font = self.theme.font
+		guard let theme = theme else {
+			return superRect
+		}
+		
+		let font = theme.font
 		
 		// "descender" is expressed as a negative value,
 		// so to add its height you must subtract its value

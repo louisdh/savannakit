@@ -46,7 +46,7 @@ import Foundation
 				return
 			}
 			
-			guard let lineNumbersStyle = textView.theme.lineNumbersStyle else {
+			guard let lineNumbersStyle = textView.theme?.lineNumbersStyle else {
 				textView.hideGutter()
 				return
 			}
