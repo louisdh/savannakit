@@ -15,11 +15,6 @@ import CoreGraphics
 	import UIKit
 #endif
 
-private enum InitMethod {
-	case coder(NSCoder)
-	case frame(CGRect)
-}
-
 public protocol SyntaxTextViewDelegate: class {
 	
 	func didChangeText(_ syntaxTextView: SyntaxTextView)
@@ -90,35 +85,31 @@ open class SyntaxTextView: View {
 	}
 	
 	#endif
+    
+    public override init(frame: CGRect) {
+        textView = SyntaxTextView.createInnerTextView()
+        super.init(frame: frame)
+        setup()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        textView = SyntaxTextView.createInnerTextView()
+        super.init(coder: aDecoder)
+        setup()
+    }
 	
-	public override convenience init(frame: CGRect) {
-		self.init(.frame(frame))!
-	}
-	
-	public required convenience init?(coder aDecoder: NSCoder) {
-		self.init(.coder(aDecoder))
-	}
-	
-	private init?(_ initMethod: InitMethod) {
-		
-		let textStorage = NSTextStorage()
-		let layoutManager = SyntaxTextViewLayoutManager()
-		let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
-		let textContainer = NSTextContainer(size: containerSize)
-		
-		textContainer.widthTracksTextView = true
-		layoutManager.addTextContainer(textContainer)
-		textStorage.addLayoutManager(layoutManager)
-		
-		self.textView = InnerTextView(frame: .zero, textContainer: textContainer)
-		
-		switch initMethod {
-		case let .coder(coder): super.init(coder: coder)
-		case let .frame(frame): super.init(frame: frame)
-		}
-		
-		setup()
-	}
+    private static func createInnerTextView() -> InnerTextView {
+        let textStorage = NSTextStorage()
+        let layoutManager = SyntaxTextViewLayoutManager()
+        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+        let textContainer = NSTextContainer(size: containerSize)
+        
+        textContainer.widthTracksTextView = true
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        
+        return InnerTextView(frame: .zero, textContainer: textContainer)
+    }
 
 	#if os(macOS)
 
