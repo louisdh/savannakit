@@ -22,7 +22,7 @@
 </p>
 
 ## About
-SavannaKit is a protocol oriented framework for creating IDEs for iOS and macOS, written in Swift. 
+SavannaKit is a high-performance, protocol oriented, framework for creating native IDEs for iOS and macOS, written in Swift. 
 
 This project includes `SyntaxTextView`, a cross-platform Text View with syntax highlighting and line numbers.
 
