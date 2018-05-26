@@ -101,10 +101,11 @@ open class SyntaxTextView: View {
     private static func createInnerTextView() -> InnerTextView {
         let textStorage = NSTextStorage()
         let layoutManager = SyntaxTextViewLayoutManager()
-        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+        let containerSize = CGSize(width: 0, height: 0)
         let textContainer = NSTextContainer(size: containerSize)
         
         textContainer.widthTracksTextView = true
+		textContainer.heightTracksTextView = true
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
         
