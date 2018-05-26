@@ -18,6 +18,12 @@ class ViewController: UIViewController {
 
 		syntaxTextView.delegate = self
 		syntaxTextView.theme = MyTheme()
+		
+		syntaxTextView.text = """
+							This is an example of SavannaKit.
+							This example highlights words that are longer than 6 characters in red.
+							"""
+		
 	}
 	
 }
@@ -53,34 +59,27 @@ class MyLexer: Lexer {
 	}
 	
 	func getSavannaTokens() -> [Token] {
-		
-		let words = source.split(separator: " ")
-		
+	
 		var tokens = [MyToken]()
 		
-		var range: Range<String.Index>!
-		
-		for word in words {
+		source.enumerateSubstrings(in: source.startIndex..<source.endIndex, options: [.byWords]) { (word, range, _, _) in
 			
-			if range == nil {
-				range = source.startIndex..<source.index(source.startIndex, offsetBy: word.count)
-			} else {
-				// Offset 1 for space
-				let start = source.index(range.upperBound, offsetBy: 1)
-				range = start..<source.index(start, offsetBy: word.count)
+			if let word = word {
+				
+				let type: MyTokenType
+				
+				if word.count > 6 {
+					type = .longWord
+				} else {
+					type = .shortWord
+				}
+				
+				let token = MyToken(type: type, isEditorPlaceholder: false, isPlain: false, range: range)
+				
+				tokens.append(token)
+				
 			}
 			
-			let type: MyTokenType
-			
-			if word.count > 6 {
-				type = .longWord
-			} else {
-				type = .shortWord
-			}
-			
-			let token = MyToken(type: type, isEditorPlaceholder: false, isPlain: false, range: range)
-			
-			tokens.append(token)
 		}
 		
 		return tokens
@@ -122,7 +121,8 @@ class MyTheme: SyntaxColorTheme {
 		var attributes = [NSAttributedStringKey: Any]()
 
 		attributes[.font] = Font(name: "Menlo", size: 15)!
-		
+		attributes[.foregroundColor] = UIColor.white
+
 		return attributes
 	}
 	
