@@ -243,15 +243,6 @@ open class SyntaxTextView: View {
 
 	#endif
 
-	#if os(iOS)
-
-	@objc func test() {
-			textView.insertText("=")
-		}
-		
-	#endif
-
-
 	// MARK: -
 	
 	#if os(iOS)
@@ -261,32 +252,6 @@ open class SyntaxTextView: View {
 	}
 	
 	#endif
-
-//	#if os(iOS)
-//
-//		override public func draw(_ rect: CGRect) {
-//
-//			let textView = self.textView
-//
-//			let components = textView.text.components(separatedBy: .newlines)
-//
-//			let count = components.count
-//
-//			let maxNumberOfDigits = "\(count)".count
-//
-//			textView.updateGutterWidth(for: maxNumberOfDigits)
-//
-//			Color.black.setFill()
-//
-//			let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: bounds.height)
-//			let path = BezierPath(rect: gutterRect)
-//			path.fill()
-//
-//
-//			super.draw(rect)
-//		}
-//
-//	#endif
 	
 	@IBInspectable
 	public var text: String {
