@@ -32,7 +32,7 @@ class InnerTextView: TextView {
 	}
 	
 	func hideGutter() {
-		gutterWidth = 0
+		gutterWidth = theme?.gutterStyle.minimumWidth ?? 0.0
 	}
 	
 	func updateGutterWidth(for numberOfCharacters: Int) {
@@ -42,7 +42,7 @@ class InnerTextView: TextView {
 		
 		let charWidth: CGFloat = 10.0
 		
-		gutterWidth = CGFloat(numberOfCharacters) * charWidth + leftInset + rightInset
+		gutterWidth = max(theme?.gutterStyle.minimumWidth ?? 0.0, CGFloat(numberOfCharacters) * charWidth + leftInset + rightInset)
 		
 	}
 	
@@ -68,43 +68,56 @@ class InnerTextView: TextView {
 	
 	override public func draw(_ rect: CGRect) {
 		
-		guard let lineNumbersStyle = theme?.lineNumbersStyle else {
-			hideGutter()
+		guard let theme = theme else {
 			super.draw(rect)
+			hideGutter()
 			return
 		}
 		
 		let textView = self
-		
-		var paragraphs: [Paragraph]
-		
-		if let cached = textView.cachedParagraphs {
-			
-			paragraphs = cached
+
+		if theme.lineNumbersStyle == nil  {
+
+			hideGutter()
+
+			let gutterRect = CGRect(x: 0, y: rect.minY, width: textView.gutterWidth, height: rect.height)
+			let path = BezierPath(rect: gutterRect)
+			path.fill()
 			
 		} else {
 			
-			paragraphs = generateParagraphs(for: textView, flipRects: false)
-			textView.cachedParagraphs = paragraphs
+			var paragraphs: [Paragraph]
+			
+			if let cached = textView.cachedParagraphs {
+				
+				paragraphs = cached
+				
+			} else {
+				
+				paragraphs = generateParagraphs(for: textView, flipRects: false)
+				textView.cachedParagraphs = paragraphs
+				
+			}
+			
+			let components = textView.text.components(separatedBy: .newlines)
+			
+			let count = components.count
+			
+			let maxNumberOfDigits = "\(count)".count
+			
+			textView.updateGutterWidth(for: maxNumberOfDigits)
+			
+			theme.gutterStyle.backgroundColor.setFill()
+			
+			let gutterRect = CGRect(x: 0, y: rect.minY, width: textView.gutterWidth, height: rect.height)
+			let path = BezierPath(rect: gutterRect)
+			path.fill()
+			
+			drawLineNumbers(paragraphs, in: rect, for: self)
 			
 		}
 		
-		let components = textView.text.components(separatedBy: .newlines)
-		
-		let count = components.count
-		
-		let maxNumberOfDigits = "\(count)".count
-		
-		textView.updateGutterWidth(for: maxNumberOfDigits)
-		
-		lineNumbersStyle.backgroundColor.setFill()
-		
-		let gutterRect = CGRect(x: 0, y: rect.minY, width: textView.gutterWidth, height: rect.height)
-		let path = BezierPath(rect: gutterRect)
-		path.fill()
-		
-		drawLineNumbers(paragraphs, in: rect, for: self)
-		
+
 		super.draw(rect)
 
 	}

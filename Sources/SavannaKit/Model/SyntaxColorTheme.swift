@@ -7,25 +7,41 @@
 //
 
 import Foundation
+import CoreGraphics
 
 public struct LineNumbersStyle {
 	
 	public let font: Font
 	public let textColor: Color
-	public let backgroundColor: Color
 	
-	public init(font: Font, textColor: Color, backgroundColor: Color) {
+	public init(font: Font, textColor: Color) {
 		self.font = font
 		self.textColor = textColor
-		self.backgroundColor = backgroundColor
 	}
 
+}
+
+public struct GutterStyle {
+
+	public let backgroundColor: Color
+
+	/// If line numbers are displayed, the gutter width adapts to fit all line numbers.
+	/// This specifies the minimum width that the gutter should have at all times,
+	/// regardless of any line numbers.
+	let minimumWidth: CGFloat
+	
+	public init(backgroundColor: Color, minimumWidth: CGFloat) {
+		self.backgroundColor = backgroundColor
+		self.minimumWidth = minimumWidth
+	}
 }
 
 public protocol SyntaxColorTheme {
 	
 	/// Nil hides line numbers.
 	var lineNumbersStyle: LineNumbersStyle? { get }
+	
+	var gutterStyle: GutterStyle { get }
 	
 	var font: Font { get }
 	
