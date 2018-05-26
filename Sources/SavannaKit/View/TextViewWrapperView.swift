@@ -46,7 +46,13 @@ import Foundation
 				return
 			}
 			
-			guard let lineNumbersStyle = textView.theme?.lineNumbersStyle else {
+			guard let theme = textView.theme else {
+				super.draw(rect)
+				textView.hideGutter()
+				return
+			}
+			
+			guard let lineNumbersStyle = theme.lineNumbersStyle else {
 				textView.hideGutter()
 				return
 			}
@@ -78,7 +84,7 @@ import Foundation
 			
 			textView.updateGutterWidth(for: maxNumberOfDigits)
 			
-			lineNumbersStyle.backgroundColor.setFill()
+			theme.gutterStyle.backgroundColor.setFill()
 			
 			let gutterRect = CGRect(x: 0, y: 0, width: textView.gutterWidth, height: rect.height)
 			let path = BezierPath(rect: gutterRect)
