@@ -101,11 +101,21 @@ open class SyntaxTextView: View {
     private static func createInnerTextView() -> InnerTextView {
         let textStorage = NSTextStorage()
         let layoutManager = SyntaxTextViewLayoutManager()
-        let containerSize = CGSize(width: 0, height: 0)
+		#if os(macOS)
+        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+		#endif
+		
+		#if os(iOS)
+		let containerSize = CGSize(width: 0, height: 0)
+		#endif
+		
         let textContainer = NSTextContainer(size: containerSize)
         
         textContainer.widthTracksTextView = true
+		
+		#if os(iOS)
 		textContainer.heightTracksTextView = true
+		#endif
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
         
@@ -170,7 +180,7 @@ open class SyntaxTextView: View {
 			textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 			textView.isVerticallyResizable = true
 			textView.isHorizontallyResizable = false
-			textView.autoresizingMask = .width
+			textView.autoresizingMask = [.width, .height]
 			textView.isEditable = true
 			textView.isAutomaticQuoteSubstitutionEnabled = false
 			textView.allowsUndo = true

@@ -95,8 +95,7 @@ import Foundation
 				let path = BezierPath(rect: gutterRect)
 				path.fill()
 			
-			
-				drawLineNumbers(paragraphs, in: self.bounds, for: textView)
+				drawLineNumbers(paragraphs, in: rect, for: textView)
 			
 			}
 			
