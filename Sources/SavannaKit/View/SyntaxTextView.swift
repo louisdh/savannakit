@@ -60,6 +60,11 @@ open class SyntaxTextView: View {
 	
 	#if os(iOS)
 
+    public var adjustsFontForContentSizeCategory: Bool {
+        get { return contentTextView.adjustsFontForContentSizeCategory }
+        set { contentTextView.adjustsFontForContentSizeCategory = newValue }
+    }
+    
 	public var contentInset: UIEdgeInsets = .zero {
 		didSet {
 			textView.contentInset = contentInset
