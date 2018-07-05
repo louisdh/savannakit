@@ -86,19 +86,6 @@ class InnerTextView: TextView {
 			
 		} else {
 			
-			var paragraphs: [Paragraph]
-			
-			if let cached = textView.cachedParagraphs {
-				
-				paragraphs = cached
-				
-			} else {
-				
-				paragraphs = generateParagraphs(for: textView, flipRects: false)
-				textView.cachedParagraphs = paragraphs
-				
-			}
-			
 			let components = textView.text.components(separatedBy: .newlines)
 			
 			let count = components.count
@@ -106,6 +93,19 @@ class InnerTextView: TextView {
 			let maxNumberOfDigits = "\(count)".count
 			
 			textView.updateGutterWidth(for: maxNumberOfDigits)
+            
+            var paragraphs: [Paragraph]
+            
+            if let cached = textView.cachedParagraphs {
+                
+                paragraphs = cached
+                
+            } else {
+                
+                paragraphs = generateParagraphs(for: textView, flipRects: false)
+                textView.cachedParagraphs = paragraphs
+                
+            }
 			
 			theme.gutterStyle.backgroundColor.setFill()
 			
