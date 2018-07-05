@@ -28,7 +28,7 @@ public struct GutterStyle {
 	/// If line numbers are displayed, the gutter width adapts to fit all line numbers.
 	/// This specifies the minimum width that the gutter should have at all times,
 	/// regardless of any line numbers.
-	let minimumWidth: CGFloat
+	public let minimumWidth: CGFloat
 	
 	public init(backgroundColor: Color, minimumWidth: CGFloat) {
 		self.backgroundColor = backgroundColor
