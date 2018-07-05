@@ -399,7 +399,7 @@ open class SyntaxTextView: View {
 			textView.font = theme.font
 
 			let lexer = lexerForSource(source)
-			tokens = lexer.getSavannaTokens()
+			tokens = lexer.getSavannaTokens(input: source)
 			
 			let cachedTokens: [CachedToken] = tokens.map {
 				

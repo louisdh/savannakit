@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
 	@IBOutlet weak var syntaxTextView: SyntaxTextView!
 	
+	let lexer = MyLexer()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -41,28 +43,22 @@ extension ViewController: SyntaxTextViewDelegate {
 	}
 	
 	func lexerForSource(_ source: String) -> Lexer {
-		return MyLexer(source: source)
+		return lexer
 	}
 	
 }
 
 class MyLexer: Lexer {
 	
-	let source: String
-	
-	init(source: String) {
-		self.source = source
+	init() {
+
 	}
 	
-	func lexerForInput(_ input: String) -> Lexer {
-		return MyLexer(source: input)
-	}
-	
-	func getSavannaTokens() -> [Token] {
+	func getSavannaTokens(input: String) -> [Token] {
 	
 		var tokens = [MyToken]()
 		
-		source.enumerateSubstrings(in: source.startIndex..<source.endIndex, options: [.byWords]) { (word, range, _, _) in
+		input.enumerateSubstrings(in: input.startIndex..<input.endIndex, options: [.byWords]) { (word, range, _, _) in
 			
 			if let word = word {
 				

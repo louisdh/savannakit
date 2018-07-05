@@ -10,8 +10,6 @@ import Foundation
 
 public protocol Lexer {
 	
-	func lexerForInput(_ input: String) -> Lexer
-	
-	func getSavannaTokens() -> [Token]
+	func getSavannaTokens(input: String) -> [Token]
 	
 }
