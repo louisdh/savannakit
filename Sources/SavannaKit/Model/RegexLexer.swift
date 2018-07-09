@@ -16,6 +16,10 @@ public struct RegexTokenGenerator {
 	
 	public let tokenTransformer: TokenTransformer
 	
+	public init(regularExpression: NSRegularExpression, tokenTransformer: @escaping TokenTransformer) {
+		self.regularExpression = regularExpression
+		self.tokenTransformer = tokenTransformer
+	}
 }
 
 public struct KeywordTokenGenerator {
@@ -23,6 +27,11 @@ public struct KeywordTokenGenerator {
 	public let keywords: [String]
 	
 	public let tokenTransformer: TokenTransformer
+	
+	public init(keywords: [String], tokenTransformer: @escaping TokenTransformer) {
+		self.keywords = keywords
+		self.tokenTransformer = tokenTransformer
+	}
 	
 }
 
@@ -39,7 +48,7 @@ public protocol RegexLexer: Lexer {
 
 extension RegexLexer {
 	
-	func getSavannaTokens(input: String) -> [Token] {
+	public func getSavannaTokens(input: String) -> [Token] {
 		
 		let generators = self.generators(source: input)
 		
