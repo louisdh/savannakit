@@ -30,6 +30,8 @@
 		BE99F6071F07E6240076CDEF /* SyntaxTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */; };
 		BE99F6081F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
 		BE99F6091F07E6240076CDEF /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE99F5FB1F07E6240076CDEF /* Types.swift */; };
+		BEC34E9420EE74AC00DE7411 /* RegexLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC34E9320EE74AC00DE7411 /* RegexLexer.swift */; };
+		BEC34E9520EE74AC00DE7411 /* RegexLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC34E9320EE74AC00DE7411 /* RegexLexer.swift */; };
 		BEE5D947202788680040C72A /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D946202788680040C72A /* Token.swift */; };
 		BEE5D94B2027887E0040C72A /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D94A2027887E0040C72A /* Lexer.swift */; };
 		BEE5D94F2027897A0040C72A /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5D946202788680040C72A /* Token.swift */; };
@@ -99,6 +101,7 @@
 		BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxColorTheme.swift; sourceTree = "<group>"; };
 		BE99F5FA1F07E6240076CDEF /* SyntaxTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxTextView.swift; sourceTree = "<group>"; };
 		BE99F5FB1F07E6240076CDEF /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		BEC34E9320EE74AC00DE7411 /* RegexLexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexLexer.swift; sourceTree = "<group>"; };
 		BEDA3F351E380E5D00B5091C /* SavannaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavannaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEE5D946202788680040C72A /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		BEE5D94A2027887E0040C72A /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
@@ -240,6 +243,7 @@
 			children = (
 				BEE5D946202788680040C72A /* Token.swift */,
 				BEE5D94A2027887E0040C72A /* Lexer.swift */,
+				BEC34E9320EE74AC00DE7411 /* RegexLexer.swift */,
 				BE99F5F81F07E6240076CDEF /* Paragraph.swift */,
 				BE99F5F91F07E6240076CDEF /* SyntaxColorTheme.swift */,
 			);
@@ -458,6 +462,7 @@
 				BEED01AE209E4D010058219D /* LineNumberLayoutManager.swift in Sources */,
 				BEE5D952202789840040C72A /* Paragraph.swift in Sources */,
 				BE99F6011F07E6240076CDEF /* ASTVisualizer.swift in Sources */,
+				BEC34E9520EE74AC00DE7411 /* RegexLexer.swift in Sources */,
 				BE42803E2038C3DA00C8FE24 /* TextViewWrapperView.swift in Sources */,
 				BE21904C20533BEB00BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */,
 				BE71CB8D1F125E8800C6B93E /* NSTextView+UIKit.swift in Sources */,
@@ -482,6 +487,7 @@
 				BE21904B2053318600BFB99A /* SyntaxTextViewLayoutManager.swift in Sources */,
 				BE99F6021F07E6240076CDEF /* Paragraph.swift in Sources */,
 				BE4280382038C38900C8FE24 /* SyntaxTextView+TextViewDelegate.swift in Sources */,
+				BEC34E9420EE74AC00DE7411 /* RegexLexer.swift in Sources */,
 				BEE5D947202788680040C72A /* Token.swift in Sources */,
 				BE99F6061F07E6240076CDEF /* SyntaxTextView.swift in Sources */,
 				BE99F6081F07E6240076CDEF /* Types.swift in Sources */,
