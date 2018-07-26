@@ -210,9 +210,10 @@ extension SyntaxTextView {
 				colorTextView(lexerForSource: { (source) -> Lexer in
 					return delegate.lexerForSource(source)
 				})
+				
+				delegate.didChangeText(self)
+
 			}
-			
-			self.delegate?.didChangeText(self)
 			
 		}
 	

@@ -48,7 +48,11 @@ open class SyntaxTextView: View {
 		return textView
 	}
 	
-	public weak var delegate: SyntaxTextViewDelegate?
+	public weak var delegate: SyntaxTextViewDelegate? {
+		didSet {
+			didUpdateText()
+		}
+	}
 	
 	var ignoreSelectionChange = false
 	
@@ -331,7 +335,8 @@ open class SyntaxTextView: View {
             textView.backgroundColor = theme.backgroundColor
             textView.theme = theme
 			textView.font = theme.font
-
+			
+			didUpdateText()
 		}
 	}
 	
