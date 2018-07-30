@@ -194,6 +194,11 @@ extension SyntaxTextView {
 			return self.shouldChangeText(insertingText: text)
 		}
 		
+		public func textViewDidBeginEditing(_ textView: UITextView) {
+			// pass the message up to our own delegate
+			delegate?.textViewDidBeginEditing(self)
+		}
+		
 		open func textViewDidChange(_ textView: UITextView) {
 			
 			didUpdateText()

@@ -21,8 +21,19 @@ public protocol SyntaxTextViewDelegate: class {
 
 	func didChangeSelectedRange(_ syntaxTextView: SyntaxTextView, selectedRange: NSRange)
 	
+	func textViewDidBeginEditing(_ syntaxTextView: SyntaxTextView)
+	
 	func lexerForSource(_ source: String) -> Lexer
 	
+}
+
+// Provide default empty implementations of methods that are optional.
+public extension SyntaxTextViewDelegate {
+    func didChangeText(_ syntaxTextView: SyntaxTextView) { }
+	
+    func didChangeSelectedRange(_ syntaxTextView: SyntaxTextView, selectedRange: NSRange) { }
+	
+    func textViewDidBeginEditing(_ syntaxTextView: SyntaxTextView) { }
 }
 
 struct ThemeInfo {
