@@ -113,9 +113,9 @@ class MyTheme: SyntaxColorTheme {
 	
 	let backgroundColor = Color(red: 31/255.0, green: 32/255, blue: 41/255, alpha: 1.0)
 	
-	func globalAttributes() -> [NSAttributedStringKey: Any] {
+    func globalAttributes() -> [NSAttributedString.Key: Any] {
 		
-		var attributes = [NSAttributedStringKey: Any]()
+        var attributes = [NSAttributedString.Key: Any]()
 
 		attributes[.font] = Font(name: "Menlo", size: 15)!
 		attributes[.foregroundColor] = UIColor.white
@@ -123,13 +123,13 @@ class MyTheme: SyntaxColorTheme {
 		return attributes
 	}
 	
-	func attributes(for token: Token) -> [NSAttributedStringKey: Any] {
+    func attributes(for token: Token) -> [NSAttributedString.Key: Any] {
 		
 		guard let myToken = token as? MyToken else {
 			return [:]
 		}
 		
-		var attributes = [NSAttributedStringKey: Any]()
+        var attributes = [NSAttributedString.Key: Any]()
 		
 		switch myToken.type {
 		case .longWord:
